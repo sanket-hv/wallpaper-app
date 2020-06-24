@@ -1,0 +1,19 @@
+extends layout.pug
+
+block append topscripts
+    // BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES
+    link(href='./plugins/apex/apexcharts.css' rel='stylesheet' type='text/css')
+    link(href='./assets/css/dashboard/dash_1.css' rel='stylesheet' type='text/css')
+    // END PAGE LEVEL PLUGINS/CUSTOM STYLES
+
+block content
+    #content.main-content
+        .layout-px-spacing
+            .row.layout-top-spacing
+                p This is a index page
+
+//- This is a page level scripts
+block append bottomscripts
+    // BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS
+        script(src='./plugins/apex/apexcharts.min.js')
+        script(src='./assets/js/dashboard/dash_1.js')

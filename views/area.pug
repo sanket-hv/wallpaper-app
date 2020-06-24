@@ -1,0 +1,81 @@
+extends layout.pug
+
+block append topscripts     
+    link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/datatables.css')
+    link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/dt-global_style.css')
+
+block content
+    #content.main-content
+        .layout-px-spacing
+            .row.layout-top-spacing#cancel-row
+                //- Form content is starting from here
+                if (op.flag == 0)
+                    col-lg-12.col-12.layout-spacing
+                        .statbox.widget.box.box-shadow
+                            .widget-header
+                                .row
+                                    .col-xl-12.col-md-12.col-sm-12.col-12
+                                        h4 Manage Area
+                            .widget-content.widget-content-area
+                                form(method="post" action="/area/add" enctype="multipart/form-data")
+                                    .form-group.mb-4.col-lg-5
+                                            label(for='txtCategoryName') Enter Category Name                                        
+                                            input.form-control(type='text' placeholder='Category Name' name="txtCategoryName" required)
+                                            label(for='categoryImage') Select Category Image    
+                                            input.form-control(type='file' name="categoryImage" accept='image/*' required)
+                                    input.btn.btn-success(type='submit' name='time' value="ADD")
+                else
+                    col-lg-12.col-12.layout-spacing
+                        .statbox.widget.box.box-shadow
+                            .widget-header
+                                .row
+                                    .col-xl-12.col-md-12.col-sm-12.col-12
+                                        h4 Manage Category
+                            .widget-content.widget-content-area
+                                form(method="post" action="/category/edit" enctype="multipart/form-data")
+                                    .form-group.mb-4.col-lg-5
+                                            input(type='hidden' name="txtCategoryId" value=op.data[0].CategoryId)                                    
+                                            label(for='txtCategoryName') Enter Category Name    
+                                            input.form-control(type='text' placeholder='Category Name' name="txtCategoryName" value=op.data[0].CategoryName)
+                                            label(for='txtCategoryImage') Select Category Image    
+                                            input.form-control(type='file' name="categoryImage" accept='image/*')
+                                            img(src="/images/category/"+op.data[0].Img height="100px" width="100px")
+                                    input.btn.btn-success(type='submit' name='time' value="Save")
+                //- table content is starting from here
+                if op.flag == 0
+                    .col-xl-12.col-lg-12.col-sm-12.layout-spacing
+                        .widget-content.widget-content-area.br-6
+                            .table-responsive.mb-4.mt-4
+                                table#zero-config.table.table-hover(style='width:100%')
+                                    thead   
+                                        tr
+                                            th Category Name
+                                            th Image
+                                            th EDIT
+                                    tbody
+                                        
+                                        each obj in op.data
+                                            tr
+                                                td #{obj.CategoryName}
+                                                td 
+                                                    img(src='/images/category/'+obj.Img width="100px" height="100px")
+                                                td 
+                                                    a(href="/Category/edit/"+obj.CategoryId)
+                                                        button(class="btn btn-warning") EDIT
+                                    
+//- This is a page level scripts
+block append bottomscripts
+    script(type="text/javascript" src='/plugins/table/datatable/datatables.js').
+    script(type="text/javascript").
+        $('#zero-config').DataTable({
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+                "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+                "pageLength": 7     
+        });
