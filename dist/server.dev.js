@@ -15,7 +15,12 @@ require('dotenv').config();
 
 var compression = require("compression");
 
-var fileUpload = require('express-fileupload'); // const hostname = process.env.HOSTNAME;
+var fileUpload = require('express-fileupload');
+
+var cookieParser = require('cookie-parser');
+
+var _require = require('./middleware/AdminAuth'),
+    isAuthenticated = _require.isAuthenticated; // const hostname = process.env.HOSTNAME;
 
 
 var port = process.env.PORT;
@@ -34,20 +39,32 @@ app.use(bodyParser.urlencoded({
 app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'pug');
 app.use(express["static"]('./public')); //All Admin Router
-//Offer Router
+//Login Router
+
+var authRouter = require('./routes/AuthenticateRoute'); //Offer Router
+
 
 var offerRouter = require('./routes/AdminRoute/OfferRoute'); //Category Router
 
 
-var categoryRouter = require('./routes/AdminRoute/CategoryRoute');
+var categoryRouter = require('./routes/AdminRoute/CategoryRoute'); //Area Router
 
-app.get('/', function (req, res) {
+
+var areaRouter = require('./routes/AdminRoute/AreaRoute');
+
+app.get('/', isAuthenticated, function (req, res) {
   res.render('layout');
+});
+app.get('/login', function (req, res) {
+  res.render('login');
 }); //Offer Route
 
-app.use('/offer', offerRouter); //Category Route
+app.use('/offer', isAuthenticated, offerRouter); //Category Route
 
-app.use('/category', categoryRouter);
+app.use('/category', isAuthenticated, categoryRouter); //Area Route
+
+app.use('/area', isAuthenticated, areaRouter);
+app.use('/auth', authRouter);
 app.listen(port, function () {
   console.log("Server is running on https://localhost:".concat(port, "/"));
 });

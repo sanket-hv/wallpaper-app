@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
             }
         }
         if (results) {
-            console.log(req.url);
             var op = {
                 flag: 0,
                 success: "true",
@@ -29,7 +28,7 @@ router.get('/', (req, res) => {
 //add Database
 router.post('/add', (req, res) => {
     let areaname = req.body.txtAreaName;
-    connection.query('SELECT * FROM AreaTbl', function (error, results, fields) {
+    connection.query('INSERT INTO AreaTbl(AreaName) VALUES(?)', [areaname], function (error, results, fields) {
         if (error) {
             var op = {
                 success: "false",
@@ -47,7 +46,7 @@ router.post('/add', (req, res) => {
                 message: "Redirected"
             }
         }
-        res.render('area', { op });
+        res.redirect('/area');
     });
 })
 

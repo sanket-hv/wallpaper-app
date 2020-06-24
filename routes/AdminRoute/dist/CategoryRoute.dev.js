@@ -28,7 +28,8 @@ router.get('/', function (req, res) {
         data: results,
         message: "Redirected"
       };
-    }
+    } // res.send({ op })
+
 
     res.render('category', {
       op: op

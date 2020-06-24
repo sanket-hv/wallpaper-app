@@ -23,6 +23,7 @@ router.get('/', (req, res) => {
                 message: "Redirected"
             }
         }
+        // res.send({ op })
         res.render('category', { op });
     });
 })
@@ -139,10 +140,10 @@ router.post('/edit', async (req, res) => {
         const rmpath = './public/images/category/' + tempimg;
         fs.unlink(rmpath, (err) => {
             if (err) {
-                    res.send("error file remove")
+                res.send("error file remove")
             }
             else {
-                imgfile.mv('./public/images/category/'+fname, (err1) => {
+                imgfile.mv('./public/images/category/' + fname, (err1) => {
                     if (err1) {
                         console.log(err1)
                     }

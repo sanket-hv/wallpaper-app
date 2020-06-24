@@ -1,0 +1,55 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible' content='IE=edge')
+  meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no')
+  title Wallpaper - Admin Panel
+  link(rel='icon' type='image/x-icon' href='assets/img/favicon.ico')
+  // BEGIN GLOBAL MANDATORY STYLES
+  link(href='https://fonts.googleapis.com/css?family=Nunito:400,600,700' rel='stylesheet')
+  link(href='/bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css')
+  link(href='/assets/css/plugins.css' rel='stylesheet' type='text/css')
+  link(href='/assets/css/authentication/form-2.css' rel='stylesheet' type='text/css')
+  // END GLOBAL MANDATORY STYLES
+  link(rel='stylesheet' type='text/css' href='/assets/css/forms/theme-checkbox-radio.css')
+  link(rel='stylesheet' type='text/css' href='/assets/css/forms/switches.css')
+.form-container.outer
+  .form-form
+    .form-form-wrap
+      .form-container
+        .form-content
+          h1 Sign In
+          if op
+                span(style="color:red;font-weight:bold;") #{op.message}
+          form.text-left(method="post" action="/auth/login")
+            .form
+              #username-field.field-wrapper.input
+                label(for='email') EMAIL
+                svg.feather.feather-user(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                  path(d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2')
+                  circle(cx='12' cy='7' r='4')
+                input#username.form-control(name='email' type='email' placeholder='e.g John_Doe')
+              #password-field.field-wrapper.input.mb-2
+                .d-flex.justify-content-between
+                  label(for='password') PASSWORD
+                svg.feather.feather-lock(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                  rect(x='3' y='11' width='18' height='11' rx='2' ry='2')
+                  path(d='M7 11V7a5 5 0 0 1 10 0v4')
+                input#password.form-control(name='password' type='password' placeholder='Password')
+                svg#toggle-password.feather.feather-eye(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                  path(d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z')
+                  circle(cx='12' cy='12' r='3')
+              .d-sm-flex.justify-content-between
+                .field-wrapper
+                  button.btn.btn-primary(type='submit') Log In
+              .division
+              
+                
+                  
+// BEGIN GLOBAL MANDATORY SCRIPTS
+script(src='/assets/js/libs/jquery-3.1.1.min.js')
+script(src='/bootstrap/js/popper.min.js')
+script(src='/bootstrap/js/bootstrap.min.js')
+// END GLOBAL MANDATORY SCRIPTS
+script(src='/assets/js/authentication/form-2.js')
+
