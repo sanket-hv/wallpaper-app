@@ -50,16 +50,16 @@ block content
                                 table#zero-config.table.table-hover(style='width:100%')
                                     thead   
                                         tr
-                                            th Category Name
                                             th Image
+                                            th Category
                                             th EDIT
                                     tbody
                                         
                                         each obj in op.data
                                             tr
-                                                td #{obj.CategoryName}
                                                 td 
                                                     img(src='/images/category/'+obj.Img width="100px" height="100px")
+                                                td #{obj.CategoryName}
                                                 td 
                                                     a(href="/Category/edit/"+obj.CategoryId)
                                                         button(class="btn btn-warning") EDIT

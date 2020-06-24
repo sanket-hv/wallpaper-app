@@ -31,6 +31,34 @@ router.get('/', function (req, res) {
       op: op
     });
   });
+}); //add Database
+
+router.post('/add', function (req, res) {
+  var areaname = req.body.txtAreaName;
+  connection.query('SELECT * FROM AreaTbl', function (error, results, fields) {
+    if (error) {
+      var op = {
+        success: "false",
+        status: 404,
+        data: error
+      };
+    }
+
+    if (results) {
+      console.log(req.url);
+      var op = {
+        flag: 0,
+        success: "true",
+        status: 200,
+        data: results,
+        message: "Redirected"
+      };
+    }
+
+    res.render('area', {
+      op: op
+    });
+  });
 }); //edit data page
 
 router.get('/edit/:id', function (req, res) {
