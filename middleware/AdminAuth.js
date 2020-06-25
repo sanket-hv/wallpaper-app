@@ -86,8 +86,24 @@ const welcome = (req, res, next) => {
     }
 }
 
+const logout = (req, res) => {
+    if (req.session) {
+        req.session.destroy((err) => {
+            if (err) {
+
+            }
+            else {
+                var op = {
+                    "message": "Loggout Successfully"
+                }
+                res.render('login', { op })
+            }
+        })
+    }
+}
 
 module.exports = {
     signIn,
-    welcome
+    welcome,
+    logout
 }

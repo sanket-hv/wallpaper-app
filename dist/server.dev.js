@@ -24,7 +24,7 @@ var session = require('express-session');
 var _require = require('./middleware/AdminAuth'),
     signIn = _require.signIn,
     welcome = _require.welcome,
-    refresh = _require.refresh; // const hostname = process.env.HOSTNAME;
+    logout = _require.logout; // const hostname = process.env.HOSTNAME;
 
 
 var port = process.env.PORT;
@@ -71,7 +71,9 @@ app.get('/', function (req, res) {
 });
 app.get('/login', function (req, res) {
   res.render('login');
-}); //Authentication Route
+}); //logout
+
+app.get('/logout', logout); //Authentication Route
 
 app.post('/auth/login', signIn); //Offer Route
 

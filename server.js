@@ -8,7 +8,7 @@ var compression = require("compression");
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const { signIn, welcome, refresh } = require('./middleware/AdminAuth')
+const { signIn, welcome, logout } = require('./middleware/AdminAuth')
 
 
 // const hostname = process.env.HOSTNAME;
@@ -58,6 +58,8 @@ app.get('/login', (req, res) => {
     res.render('login');
 })
 
+//logout
+app.get('/logout',logout);
 //Authentication Route
 app.post('/auth/login', signIn);
 
