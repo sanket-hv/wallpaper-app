@@ -7,15 +7,24 @@ require('dotenv').config();
 var compression = require("compression");
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
-const { isAuthenticated } = require('./middleware/AdminAuth')
+const session = require('express-session');
+const { signIn, welcome, refresh } = require('./middleware/AdminAuth')
 
 
 // const hostname = process.env.HOSTNAME;
 const port = process.env.PORT;
 
 const conf = require('./config')
-    //for compress responses
+//for compress responses
 app.use(compression());
+
+//Session setup
+app.use(cookieParser());
+app.use(session({
+    secret: "Shh, its a secret!",
+    saveUninitialized: true,
+    resave: true
+}));
 
 //for enable cors
 app.use(cors());
@@ -38,25 +47,33 @@ const offerRouter = require('./routes/AdminRoute/OfferRoute');
 const categoryRouter = require('./routes/AdminRoute/CategoryRoute');
 //Area Router
 const areaRouter = require('./routes/AdminRoute/AreaRoute');
+//Warranty Router
+const warrantyRouter = require('./routes/AdminRoute/WarrantyRoute');
 
-app.get('/', isAuthenticated, (req, res) => {
-    res.render('layout')
+app.get('/', (req, res) => {
+    res.render('login')
 })
 
 app.get('/login', (req, res) => {
     res.render('login');
 })
 
+//Authentication Route
+app.post('/auth/login', signIn);
+
+
 //Offer Route
-app.use('/offer', isAuthenticated, offerRouter);
+app.use('/offer', welcome, offerRouter);
 
 //Category Route
-app.use('/category', isAuthenticated, categoryRouter);
+app.use('/category',welcome, categoryRouter);
 
 //Area Route
-app.use('/area', isAuthenticated, areaRouter);
+app.use('/area',welcome, areaRouter);
 
-app.use('/auth', authRouter);
+//Warranty Route
+app.use('/warranty',welcome, warrantyRouter);
+
 
 app.listen(port, () => {
     console.log(`Server is running on https://localhost:${port}/`);

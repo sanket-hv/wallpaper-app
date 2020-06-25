@@ -19,8 +19,12 @@ var fileUpload = require('express-fileupload');
 
 var cookieParser = require('cookie-parser');
 
+var session = require('express-session');
+
 var _require = require('./middleware/AdminAuth'),
-    isAuthenticated = _require.isAuthenticated; // const hostname = process.env.HOSTNAME;
+    signIn = _require.signIn,
+    welcome = _require.welcome,
+    refresh = _require.refresh; // const hostname = process.env.HOSTNAME;
 
 
 var port = process.env.PORT;
@@ -28,7 +32,14 @@ var port = process.env.PORT;
 var conf = require('./config'); //for compress responses
 
 
-app.use(compression()); //for enable cors
+app.use(compression()); //Session setup
+
+app.use(cookieParser());
+app.use(session({
+  secret: "Shh, its a secret!",
+  saveUninitialized: true,
+  resave: true
+})); //for enable cors
 
 app.use(cors());
 app.use(fileUpload());
@@ -50,21 +61,27 @@ var offerRouter = require('./routes/AdminRoute/OfferRoute'); //Category Router
 var categoryRouter = require('./routes/AdminRoute/CategoryRoute'); //Area Router
 
 
-var areaRouter = require('./routes/AdminRoute/AreaRoute');
+var areaRouter = require('./routes/AdminRoute/AreaRoute'); //Warranty Router
 
-app.get('/', isAuthenticated, function (req, res) {
-  res.render('layout');
+
+var warrantyRouter = require('./routes/AdminRoute/WarrantyRoute');
+
+app.get('/', function (req, res) {
+  res.render('login');
 });
 app.get('/login', function (req, res) {
   res.render('login');
-}); //Offer Route
+}); //Authentication Route
 
-app.use('/offer', isAuthenticated, offerRouter); //Category Route
+app.post('/auth/login', signIn); //Offer Route
 
-app.use('/category', isAuthenticated, categoryRouter); //Area Route
+app.use('/offer', welcome, offerRouter); //Category Route
 
-app.use('/area', isAuthenticated, areaRouter);
-app.use('/auth', authRouter);
+app.use('/category', welcome, categoryRouter); //Area Route
+
+app.use('/area', welcome, areaRouter); //Warranty Route
+
+app.use('/warranty', welcome, warrantyRouter);
 app.listen(port, function () {
   console.log("Server is running on https://localhost:".concat(port, "/"));
 });

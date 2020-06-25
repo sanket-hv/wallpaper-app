@@ -14,7 +14,6 @@ html
             link(href='/assets/css/plugins.css' rel='stylesheet' type='text/css')
             // END GLOBAL MANDATORY STYLES
             // BEGIN LOADER
-
     body
         #load_screen
             .loader
@@ -201,14 +200,19 @@ html
                                         div
                                             svg.feather.feather-message-square(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
                                                 path(d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z')
-                                            span Manage Gallery        
-
+                                            span Manage Gallery
+                                    a.dropdown-toggle(href='/warranty' aria-expanded='false')
+                                        div
+                                            svg.feather.feather-message-square(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                                path(d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z')
+                                            span Manage Warranty        
             block content
                 #content.main-content
                     .layout-px-spacing
                         .row.layout-top-spacing
                             p This is a layout Pages
-                            p #{op.message}
+                            p #{obj._token}
+                            p #{obj.message}
 
                     block footer
                         .footer-wrapper
