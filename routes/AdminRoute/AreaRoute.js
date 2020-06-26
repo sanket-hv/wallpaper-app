@@ -37,7 +37,6 @@ router.post('/add', (req, res) => {
             }
         }
         if (results) {
-            console.log(req.url);
             var op = {
                 flag: 0,
                 success: "true",

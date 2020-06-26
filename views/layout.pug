@@ -70,19 +70,6 @@ html
                                         .notification-para
                                             span.user-name Kelly Young
                                             |   mentioned you in comment.
-                    li.nav-item.dropdown.user-profile-dropdown.order-lg-0.order-1
-                        a#userProfileDropdown.nav-link.dropdown-toggle.user(href='javascript:void(0);' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-                            svg.feather.feather-user(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                path(d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2')
-                                circle(cx='12' cy='7' r='4')
-                        .dropdown-menu.position-absolute(aria-labelledby='userProfileDropdown')
-                            div
-                                .dropdown-item
-                                a(href='user_profile.html')
-                                    svg.feather.feather-user(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                    path(d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2')
-                                    circle(cx='12' cy='7' r='4')
-                                    |  My Profile
                     li.nav-item
                         a.nav-link(href='/logout')
                             svg.feather.feather-log-out(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='red' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
@@ -140,11 +127,11 @@ html
                                             polyline(points='9 18 15 12 9 6')
                                 ul#users.collapse.submenu.list-unstyled(data-parent='#accordionExample')
                                     li
-                                        a(href='#')  User Registration
+                                        a(href='/register')  User Registration
                                     li
-                                        a(href='#')  List Of Customer
+                                        a(href='/customer/clist')  List Of Customer
                                     li
-                                        a(href='#')  List of Installer
+                                        a(href='/installer/ilist')  List of Installer
 
                                 li.menu
                                     a.dropdown-toggle(href='#' aria-expanded='false')

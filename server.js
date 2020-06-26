@@ -38,9 +38,9 @@ app.set('view engine', 'pug');
 app.use(express.static('./public'));
 
 //All Admin Router
-//Login Router
-const authRouter = require('./routes/AuthenticateRoute');
 
+//Register Router
+const registerRouter = require('./routes/AdminRoute/RegisterRoute');
 //Offer Router
 const offerRouter = require('./routes/AdminRoute/OfferRoute');
 //Category Router
@@ -49,6 +49,8 @@ const categoryRouter = require('./routes/AdminRoute/CategoryRoute');
 const areaRouter = require('./routes/AdminRoute/AreaRoute');
 //Warranty Router
 const warrantyRouter = require('./routes/AdminRoute/WarrantyRoute');
+//Common Router
+const commonRouter = require('./routes/CommonRouter');
 
 app.get('/', (req, res) => {
     res.render('login')
@@ -59,23 +61,27 @@ app.get('/login', (req, res) => {
 })
 
 //logout
-app.get('/logout',logout);
+app.get('/logout', logout);
 //Authentication Route
 app.post('/auth/login', signIn);
 
+app.get('/auth/login', (req, res) => {
+    res.render('index');
+});
 
+app.use(['/register','/customer','/installer'], welcome, registerRouter);
+//Customer & Installer Registration
+// app.use('/registration', welcome, registerRouter);
 //Offer Route
 app.use('/offer', welcome, offerRouter);
-
 //Category Route
-app.use('/category',welcome, categoryRouter);
-
+app.use('/category', welcome, categoryRouter);
 //Area Route
-app.use('/area',welcome, areaRouter);
-
+app.use('/area', welcome, areaRouter);
 //Warranty Route
-app.use('/warranty',welcome, warrantyRouter);
+app.use('/warranty', welcome, warrantyRouter);
 
+app.use('/common', commonRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on https://localhost:${port}/`);

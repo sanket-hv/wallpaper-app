@@ -8,51 +8,27 @@ block content
     #content.main-content
         .layout-px-spacing
             .row.layout-top-spacing#cancel-row
-                //- Form content is starting from here
-                if (op.flag == 0)
-                    col-lg-12.col-12.layout-spacing
-                        .statbox.widget.box.box-shadow
-                            .widget-header
-                                .row
-                                    .col-xl-12.col-md-12.col-sm-12.col-12
-                                        h4 Manage Area
-                            .widget-content.widget-content-area
-                                form(method="post" action="/area/add")
-                                    .form-group.mb-4.col-lg-5
-                                            label(for='txtAreaName') Enter Area Name                                        
-                                            input.form-control(type='text' placeholder='Area Name' name="txtAreaName" required)
-                                    input.btn.btn-success(type='submit' name="smt" value="ADD")
-                else
-                    col-lg-12.col-12.layout-spacing
-                        .statbox.widget.box.box-shadow
-                            .widget-header
-                                .row
-                                    .col-xl-12.col-md-12.col-sm-12.col-12
-                                        h4 Manage Area
-                            .widget-content.widget-content-area
-                                form(method="post" action="/area/edit")
-                                    .form-group.mb-4.col-lg-5
-                                            input(type='hidden' name="txtAreaId" value=op.data[0].AreaId)                                    
-                                            label(for='txtAreaName') Enter Area Name    
-                                            input.form-control(type='text' placeholder='Area Name' name="txtAreaName" value=op.data[0].AreaName)
-                                    input.btn.btn-success(type='submit' name='smt' value="Save")
-                //- table content is starting from here
                 if op.flag == 0
                     .col-xl-12.col-lg-12.col-sm-12.layout-spacing
                         .widget-content.widget-content-area.br-6
+                            center
+                                h4 Installer List
                             .table-responsive.mb-4.mt-4
                                 table#zero-config.table.table-hover(style='width:100%')
-                                    thead   
+                                    thead
                                         tr
+                                            th Name
+                                            th Email
                                             th Area
                                             th EDIT
                                     tbody
-                                        
                                         each obj in op.data
                                             tr
+                                                td #{obj.UserName}
+                                                td #{obj.Email}
                                                 td #{obj.AreaName}
                                                 td 
-                                                    a(href="/area/edit/"+obj.AreaId)
+                                                    a(href="/register/edit/"+obj.UserId)
                                                         button(class="btn btn-warning") EDIT
                                     
 //- This is a page level scripts

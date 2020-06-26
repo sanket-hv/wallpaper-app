@@ -50,9 +50,9 @@ app.use(bodyParser.urlencoded({
 app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'pug');
 app.use(express["static"]('./public')); //All Admin Router
-//Login Router
+//Register Router
 
-var authRouter = require('./routes/AuthenticateRoute'); //Offer Router
+var registerRouter = require('./routes/AdminRoute/RegisterRoute'); //Offer Router
 
 
 var offerRouter = require('./routes/AdminRoute/OfferRoute'); //Category Router
@@ -64,7 +64,10 @@ var categoryRouter = require('./routes/AdminRoute/CategoryRoute'); //Area Router
 var areaRouter = require('./routes/AdminRoute/AreaRoute'); //Warranty Router
 
 
-var warrantyRouter = require('./routes/AdminRoute/WarrantyRoute');
+var warrantyRouter = require('./routes/AdminRoute/WarrantyRoute'); //Common Router
+
+
+var commonRouter = require('./routes/CommonRouter');
 
 app.get('/', function (req, res) {
   res.render('login');
@@ -75,7 +78,13 @@ app.get('/login', function (req, res) {
 
 app.get('/logout', logout); //Authentication Route
 
-app.post('/auth/login', signIn); //Offer Route
+app.post('/auth/login', signIn);
+app.get('/auth/login', function (req, res) {
+  res.render('index');
+});
+app.use(['/register', '/customer', '/installer'], welcome, registerRouter); //Customer & Installer Registration
+// app.use('/registration', welcome, registerRouter);
+//Offer Route
 
 app.use('/offer', welcome, offerRouter); //Category Route
 
@@ -84,6 +93,7 @@ app.use('/category', welcome, categoryRouter); //Area Route
 app.use('/area', welcome, areaRouter); //Warranty Route
 
 app.use('/warranty', welcome, warrantyRouter);
+app.use('/common', commonRouter);
 app.listen(port, function () {
   console.log("Server is running on https://localhost:".concat(port, "/"));
 });

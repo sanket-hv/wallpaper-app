@@ -44,7 +44,6 @@ router.post('/add', function (req, res) {
     }
 
     if (results) {
-      console.log(req.url);
       var op = {
         flag: 0,
         success: "true",

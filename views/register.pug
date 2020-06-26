@@ -1,0 +1,92 @@
+extends layout.pug
+
+block append topscripts     
+    script(src="https://code.jquery.com/jquery-3.5.0.js").
+    script(type='text/javascript').
+        $(document).ready(function () {
+            $.ajax({
+                type: 'post',
+                url: '/common/area',
+                data: {'message' : "ajaxarea"} ,
+                success: function(data){
+                    var cmba = '<select class="form-control custom-select" name="cmbArea" required><option selected="" disabled>Select Area</option>';
+                    for (var i=0;i < data.length; i++)
+                    {
+                        cmba += '<option value="'+data[i].AreaId+'">'+data[i].AreaName+'</option>';
+                    }
+                    document.getElementById('cmbarea').innerHTML = cmba;
+                    document.getElementById('cmbarea').innerHTML += '</select>';
+                    //- alert(data[0]['AreaName']);
+                }
+            })
+            $.ajax({
+                type: 'post',
+                url: '/common/role',
+                data: {'message' : "ajaxrole"} ,
+                success: function(data){
+                    var cmbr = '<select class="form-control custom-select" name="cmbRole" required><option selected="" disabled>Select User Type</option>';
+                    for (var i=0;i < data.length; i++)
+                    {
+                        cmbr += '<option value="'+data[i].RoleId+'">'+data[i].RoleName+'</option>';
+                    }
+                    document.getElementById('cmbrole').innerHTML = cmbr;
+                    document.getElementById('cmbrole').innerHTML += '</select>';
+                    //- alert(data[0]['RoleName']);
+                }
+            })
+        })
+
+block content
+    #content.main-content
+        .layout-px-spacing
+            .row.layout-top-spacing#cancel-row
+                //- Form content is starting from here
+                //- if (op.flag == 0)
+                col-lg-12.col-12.layout-spacing
+                    .statbox.widget.box.box-shadow
+                        .widget-header
+                            .row
+                                .col-xl-12.col-md-12.col-sm-12.col-12
+                                    h4 User Registration
+                        .widget-content.widget-content-area
+                            form(method="post" action="/register/add")
+                                .form-group.row.mb-4.col-lg-6
+                                    .col
+                                        span(style="color:red;font-weight:bold;") *
+                                        label(for="txtEmail")  Enter Email
+                                        input.form-control(type='email' placeholder='name@example.com' name="txtEmail" required)
+                                .form-group.row.mb-4.col-lg-6
+                                    .col
+                                        span(style="color:red;font-weight:bold;") *
+                                        label(for="txtPassword")  Enter Password
+                                        input.form-control(type='text' placeholder='Enter Password' name="txtPassword" required)  
+                                .form-group.row.mb-4.col-lg-6
+                                    .col
+                                        label(for="txtUsername") Enter Username               
+                                        input.form-control(type="text" name="txtUsername" placeholder="Enter Username")
+                                .form-group.row.mb-4.col-lg-6
+                                    .col
+                                        span(style="color:red;font-weight:bold;") *
+                                        label(for="cmbArea")  Select Area
+                                        div#cmbarea
+                                .form-group.row.mb-4.col-lg-6
+                                    .col
+                                        span(style="color:red;font-weight:bold;") *
+                                        label(for="cmbRole")  Select User Type
+                                        div#cmbrole
+                                        span(style="color:red;") * Required Field
+                                input.btn.btn-success(type='submit' name='time' value="SAVE")
+                //- else
+                //-     col-lg-12.col-12.layout-spacing
+                //-         .statbox.widget.box.box-shadow
+                //-             .widget-header
+                //-                 .row
+                //-                     .col-xl-12.col-md-12.col-sm-12.col-12
+                //-                         h4 Manage Area
+                //-             .widget-content.widget-content-area
+                //-                 form(method="post" action="/area/edit")
+                //-                     .form-group.mb-4.col-lg-5
+                //-                         input(type='hidden' name="txtAreaId" value=op.data[0].AreaId)                                    
+                //-                         label(for='txtAreaName') Enter Area Name    
+                //-                         input.form-control(type='text' placeholder='Area Name' name="txtAreaName" value=op.data[0].AreaName)
+                //-                     input.btn.btn-success(type='submit' name='time' value="Save")
