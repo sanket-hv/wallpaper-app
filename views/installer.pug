@@ -20,16 +20,16 @@ block content
                                             th Name
                                             th Email
                                             th Area
-                                            th EDIT
+                                            //- th EDIT
                                     tbody
                                         each obj in op.data
                                             tr
                                                 td #{obj.UserName}
                                                 td #{obj.Email}
                                                 td #{obj.AreaName}
-                                                td 
-                                                    a(href="/register/edit/"+obj.UserId)
-                                                        button(class="btn btn-warning") EDIT
+                                                //- td 
+                                                //-     a(href="/register/edit/"+obj.UserId)
+                                                //-         button(class="btn btn-warning") EDIT
                                     
 //- This is a page level scripts
 block append bottomscripts

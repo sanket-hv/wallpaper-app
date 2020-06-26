@@ -1,0 +1,105 @@
+extends layout.pug
+
+block append topscripts     
+    script(src="https://code.jquery.com/jquery-3.5.0.js").
+    script(type='text/javascript').
+        $(document).ready(function () {
+            $.ajax({
+                type: 'post',
+                url: '/common/category',
+                data: {'message' : "ajaxcategory"} ,
+                success: function(data){
+                    var cmbc = '<select class="form-control custom-select" name="cmbCategory" required><option selected="" disabled>Select Category</option>';
+                    for (var i=0;i < data.length; i++)
+                    {
+                        cmbc += '<option value="'+data[i].CategoryId+'">'+data[i].CategoryName+'</option>';
+                    }
+                    document.getElementById('cmbcategory').innerHTML = cmbc
+                    document.getElementById('cmbcategory').innerHTML += '</select>';
+                    //- alert(data[0]['AreaName']);
+                }
+            })
+            $.ajax({
+                type: 'post',
+                url: '/common/service',
+                data: {'message' : "ajaxservice"} ,
+                success: function(data){
+                    var cmbs = '<select class="form-control custom-select" name="cmbService" required><option selected="" disabled>Select Service</option>';
+                    for (var i=0;i < data.length; i++)
+                    {
+                        cmbs += '<option value="'+data[i].ServiceId+'">'+data[i].ServiceName+'</option>';
+                    }
+                    document.getElementById('cmbservice').innerHTML = cmbs
+                    document.getElementById('cmbservice').innerHTML += '</select>';
+                    //- alert(data[0]['AreaName']);
+                }
+            })
+            $.ajax({
+                type: 'post',
+                url: '/common/type',
+                data: {'message' : "ajaxtype"} ,
+                success: function(data){
+                    var cmbt = '<select class="form-control custom-select" name="cmbType" required><option selected="" disabled>Select Wallpaper Type</option>';
+                    for (var i=0;i < data.length; i++)
+                    {
+                        cmbt += '<option value="'+data[i].TypeId+'">'+data[i].TypeName+'</option>';
+                    }
+                    document.getElementById('cmbtype').innerHTML = cmbt;
+                    document.getElementById('cmbtype').innerHTML += '</select>';
+                    //- alert(data[0]['RoleName']);
+                }
+            })
+        })
+
+block content
+    #content.main-content
+        .layout-px-spacing
+            .row.layout-top-spacing#cancel-row
+                //- Form content is starting from here
+                //- if (op.flag == 0)
+                col-lg-12.col-12.layout-spacing
+                    .statbox.widget.box.box-shadow
+                        .widget-header
+                            .row
+                                .col-xl-12.col-md-12.col-sm-12.col-12
+                                    h4 Add Product
+                        .widget-content.widget-content-area
+                            form(method="post" action="/catalogue/add" enctype="multipart/form-data")
+                                .form-group.row.mb-4.col-lg-10
+                                    .col
+                                        span(style="color:red;font-weight:bold;") *
+                                        label(for="txtTitle")  Enter Product Title
+                                        input.form-control(type='text' placeholder='Product Title' name="txtTitle" required)
+                                    .col
+                                        span(style="color:red;font-weight:bold;") *
+                                        label(for="txtPrice")  Enter Price
+                                        input.form-control(type='number' placeholder='Enter Price' name="txtPrice" min="0" style="-moz-appearance: textfield" required)  
+                                .form-group.row.mb-4.col-lg-5
+                                    .col
+                                        span(style="color:red;font-weight:bold;") *
+                                        label(for="cmbCategory") Select Category               
+                                        div#cmbcategory                                      
+                                .form-group.row.mb-4.col-lg-10
+                                    .col
+                                        span(style="color:red;font-weight:bold;") *
+                                        label(for="cmbService")  Select Service
+                                        div#cmbservice
+                                    .col
+                                        span(style="color:red;font-weight:bold;") *
+                                        label(for="cmbType")  Select Wallpaper Type
+                                        div#cmbtype
+                                .form-group.row.mb-4.col-lg-5
+                                    .col
+                                        span(style="color:red;font-weight:bold;") *
+                                        label(for="ProductImage") Select Product Image
+                                        .custom-file.mb-4    
+                                            input.custom-file-input(type='file' name="ProductImage" accept='image/*' required)
+                                            label.custom-file-label(for='ProductImage') Select Product Image          
+                                .form-group.row.mb-4.col-lg-5
+                                    .col
+                                        label(for="txtDetail") Product Details
+                                        textarea.form-control(name="txtDetail")
+                                .form-group.row.mb-4.col-lg-12
+                                    .col
+                                        span(style="color:red;") * Required Field
+                                input.btn.btn-success(type='submit' name='time' value="SAVE")

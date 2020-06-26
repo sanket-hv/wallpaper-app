@@ -22,8 +22,10 @@ block content
                                             input(type='hidden' name="txtCatgoryId")
                                             label(for='txtCategoryName') Enter Category Name                                        
                                             input.form-control(type='text' placeholder='Category Name' name="txtCategoryName" required)
-                                            label(for='categoryImage') Select Category Image    
-                                            input.form-control(type='file' name="categoryImage" accept='image/*' required)
+                                            br
+                                            .custom-file.mb-4
+                                                input.custom-file-input(type='file' name="categoryImage" accept='image/*' required)
+                                                label.custom-file-label(for='txtCategoryImage') Select Category Image
                                     input.btn.btn-success(type='submit' name='time' value="ADD")
                 else
                     col-lg-12.col-12.layout-spacing
@@ -38,9 +40,11 @@ block content
                                             input(type='hidden' name="txtCategoryId" value=op.data[0].CategoryId)                                    
                                             label(for='txtCategoryName') Enter Category Name    
                                             input.form-control(type='text' placeholder='Category Name' name="txtCategoryName" value=op.data[0].CategoryName)
-                                            label(for='txtCategoryImage') Select Category Image    
-                                            input.form-control(type='file' name="categoryImage" accept='image/*')
-                                            img(src="/images/category/"+op.data[0].Img height="100px" width="100px")
+                                            br
+                                            .custom-file.mb-4
+                                                input.custom-file-input(type='file' name="categoryImage" accept='image/*')
+                                                label.custom-file-label(for='txtCategoryImage') Select Category Image
+                                                img(src="/images/category/"+op.data[0].Img height="150px" width="150px")
                                     input.btn.btn-success(type='submit' name='time' value="Save")
                 //- table content is starting from here
                 if op.flag == 0

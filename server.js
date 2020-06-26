@@ -43,6 +43,8 @@ app.use(express.static('./public'));
 const registerRouter = require('./routes/AdminRoute/RegisterRoute');
 //Offer Router
 const offerRouter = require('./routes/AdminRoute/OfferRoute');
+//Catalogue Router
+const catalogueRouter = require('./routes/AdminRoute/CatalogueRoute');
 //Category Router
 const categoryRouter = require('./routes/AdminRoute/CategoryRoute');
 //Area Router
@@ -69,9 +71,10 @@ app.get('/auth/login', (req, res) => {
     res.render('index');
 });
 
-app.use(['/register','/customer','/installer'], welcome, registerRouter);
 //Customer & Installer Registration
-// app.use('/registration', welcome, registerRouter);
+app.use(['/register', '/customer', '/installer'], welcome, registerRouter);
+//Catalogue Route
+app.use('/catalogue', welcome, catalogueRouter);
 //Offer Route
 app.use('/offer', welcome, offerRouter);
 //Category Route

@@ -12,21 +12,28 @@ block content
                     .col-xl-12.col-lg-12.col-sm-12.layout-spacing
                         .widget-content.widget-content-area.br-6
                             center
-                                h4 Customer List
+                                h4 Product List
                             .table-responsive.mb-4.mt-4
                                 table#zero-config.table.table-hover(style='width:100%')
-                                    thead   
+                                    thead
                                         tr
-                                            th Name
-                                            th Email
-                                            th Area
+                                            th Image
+                                            th Title
+                                            th Price
+                                            th Category
+                                            th Service
+                                            th Type
                                             //- th EDIT
                                     tbody
                                         each obj in op.data
                                             tr
-                                                td #{obj.UserName}
-                                                td #{obj.Email}
-                                                td #{obj.AreaName}
+                                                td 
+                                                    img(src='/images/product/'+obj.ProductImg width="100px" height="100px")
+                                                td #{obj.ProductTitle}
+                                                td #{obj.Price}
+                                                td #{obj.CategoryName}
+                                                td #{obj.ServiceName}
+                                                td #{obj.TypeName}
                                                 //- td 
                                                 //-     a(href="/register/edit/"+obj.UserId)
                                                 //-         button(class="btn btn-warning") EDIT
