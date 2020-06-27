@@ -3,7 +3,6 @@ var connection = require('./../../config');
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
-var tempimg = "";
 //get data
 router.get('/', (req, res) => {
     res.render('catalogue');

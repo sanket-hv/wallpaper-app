@@ -58,7 +58,10 @@ var registerRouter = require('./routes/AdminRoute/RegisterRoute'); //Offer Route
 var offerRouter = require('./routes/AdminRoute/OfferRoute'); //Catalogue Router
 
 
-var catalogueRouter = require('./routes/AdminRoute/CatalogueRoute'); //Category Router
+var catalogueRouter = require('./routes/AdminRoute/CatalogueRoute'); //Order Router
+
+
+var orderRouter = require('./routes/AdminRoute/OrderRoute'); //Category Router
 
 
 var categoryRouter = require('./routes/AdminRoute/CategoryRoute'); //Area Router
@@ -88,7 +91,9 @@ app.get('/auth/login', function (req, res) {
 
 app.use(['/register', '/customer', '/installer'], welcome, registerRouter); //Catalogue Route
 
-app.use('/catalogue', welcome, catalogueRouter); //Offer Route
+app.use('/catalogue', welcome, catalogueRouter); //Catalogue Route
+
+app.use('/order', welcome, orderRouter); //Offer Route
 
 app.use('/offer', welcome, offerRouter); //Category Route
 
