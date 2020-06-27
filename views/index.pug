@@ -1,7 +1,29 @@
 extends layout.pug
+
+block append topscripts
+    link(href='plugins/animate/animate.css' rel='stylesheet' type='text/css')
+    
 block content
     #content.main-content
         .layout-px-spacing
             .row.layout-top-spacing
                 p This is a index page
-                p #{op._token}
+                //- p #{op._token}
+
+block append bottomscripts
+    script(type="text/javascript").
+        $(document).ready(function () {
+                const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                padding: '2em'
+            });
+            toast({
+                type: 'success',
+                title: "Signed In Successfully",
+                padding: '2em',
+            })
+        })
+    script(src="/plugins/sweetalerts/sweetalert2.min.js").

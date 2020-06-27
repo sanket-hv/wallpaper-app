@@ -38,11 +38,14 @@ app.set('view engine', 'pug');
 app.use(express.static('./public'));
 
 //All Admin Router
-
+//Dashboard Router
+const dashboardRouter = require('./routes/AdminRoute/DashboardRoute');
 //Register Router
 const registerRouter = require('./routes/AdminRoute/RegisterRoute');
 //Offer Router
 const offerRouter = require('./routes/AdminRoute/OfferRoute');
+//Inquiry Router
+const inquiryRouter = require('./routes/AdminRoute/InquiryRoute');
 //Catalogue Router
 const catalogueRouter = require('./routes/AdminRoute/CatalogueRoute');
 //Order Router
@@ -51,6 +54,8 @@ const orderRouter = require('./routes/AdminRoute/OrderRoute');
 const categoryRouter = require('./routes/AdminRoute/CategoryRoute');
 //Area Router
 const areaRouter = require('./routes/AdminRoute/AreaRoute');
+//Gallery Router
+const galleryRouter = require('./routes/AdminRoute/GalleryRoute');
 //Warranty Router
 const warrantyRouter = require('./routes/AdminRoute/WarrantyRoute');
 //Common Router
@@ -64,6 +69,13 @@ app.get('/login', (req, res) => {
     res.render('login');
 })
 
+//error page
+app.get('/errpage',(req,res)=>{
+    console.log("error page redirected");
+    // res.render('error');
+    res.sendFile(__dirname + '/views/error.html');
+})
+
 //logout
 app.get('/logout', logout);
 //Authentication Route
@@ -73,18 +85,24 @@ app.get('/auth/login', (req, res) => {
     res.render('index');
 });
 
+//Dashboard Page
+app.use('/dashboard',welcome,dashboardRouter);
 //Customer & Installer Registration
 app.use(['/register', '/customer', '/installer'], welcome, registerRouter);
 //Catalogue Route
 app.use('/catalogue', welcome, catalogueRouter);
-//Catalogue Route
+//Order Route
 app.use('/order', welcome, orderRouter);
+//Inquiry Route
+app.use('/inquiry', welcome, inquiryRouter);
 //Offer Route
 app.use('/offer', welcome, offerRouter);
 //Category Route
 app.use('/category', welcome, categoryRouter);
 //Area Route
 app.use('/area', welcome, areaRouter);
+//Gallery Route
+app.use('/gallery', welcome, galleryRouter);
 //Warranty Route
 app.use('/warranty', welcome, warrantyRouter);
 

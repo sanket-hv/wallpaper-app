@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         if (results) {
             var op = {
@@ -20,8 +21,9 @@ router.get('/', (req, res) => {
                 data: results,
                 message: "Redirected"
             }
-        }
+            
         res.render('area', { op });
+        }
     });
 })
 
@@ -35,6 +37,7 @@ router.post('/add', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         if (results) {
             var op = {
@@ -44,8 +47,9 @@ router.post('/add', (req, res) => {
                 data: results,
                 message: "Redirected"
             }
-        }
+            
         res.redirect('/area');
+        }
     });
 })
 
@@ -59,6 +63,7 @@ router.get('/edit/:id', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         else if (results.length > 0) {
             var op = {
@@ -68,9 +73,9 @@ router.get('/edit/:id', (req, res) => {
                 data: results,
                 message: "Redirected"
             }
+            res.render('area', { op });
         }
         else {
-            console.log('false')
             var op = {
                 flag: 0,
                 success: "false",
@@ -78,8 +83,9 @@ router.get('/edit/:id', (req, res) => {
                 data: results,
                 message: "Area Not Available"
             }
+            res.render('area', { op });
         }
-        res.render('area', { op });
+        
     });
 })
 
@@ -96,6 +102,7 @@ router.post('/edit', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         else {
             var op = {
@@ -105,8 +112,9 @@ router.post('/edit', (req, res) => {
                 data: results,
                 message: "Redirected"
             }
+            res.redirect('/area');
         }
-        res.redirect('/area');
+        
     })
 })
 

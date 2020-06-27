@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         if (results) {
             var op = {
@@ -22,9 +23,8 @@ router.get('/', (req, res) => {
                 data: results,
                 message: "Redirected"
             }
+            res.render('category', { op });
         }
-        // res.send({ op })
-        res.render('category', { op });
     });
 })
 
@@ -40,6 +40,7 @@ router.post('/add', async (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         else {
             let CategoryName = req.body.txtCategoryName;
@@ -79,6 +80,7 @@ router.get('/edit/:id', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         else {
             if (results.length > 0) {
@@ -99,10 +101,9 @@ router.get('/edit/:id', (req, res) => {
                     message: "Category Not Available"
                 }
             }
+            res.render('category', { op });
         }
-        tempimg = op.data[0].Img;
-        // console.log(tempimg)
-        res.render('category', { op });
+
     });
 })
 
@@ -121,6 +122,7 @@ router.post('/edit', async (req, res) => {
                     status: 404,
                     data: error
                 }
+                res.redirect('/errpage');
             }
             else {
                 var op = {
@@ -130,8 +132,8 @@ router.post('/edit', async (req, res) => {
                     data: results,
                     message: "Redirected"
                 }
+                res.redirect('/category');
             }
-            res.redirect('/category');
         })
     }
     else {
@@ -140,12 +142,12 @@ router.post('/edit', async (req, res) => {
         const rmpath = './public/images/category/' + tempimg;
         fs.unlink(rmpath, (err) => {
             if (err) {
-                res.send("error file remove")
+                res.redirect('/errpage')
             }
             else {
                 imgfile.mv('./public/images/category/' + fname, (err1) => {
                     if (err1) {
-                        console.log(err1)
+                        res.redirect('/errpage')
                     }
                     else {
                         console.log("File deleted")

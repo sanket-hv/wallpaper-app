@@ -1,0 +1,41 @@
+extends layout.pug
+
+block append topscripts
+    link(href='/assets/css/scrollspyNav.css' rel='stylesheet' type='text/css')
+    link(rel='stylesheet' type='text/css' href='/plugins/jquery-step/jquery.steps.css')
+    style.
+        #formValidate .wizard > .content {min-height: 25em;}
+        #example-vertical.wizard > .content {min-height: 24.5em;}
+block content
+    #content.main-content
+        .layout-px-spacing
+            .row.layout-top-spacing#cancel-row
+                .col-lg-12.layout-spacing
+                    .statbox.widget.box.box-shadow
+                        .widget-header
+                            .row
+                                .col-xl-12.col-md-12.col-sm-12.col-12
+                                    h4 Create Order
+                        .widget-content.widget-content-area
+                            #example-basic
+                                h3 Home
+                                section
+                                    p Try the keyboard navigation by clicking arrow left or right!
+                                h3 About
+                                section
+                                    p Wonderful transition effects.
+                                h3 Settings
+                                section
+                                    p The next and previous buttons help you to navigate through your content.
+                                h3 Settings
+                                section
+                                    p The next and previous buttons help you to navigate through your content.    
+                            .code-section-container.show-code
+                                button.btn.toggle-code-snippet
+                        
+
+block append bottomscripts
+    script(src='/assets/js/scrollspyNav.js').
+    script(src='/plugins/jquery-step/jquery.steps.min.js').
+    script(src='/plugins/jquery-step/custom-jquery.steps.js').
+

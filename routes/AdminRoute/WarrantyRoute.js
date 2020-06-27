@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         if (results) {
             var op = {
@@ -20,8 +21,9 @@ router.get('/', (req, res) => {
                 data: results,
                 message: "Redirected"
             }
+            res.render('warranty', { op });
         }
-        res.render('warranty', { op });
+
     });
 })
 
@@ -36,6 +38,7 @@ router.post('/add', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         if (results) {
             var op = {
@@ -45,8 +48,9 @@ router.post('/add', (req, res) => {
                 data: results,
                 message: "Redirected"
             }
+            res.redirect('/warranty');
         }
-        res.redirect('/warranty');
+        
     });
 })
 

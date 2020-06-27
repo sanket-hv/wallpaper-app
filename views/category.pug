@@ -3,7 +3,6 @@ extends layout.pug
 block append topscripts     
     link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/datatables.css')
     link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/dt-global_style.css')
-
 block content
     #content.main-content
         .layout-px-spacing
@@ -81,6 +80,6 @@ block append bottomscripts
                 "sLengthMenu": "Results :  _MENU_",
             },
             "stripeClasses": [],
-            "lengthMenu": [7, 10, 20, 50],
-                "pageLength": 7     
+            "lengthMenu": [5, 10, 20, 50],
+                "pageLength": 5     
         });

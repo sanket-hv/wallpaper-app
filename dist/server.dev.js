@@ -55,7 +55,10 @@ app.use(express["static"]('./public')); //All Admin Router
 var registerRouter = require('./routes/AdminRoute/RegisterRoute'); //Offer Router
 
 
-var offerRouter = require('./routes/AdminRoute/OfferRoute'); //Catalogue Router
+var offerRouter = require('./routes/AdminRoute/OfferRoute'); //Inquiry Router
+
+
+var inquiryRouter = require('./routes/AdminRoute/InquiryRoute'); //Catalogue Router
 
 
 var catalogueRouter = require('./routes/AdminRoute/CatalogueRoute'); //Order Router
@@ -91,9 +94,11 @@ app.get('/auth/login', function (req, res) {
 
 app.use(['/register', '/customer', '/installer'], welcome, registerRouter); //Catalogue Route
 
-app.use('/catalogue', welcome, catalogueRouter); //Catalogue Route
+app.use('/catalogue', welcome, catalogueRouter); //Order Route
 
-app.use('/order', welcome, orderRouter); //Offer Route
+app.use('/order', welcome, orderRouter); //Inquiry Route
+
+app.use('/inquiry', welcome, inquiryRouter); //Offer Route
 
 app.use('/offer', welcome, offerRouter); //Category Route
 

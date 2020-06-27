@@ -16,7 +16,7 @@ router.get('/view', (req, res) => {
                 status: 404,
                 data: error
             }
-            res.send({ op })
+            res.redirect('/errpage');
         }
         else {
             if (results) {
@@ -28,7 +28,7 @@ router.get('/view', (req, res) => {
                     message: "Redirected"
                 }
             }
-            res.render('catalogueview',{ op });
+            res.render('catalogueview', { op });
             // res.render('customer', { op });
         }
     });
@@ -52,6 +52,7 @@ router.post('/add', async (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         else {
             let sql = "INSERT INTO ProductTbl(CategoryId,ServiceId,TypeId,ProductTitle,Price,Details,IsActive,ProductImg) VALUES(?,?,?,?,?,?,?,?)"
@@ -90,6 +91,7 @@ router.get('/edit/:id', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         else {
             if (results.length > 0) {
@@ -110,10 +112,9 @@ router.get('/edit/:id', (req, res) => {
                     message: "Category Not Available"
                 }
             }
+            res.render('category', { op });
         }
-        tempimg = op.data[0].Img;
-        // console.log(tempimg)
-        res.render('category', { op });
+
     });
 })
 
@@ -132,6 +133,7 @@ router.post('/edit', async (req, res) => {
                     status: 404,
                     data: error
                 }
+                res.redirect('/errpage');
             }
             else {
                 var op = {
@@ -141,8 +143,9 @@ router.post('/edit', async (req, res) => {
                     data: results,
                     message: "Redirected"
                 }
+                res.redirect('/category');
             }
-            res.redirect('/category');
+
         })
     }
     else {
@@ -151,12 +154,13 @@ router.post('/edit', async (req, res) => {
         const rmpath = './public/images/category/' + tempimg;
         fs.unlink(rmpath, (err) => {
             if (err) {
-                res.send("error file remove")
+                res.redirect('/errpage');
+                
             }
             else {
                 imgfile.mv('./public/images/category/' + fname, (err1) => {
                     if (err1) {
-                        console.log(err1)
+                        res.redirect('/errpage');
                     }
                     else {
                         console.log("File deleted")
@@ -168,6 +172,7 @@ router.post('/edit', async (req, res) => {
                                     status: 404,
                                     data: error
                                 }
+                                res.redirect('/errpage');
                             }
                             else {
                                 var op = {
@@ -177,8 +182,9 @@ router.post('/edit', async (req, res) => {
                                     data: results,
                                     message: "Redirected"
                                 }
+                                res.redirect('/category');
                             }
-                            res.redirect('/category');
+                            
                         })
 
                     }
@@ -187,8 +193,6 @@ router.post('/edit', async (req, res) => {
             }
         })
     }
-
-
 
 })
 

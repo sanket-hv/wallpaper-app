@@ -43,7 +43,7 @@ router.get('/ilist', (req, res) => {
                 status: 404,
                 data: error
             }
-            res.send({ op })
+            res.redirect('/errpage');
         }
         else {
             if (results) {
@@ -76,7 +76,8 @@ router.post('/add', (req, res) => {
                 status: 404,
                 data: error
             }
-            res.send(error)
+            // res.send(error)
+            res.redirect('/errpage');
         }
         if (results) {
             var op = {

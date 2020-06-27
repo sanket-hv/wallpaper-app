@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         if (results) {
             var op = {
@@ -35,6 +36,7 @@ router.get('/edit/:id', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         else if (results.length > 0) {
             var op = {
@@ -44,6 +46,7 @@ router.get('/edit/:id', (req, res) => {
                 data: results,
                 message: "Redirected"
             }
+            res.render('offer', { op });
         }
         else {
             console.log('false')
@@ -54,8 +57,9 @@ router.get('/edit/:id', (req, res) => {
                 data: results,
                 message: "Offer Not Available"
             }
+            res.render('offer', { op });
         }
-        res.render('offer', { op });
+        
     });
 })
 
@@ -72,6 +76,7 @@ router.post('/edit', (req, res) => {
                 status: 404,
                 data: error
             }
+            res.redirect('/errpage');
         }
         else {
             var op = {
@@ -81,8 +86,9 @@ router.post('/edit', (req, res) => {
                 data: results,
                 message: "Redirected"
             }
+            res.redirect('/offer');
         }
-        res.redirect('/offer');
+        
     })
 })
 
