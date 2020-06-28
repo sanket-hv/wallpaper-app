@@ -10,14 +10,15 @@ router.get('/', (req, res) => {
 
 //Customer List
 router.get('/clist', (req, res) => {
-    connection.query('SELECT u.UserId,u.UserName,u.Email,a.AreaName FROM UserTbl u,AreaTbl a WHERE u.AreaId = a.AreaId AND u.RoleId=?', [1], function (error, results, fields) {
+    connection.query('SELECT u.UserId,u.UserName,u.Email,u.ContactNo,a.AreaName FROM UserTbl u,AreaTbl a WHERE u.AreaId = a.AreaId AND u.RoleId=? ORDER BY CreatedAt DESC', [1], function (error, results, fields) {
         if (error) {
             var op = {
                 success: "false",
                 status: 404,
                 data: error
             }
-            res.send({ op })
+            // res.send({ op })
+            res.redirect('/errpage');
         }
         else {
             if (results) {
@@ -29,6 +30,7 @@ router.get('/clist', (req, res) => {
                     message: "Redirected"
                 }
             }
+            // res.send(results);
             res.render('customer', { op });
         }
     });
@@ -36,7 +38,7 @@ router.get('/clist', (req, res) => {
 
 //Installer List
 router.get('/ilist', (req, res) => {
-    connection.query('SELECT u.UserId,u.UserName,u.Email,a.AreaName FROM UserTbl u,AreaTbl a WHERE u.AreaId = a.AreaId AND u.RoleId=?', [2], function (error, results, fields) {
+    connection.query('SELECT u.UserId,u.UserName,u.Email,u.ContactNo,a.AreaName FROM UserTbl u,AreaTbl a WHERE u.AreaId = a.AreaId AND u.RoleId=? ORDER BY CreatedAt DESC', [2], function (error, results, fields) {
         if (error) {
             var op = {
                 success: "false",
@@ -65,11 +67,12 @@ router.get('/ilist', (req, res) => {
 router.post('/add', (req, res) => {
     let username = req.body.txtUsername;
     let email = req.body.txtEmail;
+    let cno = req.body.txtContactNo
     let password = md5(req.body.txtPassword);
     let areaid = req.body.cmbArea
     let roleid = req.body.cmbRole;
-    let val = [username, email, password, areaid, roleid];
-    connection.query('INSERT INTO UserTbl(UserName,Email,Password,AreaId,RoleId) VALUES(?,?,?,?,?)', val, function (error, results, fields) {
+    let val = [username, email, cno, password, areaid, roleid];
+    connection.query('INSERT INTO UserTbl(UserName,Email,ContactNo,Password,AreaId,RoleId) VALUES(?,?,?,?,?,?)', val, function (error, results, fields) {
         if (error) {
             var op = {
                 success: "false",
