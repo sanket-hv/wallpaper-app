@@ -1,7 +1,6 @@
 var connection = require('./../../config');
 const express = require('express');
 const router = express.Router();
-const format = require('date-format');
 const md5 = require('md5');
 //get data
 router.get('/', (req, res) => {

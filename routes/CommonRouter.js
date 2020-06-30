@@ -8,7 +8,7 @@ router.post('/area', (req, res) => {
         connection.query('SELECT * FROM AreaTbl', function (error, results, fields) {
             // console.log('common area');
             if (error) {
-                res.send('error');
+                res.redirect('/errpage');
             }
             else {
                 res.send(results);
@@ -23,7 +23,7 @@ router.post('/role', (req, res) => {
         connection.query('SELECT * FROM RoleTbl', function (error, results, fields) {
             // console.log('common area');
             if (error) {
-                res.send('error');
+                res.redirect('/errpage');
             }
             else {
                 res.send(results);
@@ -37,7 +37,7 @@ router.post('/category', (req, res) => {
         connection.query('SELECT * FROM CategoryTbl', function (error, results, fields) {
             // console.log('common area');
             if (error) {
-                res.send('error');
+                res.redirect('/errpage');
             }
             else {
                 res.send(results);
@@ -51,7 +51,7 @@ router.post('/service', (req, res) => {
     if (req.body.message == "ajaxservice") {
         connection.query('SELECT * FROM ServiceTbl', function (error, results, fields) {
             if (error) {
-                res.send('error');
+                res.redirect('/errpage');
             }
             else {
                 res.send(results);
@@ -65,7 +65,48 @@ router.post('/type', (req, res) => {
     if (req.body.message == "ajaxtype") {
         connection.query('SELECT * FROM WallpaperTypeTbl', function (error, results, fields) {
             if (error) {
-                res.send('error');
+                res.redirect('/errpage');
+            }
+            else {
+                res.send(results);
+            }
+        });
+    }
+})
+//Product
+router.post('/product', (req, res) => {
+    if (req.body.message == "ajaxproduct") {
+        connection.query('SELECT * FROM ProductTbl', function (error, results, fields) {
+            if (error) {
+                res.redirect('/errpage');
+            }
+            else {
+                res.send(results);
+            }
+        });
+    }
+})
+
+//Customer
+router.post('/customer', (req, res) => {
+    if (req.body.message == "ajaxcustomer") {
+        connection.query('SELECT * FROM UserTbl WHERE RoleId = ?', [1], function (error, results, fields) {
+            if (error) {
+                res.redirect('/errpage');
+            }
+            else {
+                res.send(results);
+            }
+        });
+    }
+})
+
+//warranty
+router.post('/warranty', (req, res) => {
+    if (req.body.message == "ajaxwarranty") {
+        connection.query('SELECT * FROM WarrantyTbl', function (error, results, fields) {
+            if (error) {
+                res.redirect('/errpage');
             }
             else {
                 res.send(results);

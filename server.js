@@ -37,6 +37,9 @@ app.set('view engine', 'pug');
 
 app.use(express.static('./public'));
 
+//API Router
+const API_Router = require('./routes/AppRoute/V1_API');
+
 //All Admin Router
 //Dashboard Router
 const dashboardRouter = require('./routes/AdminRoute/DashboardRoute');
@@ -76,6 +79,9 @@ app.get('/errpage',(req,res)=>{
     res.sendFile(__dirname + '/views/error.html');
 })
 
+
+
+
 //logout
 app.get('/logout', logout);
 //Authentication Route
@@ -85,6 +91,9 @@ app.get('/auth/login', (req, res) => {
     res.render('index');
 });
 
+
+//API Route
+app.use('/v1/api/', API_Router);
 //Dashboard Page
 app.use('/dashboard',welcome,dashboardRouter);
 //Customer & Installer Registration
@@ -105,6 +114,8 @@ app.use('/area', welcome, areaRouter);
 app.use('/gallery', welcome, galleryRouter);
 //Warranty Route
 app.use('/warranty', welcome, warrantyRouter);
+
+
 
 app.use('/common', commonRouter);
 

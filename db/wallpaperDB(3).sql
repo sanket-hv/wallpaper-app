@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 24, 2020 at 10:51 AM
+-- Generation Time: Jun 28, 2020 at 09:47 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -39,7 +39,8 @@ CREATE TABLE `AdminTbl` (
 --
 
 INSERT INTO `AdminTbl` (`AdminId`, `Email`, `Password`) VALUES
-(1, 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3');
+(1, 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3'),
+(3, 'abc@gmail.com', '0e7517141fb53f21ee439b355b5a1d0a');
 
 -- --------------------------------------------------------
 
@@ -51,6 +52,15 @@ CREATE TABLE `AreaTbl` (
   `AreaId` int(11) NOT NULL,
   `AreaName` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `AreaTbl`
+--
+
+INSERT INTO `AreaTbl` (`AreaId`, `AreaName`) VALUES
+(1, 'Yogichowk1'),
+(2, 'Simada'),
+(3, 'Varachha');
 
 -- --------------------------------------------------------
 
@@ -69,7 +79,9 @@ CREATE TABLE `CategoryTbl` (
 --
 
 INSERT INTO `CategoryTbl` (`CategoryId`, `CategoryName`, `Img`) VALUES
-(14, 'Category 1', '1592984975385Annotation 2020-06-20 085744.png');
+(14, 'Category 1', '1592984975385Annotation 2020-06-20 085744.png'),
+(15, 'dgdfgd', 'rhdghgh'),
+(16, 'ghh', 'dvbhdfghdfgh');
 
 -- --------------------------------------------------------
 
@@ -99,9 +111,18 @@ CREATE TABLE `GalleryTbl` (
   `GalleryId` int(11) NOT NULL,
   `JobId` int(11) NOT NULL,
   `GalleryImg` text NOT NULL COMMENT 'This is the image after installation',
-  `Hidden` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-Show, 1-Hidden',
+  `Hidden` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0-Hidden, 1-Show',
   `CreatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table for Gallery and Installation Image';
+
+--
+-- Dumping data for table `GalleryTbl`
+--
+
+INSERT INTO `GalleryTbl` (`GalleryId`, `JobId`, `GalleryImg`, `Hidden`, `CreatedAt`) VALUES
+(1, 1, 'nngfnn', 0, '2020-06-27 12:51:26'),
+(2, 1, 'gdfgdghfdh', 1, '2020-06-27 13:00:23'),
+(3, 2, 'gdhfghh', 1, '2020-06-27 13:00:34');
 
 -- --------------------------------------------------------
 
@@ -111,12 +132,20 @@ CREATE TABLE `GalleryTbl` (
 
 CREATE TABLE `InquiryTbl` (
   `InquiryId` int(11) NOT NULL,
-  `InquiryDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `InquiryDate` date NOT NULL,
   `Name` varchar(50) NOT NULL,
   `ContactNo` text NOT NULL,
   `EmailId` text NOT NULL,
   `IsAttended` int(11) NOT NULL DEFAULT '0' COMMENT '0- Not Attended, 1- Attended'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `InquiryTbl`
+--
+
+INSERT INTO `InquiryTbl` (`InquiryId`, `InquiryDate`, `Name`, `ContactNo`, `EmailId`, `IsAttended`) VALUES
+(1, '2020-06-27', 'Sanket', '8347583112', 'sanket@gmail.com', 0),
+(2, '2020-06-24', 'ghjghjkg', 'gyjtyiu', 'jhgkghiyui', 1);
 
 -- --------------------------------------------------------
 
@@ -197,9 +226,16 @@ CREATE TABLE `ProductTbl` (
   `Details` text,
   `IsActive` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-Show, 1-Hidden',
   `ProductImg` text NOT NULL,
-  `CreatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `CreatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `UpdatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ProductTbl`
+--
+
+INSERT INTO `ProductTbl` (`ProductId`, `CategoryId`, `ServiceId`, `TypeId`, `ProductTitle`, `Price`, `Details`, `IsActive`, `ProductImg`, `CreatedAt`, `UpdatedAt`) VALUES
+(1, 14, 2, 1, 'Product 1', 1000, 'sdfgdfg', 0, '1593164881795availability.png', '2020-06-26 09:48:01', '2020-06-26 09:48:01');
 
 -- --------------------------------------------------------
 
@@ -231,6 +267,14 @@ CREATE TABLE `ServiceTbl` (
   `ServiceName` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `ServiceTbl`
+--
+
+INSERT INTO `ServiceTbl` (`ServiceId`, `ServiceName`) VALUES
+(1, 'Service 1'),
+(2, 'Service 2');
+
 -- --------------------------------------------------------
 
 --
@@ -239,14 +283,38 @@ CREATE TABLE `ServiceTbl` (
 
 CREATE TABLE `UserTbl` (
   `UserId` int(11) NOT NULL,
-  `UserName` varchar(50) NOT NULL,
+  `UserName` varchar(50) DEFAULT NULL,
   `Email` text NOT NULL,
+  `ContactNo` varchar(50) NOT NULL,
   `Password` text NOT NULL,
   `AreaId` int(11) NOT NULL,
   `RoleId` int(11) NOT NULL COMMENT '1-Customer, 2- Installer',
-  `CreatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `CreatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `UpdatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `UserTbl`
+--
+
+INSERT INTO `UserTbl` (`UserId`, `UserName`, `Email`, `ContactNo`, `Password`, `AreaId`, `RoleId`, `CreatedAt`, `UpdatedAt`) VALUES
+(1, 'sanket', 'sanket@gmail.com', '8347583112', 'e10adc3949ba59abbe56e057f20f883e', 1, 1, '2020-06-28 04:22:42', '2020-06-25 16:46:11'),
+(2, 'abc', 'abc@gmail.com', '', '202cb962ac59075b964b07152d234b70', 2, 2, '0000-00-00 00:00:00', '2020-06-25 16:47:35'),
+(3, 'hjklhj', 'vbjh@fh.cgh', '', 'fed52c2b426f9352b5e8940d2c84802c', 1, 2, '0000-00-00 00:00:00', '2020-06-25 17:03:00'),
+(4, 'gjj', 'jkkljj@fhj.hg', '', '21b4606947988633e73a62a7bcf811fd', 3, 1, '0000-00-00 00:00:00', '2020-06-25 17:03:34'),
+(5, 'fghffghf', 'hgfhg@fghfgn.vhg', '', '7c8340bb70aaa501159d6ef65c4aa14e', 1, 1, '0000-00-00 00:00:00', '2020-06-25 17:05:07'),
+(6, 'gh', 'bb@cghchg.vg', '25725752154', 'hjklh', 1, 2, '2020-06-28 04:23:12', '2020-06-25 17:07:29'),
+(7, 'fngg', 'vmn@fhg.fhgf', '', 'd2b0214c9aced3b346343a19767252cd', 2, 2, '0000-00-00 00:00:00', '2020-06-25 17:08:52'),
+(8, 'fjhfjh', 'jhkl@ghjgj.gjhg', '424274275275', '09baaae58f88180a368877c43e66c730', 2, 1, '2020-06-28 04:22:54', '2020-06-25 17:10:10'),
+(9, 'dtydyr', 'rtghf@gh.tdygf', '', 'a51abd674cb4b2ea2bd3adcb0dd30319', 3, 1, '0000-00-00 00:00:00', '2020-06-25 17:15:30'),
+(10, 'gxvcxg', 'gchbgfh', '', 'fghfgh', 1, 2, '2020-06-15 20:54:20', '2020-06-25 17:16:20'),
+(11, 'customer', 'customer@gmail.com', '', '91ec1f9324753048c0096d036a694f86', 2, 2, '0000-00-00 00:00:00', '2020-06-25 17:24:21'),
+(12, 'fjh', 'cghgf@ghjghj.hdtyhf', '', 'd9d919051c8d5afa3e51605c269a6d47', 1, 2, '0000-00-00 00:00:00', '2020-06-25 17:25:22'),
+(13, 'installer1', 'installer@gmail.com', '', '97384261b8bbf966df16e5ad509922db', 2, 2, '2020-06-26 05:16:05', '2020-06-26 05:16:05'),
+(14, 'customer1', 'customer1@gmail.com', '8780015120', '6c9a14ff289856473d4c56f3dbd905a9', 2, 1, '2020-06-28 04:31:50', '2020-06-28 04:31:50'),
+(15, 'asdaf', 'aaa@gadg.sdfg', '78666877687', '040b7cf4a55014e185813e0644502ea9', 2, 1, '2020-06-28 04:33:13', '2020-06-28 04:33:13'),
+(16, 'zjjjjjjjhm', 'zfhjf@ddv.jyfutfgj', '5445243', '509b0fe6beeb94456c02bc76ef1d76d6', 1, 1, '2020-06-28 04:33:55', '2020-06-28 04:33:55'),
+(17, 'zfadfgsd', 'zada@dsgsd.fdasf', '24555', 'a05f127e872e6a18f371fbe24c020ee7', 1, 2, '2020-06-28 04:42:17', '2020-06-28 04:42:17');
 
 -- --------------------------------------------------------
 
@@ -259,6 +327,14 @@ CREATE TABLE `WallpaperTypeTbl` (
   `TypeName` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `WallpaperTypeTbl`
+--
+
+INSERT INTO `WallpaperTypeTbl` (`TypeId`, `TypeName`) VALUES
+(1, 'Type 1'),
+(2, 'Type 2');
+
 -- --------------------------------------------------------
 
 --
@@ -270,6 +346,14 @@ CREATE TABLE `WarrantyTbl` (
   `WarrantyName` varchar(50) NOT NULL,
   `WarrantyValue` int(11) NOT NULL COMMENT 'Warrany value in days.'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `WarrantyTbl`
+--
+
+INSERT INTO `WarrantyTbl` (`WarrantyId`, `WarrantyName`, `WarrantyValue`) VALUES
+(1, '1 Month', 32),
+(2, '6 Month', 182);
 
 --
 -- Indexes for dumped tables
@@ -379,19 +463,19 @@ ALTER TABLE `WarrantyTbl`
 -- AUTO_INCREMENT for table `AdminTbl`
 --
 ALTER TABLE `AdminTbl`
-  MODIFY `AdminId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `AdminId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `AreaTbl`
 --
 ALTER TABLE `AreaTbl`
-  MODIFY `AreaId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `AreaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `CategoryTbl`
 --
 ALTER TABLE `CategoryTbl`
-  MODIFY `CategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `CategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `ComplaintTbl`
@@ -403,13 +487,13 @@ ALTER TABLE `ComplaintTbl`
 -- AUTO_INCREMENT for table `GalleryTbl`
 --
 ALTER TABLE `GalleryTbl`
-  MODIFY `GalleryId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `GalleryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `InquiryTbl`
 --
 ALTER TABLE `InquiryTbl`
-  MODIFY `InquiryId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `InquiryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `JobTbl`
@@ -439,7 +523,7 @@ ALTER TABLE `OrderTbl`
 -- AUTO_INCREMENT for table `ProductTbl`
 --
 ALTER TABLE `ProductTbl`
-  MODIFY `ProductId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ProductId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `RoleTbl`
@@ -451,25 +535,25 @@ ALTER TABLE `RoleTbl`
 -- AUTO_INCREMENT for table `ServiceTbl`
 --
 ALTER TABLE `ServiceTbl`
-  MODIFY `ServiceId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ServiceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `UserTbl`
 --
 ALTER TABLE `UserTbl`
-  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `WallpaperTypeTbl`
 --
 ALTER TABLE `WallpaperTypeTbl`
-  MODIFY `TypeId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `TypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `WarrantyTbl`
 --
 ALTER TABLE `WarrantyTbl`
-  MODIFY `WarrantyId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `WarrantyId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
