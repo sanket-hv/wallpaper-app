@@ -54,8 +54,8 @@ router.get('/list',(req,res)=>{
                     data: newobj,
                     message: "Redirected"
                 }
-                // res.render('inquiry', { op });
-                res.send(newobj)
+                res.render('orderlist', { op });
+                // res.send(newobj)
             }
         }
     })
