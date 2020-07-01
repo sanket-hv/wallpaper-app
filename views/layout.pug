@@ -139,86 +139,94 @@ html
                                         a(href='/catalogue')  Add Product
                                     li
                                         a(href='/catalogue/view')  View Product
-                                li.menu
-                                    a.dropdown-toggle(href='/order' aria-expanded='false')
-                                        div
-                                            svg.feather.feather-shopping-bag(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                                path(d='M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z')
-                                                line(x1='3' y1='6' x2='21' y2='6')
-                                                path(d='M16 10a4 4 0 0 1-8 0')
-                                            span Manage Order
-                                li.menu.menu-heading
-                                    .heading
-                                        svg.feather.feather-circle(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                            li.menu
+                                a.dropdown-toggle(href='#orders' data-toggle='collapse' aria-expanded='false')
+                                    div
+                                        svg.feather.feather-shopping-bag(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                            path(d='M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z')
+                                            line(x1='3' y1='6' x2='21' y2='6')
+                                            path(d='M16 10a4 4 0 0 1-8 0')
+                                        span Manage Order
+                                    div
+                                        svg.feather.feather-chevron-right(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                            polyline(points='9 18 15 12 9 6')
+                                ul#orders.collapse.submenu.list-unstyled(data-parent='#accordionExample')
+                                    li
+                                        a(href='/order') Create Order
+                                    li
+                                        a(href='/order/list') List of Order
+                            li.menu.menu-heading
+                                .heading
+                                    svg.feather.feather-circle(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                        circle(cx='12' cy='12' r='10')
+                                    span Services
+                            li.menu
+                                a.dropdown-toggle(href='#' aria-expanded='false')
+                                    div
+                                        svg.feather.feather-alert-octagon(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                            polygon(points='7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2')
+                                            line(x1='12' y1='8' x2='12' y2='12')
+                                            line(x1='12' y1='16' x2='12.01' y2='16')
+                                        span Manage Complaint
+                            li.menu
+                                a.dropdown-toggle(href='/inquiry' aria-expanded='false')
+                                    div
+                                        svg.feather.feather-help-circle(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
                                             circle(cx='12' cy='12' r='10')
-                                        span Services
-                                li.menu
-                                    a.dropdown-toggle(href='#' aria-expanded='false')
-                                        div
-                                            svg.feather.feather-alert-octagon(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                                polygon(points='7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2')
-                                                line(x1='12' y1='8' x2='12' y2='12')
-                                                line(x1='12' y1='16' x2='12.01' y2='16')
-                                            span Manage Complaint
-                                li.menu
-                                    a.dropdown-toggle(href='/inquiry' aria-expanded='false')
-                                        div
-                                            svg.feather.feather-help-circle(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                                circle(cx='12' cy='12' r='10')
-                                                path(d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3')
-                                                line(x1='12' y1='17' x2='12.01' y2='17')
-                                            span Manage Inquiry
-                                li.menu
-                                    a.dropdown-toggle(href='#' aria-expanded='false')
-                                        div
-                                            svg.feather.feather-plus-circle(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                                circle(cx='12' cy='12' r='10')
-                                                line(x1='12' y1='8' x2='12' y2='16')
-                                                line(x1='8' y1='12' x2='16' y2='12')
-                                            span Manage New Job
-                                li.menu.menu-heading
-                                    .heading
-                                        svg.feather.feather-circle(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                            path(d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3')
+                                            line(x1='12' y1='17' x2='12.01' y2='17')
+                                        span Manage Inquiry
+                            li.menu
+                                a.dropdown-toggle(href='#' aria-expanded='false')
+                                    div
+                                        svg.feather.feather-plus-circle(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
                                             circle(cx='12' cy='12' r='10')
-                                        span Others
-                                li.menu
-                                    a.dropdown-toggle(href='/offer' aria-expanded='false')
-                                        div
-                                            svg.feather.feather-gift(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                                polyline(points='20 12 20 22 4 22 4 12')
-                                                rect(x='2' y='7' width='20' height='5')
-                                                line(x1='12' y1='22' x2='12' y2='7')
-                                                path(d='M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z')
-                                                path(d='M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z')
-                                            span Manage Offer
-                                    a.dropdown-toggle(href='/category' aria-expanded='false')
-                                        div
-                                            svg.feather.feather-layers(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                                polygon(points='12 2 2 7 12 12 22 7 12 2')
-                                                polyline(points='2 17 12 22 22 17')
-                                                polyline(points='2 12 12 17 22 12')
-                                            span Manage Category
-                                    a.dropdown-toggle(href='/area' aria-expanded='false')
-                                        div
-                                            svg.feather.feather-map-pin(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                                path(d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z')
-                                                circle(cx='12' cy='10' r='3')
-                                            span Manage Area
-                                    a.dropdown-toggle(href='/gallery' aria-expanded='false')
-                                        div
-                                            svg.feather.feather-image(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                                rect(x='3' y='3' width='18' height='18' rx='2' ry='2')
-                                                circle(cx='8.5' cy='8.5' r='1.5')
-                                                polyline(points='21 15 16 10 5 21')
-                                            span Manage Gallery
-                                    a.dropdown-toggle(href='/warranty' aria-expanded='false')
-                                        div
-                                            svg.feather.feather-calendar(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                                rect(x='3' y='4' width='18' height='18' rx='2' ry='2')
-                                                line(x1='16' y1='2' x2='16' y2='6')
-                                                line(x1='8' y1='2' x2='8' y2='6')
-                                                line(x1='3' y1='10' x2='21' y2='10')
-                                            span Manage Warranty        
+                                            line(x1='12' y1='8' x2='12' y2='16')
+                                            line(x1='8' y1='12' x2='16' y2='12')
+                                        span Manage New Job
+                            li.menu.menu-heading
+                                .heading
+                                    svg.feather.feather-circle(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                        circle(cx='12' cy='12' r='10')
+                                    span Others
+                            li.menu
+                                a.dropdown-toggle(href='/offer' aria-expanded='false')
+                                    div
+                                        svg.feather.feather-gift(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                            polyline(points='20 12 20 22 4 22 4 12')
+                                            rect(x='2' y='7' width='20' height='5')
+                                            line(x1='12' y1='22' x2='12' y2='7')
+                                            path(d='M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z')
+                                            path(d='M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z')
+                                        span Manage Offer
+                                a.dropdown-toggle(href='/category' aria-expanded='false')
+                                    div
+                                        svg.feather.feather-layers(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                            polygon(points='12 2 2 7 12 12 22 7 12 2')
+                                            polyline(points='2 17 12 22 22 17')
+                                            polyline(points='2 12 12 17 22 12')
+                                        span Manage Category
+                                a.dropdown-toggle(href='/area' aria-expanded='false')
+                                    div
+                                        svg.feather.feather-map-pin(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                            path(d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z')
+                                            circle(cx='12' cy='10' r='3')
+                                        span Manage Area
+                                a.dropdown-toggle(href='/gallery' aria-expanded='false')
+                                    div
+                                        svg.feather.feather-image(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                            rect(x='3' y='3' width='18' height='18' rx='2' ry='2')
+                                            circle(cx='8.5' cy='8.5' r='1.5')
+                                            polyline(points='21 15 16 10 5 21')
+                                        span Manage Gallery
+                                a.dropdown-toggle(href='/warranty' aria-expanded='false')
+                                    div
+                                        svg.feather.feather-calendar(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
+                                            rect(x='3' y='4' width='18' height='18' rx='2' ry='2')
+                                            line(x1='16' y1='2' x2='16' y2='6')
+                                            line(x1='8' y1='2' x2='8' y2='6')
+                                            line(x1='3' y1='10' x2='21' y2='10')
+                                        span Manage Warranty        
             block content
                 #content.main-content
                     .layout-px-spacing

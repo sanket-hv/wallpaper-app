@@ -1,85 +1,104 @@
 extends layout.pug
 
-block append topscripts     
+block append topscripts
+    link(href="/assets/css/scrollspyNav.css" rel="stylesheet" type="text/css")     
     script(src="https://code.jquery.com/jquery-3.5.0.js").
-    script(type='text/javascript').
+    script(type="text/javascript").
         $(document).ready(function () {
             $.ajax({
                 type: 'post',
-                url: '/common/area',
-                data: {'message' : "ajaxarea"} ,
+                url: '/common/customer',
+                data: {'message' : "ajaxcustomer"} ,
                 success: function(data){
-                    var cmba = '<select class="form-control custom-select" name="cmbArea" required><option selected="" disabled>Select Area</option>';
+                    var cmbc = '<select class="form-control custom-select" name="cmbCustomer" required><option selected="" disabled>Select Customer</option>';
                     for (var i=0;i < data.length; i++)
                     {
-                        cmba += '<option value="'+data[i].AreaId+'">'+data[i].AreaName+'</option>';
+                        cmbc += '<option value="'+data[i].UserId+'">'+data[i].UserName+'</option>';
                     }
-                    document.getElementById('cmbarea').innerHTML = cmba;
-                    document.getElementById('cmbarea').innerHTML += '</select>';
-                    //- alert(data[0]['AreaName']);
+                    document.getElementById('cmbcustomer').innerHTML = cmbc;
+                    document.getElementById('cmbcustomer').innerHTML += '</select>';
                 }
             })
+
             $.ajax({
                 type: 'post',
-                url: '/common/role',
-                data: {'message' : "ajaxrole"} ,
+                url: '/common/warranty',
+                data: {'message' : "ajaxwarranty"} ,
                 success: function(data){
-                    var cmbr = '<select class="form-control custom-select" name="cmbRole" required><option selected="" disabled>Select User Type</option>';
+                    var control1 = "";
                     for (var i=0;i < data.length; i++)
-                    {
-                        cmbr += '<option value="'+data[i].RoleId+'">'+data[i].RoleName+'</option>';
+                    { 
+                        control1 += "<input type='radio' name='txtWarranty' value="+data[i].WarrantyValue+" required>";
+                        control1 += "<label> &nbsp;&nbsp;"+ data[i].WarrantyName +"</label> <br>"
                     }
-                    document.getElementById('cmbrole').innerHTML = cmbr;
-                    document.getElementById('cmbrole').innerHTML += '</select>';
-                    //- alert(data[0]['RoleName']);
+                    document.getElementById('rdwarranty').innerHTML = control1;
                 }
             })
+
         })
 
 block content
     #content.main-content
         .layout-px-spacing
             .row.layout-top-spacing#cancel-row
-                //- Form content is starting from here
-                //- if (op.flag == 0)
                 col-lg-12.col-12.layout-spacing
                     .statbox.widget.box.box-shadow
                         .widget-header
                             .row
                                 .col-xl-12.col-md-12.col-sm-12.col-12
-                                    h4 User Registration
+                                    h4 Create Order
                         .widget-content.widget-content-area
-                            form(method="post" action="/register/add")
+                            form(method="post" action="/order/add")
                                 .form-group.row.mb-4.col-lg-6
                                     .col
                                         span(style="color:red;font-weight:bold;") *
-                                        label(for="txtEmail")  Enter Email
-                                        input.form-control(type='email' placeholder='name@example.com' name="txtEmail" required)
+                                        label(for="cmbCustomer")  Select Customer
+                                        div#cmbcustomer
                                 .form-group.row.mb-4.col-lg-6
                                     .col
                                         span(style="color:red;font-weight:bold;") *
-                                        label(for="txtContactNo")  Enter Contact No
-                                        input.form-control(type='text' placeholder='Enter Contact NO' name="txtContactNo" required)        
-                                .form-group.row.mb-4.col-lg-6
+                                        label(for="warranty")  Select Warranty
+                                        div#rdwarranty
+                                .form-group.row.mb-4.col-lg-7
                                     .col
                                         span(style="color:red;font-weight:bold;") *
-                                        label(for="txtPassword")  Enter Password
-                                        input.form-control(type='text' placeholder='Enter Password' name="txtPassword" required)  
-                                .form-group.row.mb-4.col-lg-6
-                                    .col
-                                        label(for="txtUsername") Enter Username               
-                                        input.form-control(type="text" name="txtUsername" placeholder="Enter Username")
-                                .form-group.row.mb-4.col-lg-6
-                                    .col
-                                        span(style="color:red;font-weight:bold;") *
-                                        label(for="cmbArea")  Select Area
-                                        div#cmbarea
-                                .form-group.row.mb-4.col-lg-6
-                                    .col
-                                        span(style="color:red;font-weight:bold;") *
-                                        label(for="cmbRole")  Select User Type
-                                        div#cmbrole
+                                        label(for="cmbProduct")  Add Product 
+                                        div#cmbpr
+                                            div#row1.row
+                                                .col
+                                                    select.form-control.custom-select(name='txtProductName[]' onChange='cmbchange()' id='cmb1' required)
+                                                        option(selected="" disabled) Select Product
+                                                        each obj in results
+                                                            option(value=obj.ProductId) #{obj.ProductTitle} - Price--#{obj.Price}                                                    
+                                                .col
+                                                    button.btn.btn-danger(type="button" id="btn1" onclick='deletecmbrow(1)' disabled) DELETE
                                 .form-group.row.mb-4.col-lg-6
                                     .col        
                                         span(style="color:red;") * Required Field
-                                input.btn.btn-success(type='submit' name='time' value="SAVE")
+                                input.btn.btn-success(type='submit' name='smt' value="SAVE")
+block append bottomscripts
+    script(src="/assets/js/scrollspyNav.js").
+    script(type="text/javascript").
+        var cnt = 1;
+        function cmbchange()
+        {
+            $.get('http://localhost:8000/order/pr',{},(data)=>{
+                //- console.log(data);
+                //- alert(data);
+                cnt++;
+                var control = "<div class='row' id='row"+cnt+"'><div class='col'><select class='form-control custom-select' name='txtProductName[]' onchange='cmbchange()' id='cmb"+cnt+"'><option selected='' disabled> Select Product </option>"
+                for(var i=0;i<data.length; i++)
+                {   
+                    //- alert(i);
+                    control+="<option value='"+data[i].ProductId+"'>"+data[i].ProductTitle+" - Price--"+data[i].Price+"</option>"
+                }
+                control+="</select></div>";
+                control+="<div class='col'><button id='btn"+cnt+"' class='btn btn-danger' type='button'  onclick='deletecmbrow("+cnt+")' value='DELETE'>DELETE</button></div></div>";
+                $("#cmbpr").append(control);
+            })
+
+        }
+        function deletecmbrow(rowid)
+        {
+            $("#row" + rowid).remove();
+        }
