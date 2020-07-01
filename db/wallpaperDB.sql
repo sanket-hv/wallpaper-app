@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2020 at 09:47 AM
+-- Generation Time: Jul 01, 2020 at 06:36 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -60,7 +60,8 @@ CREATE TABLE `AreaTbl` (
 INSERT INTO `AreaTbl` (`AreaId`, `AreaName`) VALUES
 (1, 'Yogichowk1'),
 (2, 'Simada'),
-(3, 'Varachha');
+(3, 'Varachha'),
+(4, 'New Area');
 
 -- --------------------------------------------------------
 
@@ -81,7 +82,10 @@ CREATE TABLE `CategoryTbl` (
 INSERT INTO `CategoryTbl` (`CategoryId`, `CategoryName`, `Img`) VALUES
 (14, 'Category 1', '1592984975385Annotation 2020-06-20 085744.png'),
 (15, 'dgdfgd', 'rhdghgh'),
-(16, 'ghh', 'dvbhdfghdfgh');
+(16, 'ghh', 'dvbhdfghdfgh'),
+(17, 'Test Category', '1593610382787Annotation 2020-06-18 205143.png'),
+(18, 'Beach', '1593610503472err.png'),
+(19, 'Nature', '1593610511578Annotation 2020-06-18 105856.png');
 
 -- --------------------------------------------------------
 
@@ -145,7 +149,8 @@ CREATE TABLE `InquiryTbl` (
 
 INSERT INTO `InquiryTbl` (`InquiryId`, `InquiryDate`, `Name`, `ContactNo`, `EmailId`, `IsAttended`) VALUES
 (1, '2020-06-27', 'Sanket', '8347583112', 'sanket@gmail.com', 0),
-(2, '2020-06-24', 'ghjghjkg', 'gyjtyiu', 'jhgkghiyui', 1);
+(2, '2020-06-24', 'ghjghjkg', 'gyjtyiu', 'jhgkghiyui', 1),
+(3, '2020-06-30', 'Mitul', '123', '123@gmail.com', 0);
 
 -- --------------------------------------------------------
 
@@ -159,9 +164,17 @@ CREATE TABLE `JobTbl` (
   `OrderId` int(11) NOT NULL,
   `JobStatus` int(11) NOT NULL DEFAULT '0' COMMENT '0-Pending,1-In Progeress,2-Completed',
   `AssignedTo` int(11) NOT NULL DEFAULT '0' COMMENT 'Reference to Installer Id',
-  `CreatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `CreatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `UpdatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `JobTbl`
+--
+
+INSERT INTO `JobTbl` (`JobId`, `CustomerId`, `OrderId`, `JobStatus`, `AssignedTo`, `CreatedAt`, `UpdatedAt`) VALUES
+(1, 4, 5, 0, 0, '2020-07-01 10:31:29', '2020-07-01 10:31:29'),
+(2, 19, 6, 0, 0, '2020-07-01 13:21:03', '2020-07-01 13:21:03');
 
 -- --------------------------------------------------------
 
@@ -191,9 +204,20 @@ CREATE TABLE `OrderDetailsTbl` (
   `OrderDetailsId` int(11) NOT NULL,
   `OrderId` int(11) NOT NULL,
   `ProductId` int(11) NOT NULL,
-  `Price` int(11) DEFAULT '0',
   `CreatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `OrderDetailsTbl`
+--
+
+INSERT INTO `OrderDetailsTbl` (`OrderDetailsId`, `OrderId`, `ProductId`, `CreatedAt`) VALUES
+(1, 5, 1, '2020-07-01 10:31:29'),
+(2, 5, 2, '2020-07-01 10:31:29'),
+(3, 5, 3, '2020-07-01 10:31:29'),
+(4, 6, 5, '2020-07-01 13:21:03'),
+(5, 6, 3, '2020-07-01 13:21:03'),
+(6, 6, 2, '2020-07-01 13:21:03');
 
 -- --------------------------------------------------------
 
@@ -206,9 +230,21 @@ CREATE TABLE `OrderTbl` (
   `CustomerId` int(11) NOT NULL,
   `NODWarranty` int(11) NOT NULL,
   `WarrantyExpired` int(11) NOT NULL DEFAULT '0' COMMENT '0-No, 1-Yes',
-  `CreatedAt` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `CreatedAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `UpdatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `OrderTbl`
+--
+
+INSERT INTO `OrderTbl` (`OrderId`, `CustomerId`, `NODWarranty`, `WarrantyExpired`, `CreatedAt`, `UpdatedAt`) VALUES
+(1, 14, 32, 0, '2020-07-01 10:26:29', '2020-07-01 10:26:29'),
+(2, 9, 32, 0, '2020-07-01 10:27:32', '2020-07-01 10:27:32'),
+(3, 5, 32, 0, '2020-07-01 10:29:40', '2020-07-01 10:29:40'),
+(4, 14, 32, 0, '2020-07-01 10:30:36', '2020-07-01 10:30:36'),
+(5, 4, 32, 0, '2020-07-01 10:31:29', '2020-07-01 10:31:29'),
+(6, 19, 32, 0, '2020-07-01 13:21:03', '2020-07-01 13:21:03');
 
 -- --------------------------------------------------------
 
@@ -235,7 +271,11 @@ CREATE TABLE `ProductTbl` (
 --
 
 INSERT INTO `ProductTbl` (`ProductId`, `CategoryId`, `ServiceId`, `TypeId`, `ProductTitle`, `Price`, `Details`, `IsActive`, `ProductImg`, `CreatedAt`, `UpdatedAt`) VALUES
-(1, 14, 2, 1, 'Product 1', 1000, 'sdfgdfg', 0, '1593164881795availability.png', '2020-06-26 09:48:01', '2020-06-26 09:48:01');
+(1, 14, 2, 1, 'Product 1', 1000, 'sdfgdfg', 0, '1593164881795availability.png', '2020-06-26 09:48:01', '2020-06-26 09:48:01'),
+(2, 14, 1, 1, 'Product 2', 2000, 'dgfdsgsdfg', 0, 'sfgsfgshbsf', '2020-06-29 13:48:32', '2020-06-29 13:48:32'),
+(3, 14, 1, 1, 'Product 3', 4324, 'bxgdfxgb', 0, 'ncvcjvhjn', '2020-06-29 13:49:08', '2020-06-29 13:49:08'),
+(4, 14, 1, 1, 'Product 3', 4324, 'bxgdfxgb', 0, 'ncvcjvhjn', '2020-06-29 13:49:12', '2020-06-29 13:49:12'),
+(5, 14, 2, 2, 'New Product', 5000, 'Note', 0, '1593609444317availability.png', '2020-07-01 13:17:24', '2020-07-01 13:17:24');
 
 -- --------------------------------------------------------
 
@@ -314,7 +354,9 @@ INSERT INTO `UserTbl` (`UserId`, `UserName`, `Email`, `ContactNo`, `Password`, `
 (14, 'customer1', 'customer1@gmail.com', '8780015120', '6c9a14ff289856473d4c56f3dbd905a9', 2, 1, '2020-06-28 04:31:50', '2020-06-28 04:31:50'),
 (15, 'asdaf', 'aaa@gadg.sdfg', '78666877687', '040b7cf4a55014e185813e0644502ea9', 2, 1, '2020-06-28 04:33:13', '2020-06-28 04:33:13'),
 (16, 'zjjjjjjjhm', 'zfhjf@ddv.jyfutfgj', '5445243', '509b0fe6beeb94456c02bc76ef1d76d6', 1, 1, '2020-06-28 04:33:55', '2020-06-28 04:33:55'),
-(17, 'zfadfgsd', 'zada@dsgsd.fdasf', '24555', 'a05f127e872e6a18f371fbe24c020ee7', 1, 2, '2020-06-28 04:42:17', '2020-06-28 04:42:17');
+(17, 'zfadfgsd', 'zada@dsgsd.fdasf', '24555', 'a05f127e872e6a18f371fbe24c020ee7', 1, 2, '2020-06-28 04:42:17', '2020-06-28 04:42:17'),
+(18, 'appuser', 'app@gmail.com', '7886276767', 'db71ba971de545590a39e7dfa51ded2f', 1, 1, '2020-06-30 03:41:47', '2020-06-30 03:41:47'),
+(19, 'test', 'davidmookmhs@gmail.com', '0123169552', '900150983cd24fb0d6963f7d28e17f72', 1, 1, '2020-07-01 13:09:09', '2020-07-01 13:09:09');
 
 -- --------------------------------------------------------
 
@@ -353,7 +395,8 @@ CREATE TABLE `WarrantyTbl` (
 
 INSERT INTO `WarrantyTbl` (`WarrantyId`, `WarrantyName`, `WarrantyValue`) VALUES
 (1, '1 Month', 32),
-(2, '6 Month', 182);
+(2, '6 Month', 182),
+(3, '1 year', 365);
 
 --
 -- Indexes for dumped tables
@@ -469,13 +512,13 @@ ALTER TABLE `AdminTbl`
 -- AUTO_INCREMENT for table `AreaTbl`
 --
 ALTER TABLE `AreaTbl`
-  MODIFY `AreaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `AreaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `CategoryTbl`
 --
 ALTER TABLE `CategoryTbl`
-  MODIFY `CategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `CategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `ComplaintTbl`
@@ -493,13 +536,13 @@ ALTER TABLE `GalleryTbl`
 -- AUTO_INCREMENT for table `InquiryTbl`
 --
 ALTER TABLE `InquiryTbl`
-  MODIFY `InquiryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `InquiryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `JobTbl`
 --
 ALTER TABLE `JobTbl`
-  MODIFY `JobId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `JobId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `OfferTbl`
@@ -511,19 +554,19 @@ ALTER TABLE `OfferTbl`
 -- AUTO_INCREMENT for table `OrderDetailsTbl`
 --
 ALTER TABLE `OrderDetailsTbl`
-  MODIFY `OrderDetailsId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `OrderDetailsId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `OrderTbl`
 --
 ALTER TABLE `OrderTbl`
-  MODIFY `OrderId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `OrderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `ProductTbl`
 --
 ALTER TABLE `ProductTbl`
-  MODIFY `ProductId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ProductId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `RoleTbl`
@@ -541,7 +584,7 @@ ALTER TABLE `ServiceTbl`
 -- AUTO_INCREMENT for table `UserTbl`
 --
 ALTER TABLE `UserTbl`
-  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `WallpaperTypeTbl`
@@ -553,7 +596,7 @@ ALTER TABLE `WallpaperTypeTbl`
 -- AUTO_INCREMENT for table `WarrantyTbl`
 --
 ALTER TABLE `WarrantyTbl`
-  MODIFY `WarrantyId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `WarrantyId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

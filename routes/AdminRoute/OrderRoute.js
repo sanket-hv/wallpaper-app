@@ -21,6 +21,22 @@ router.get('/', (req, res) => {
     });
 })
 
+
+//View Order Details
+router.get('/view/:id',(req,res)=>{
+    let id = req.params.id;
+    connection.query('SELECT * FROM OrderTbl WHERE OrderId=?',[id],(error, results, fields)=>{
+        if(error)
+        {
+
+        }
+        else
+        {
+            res.send(results);
+        }
+    })
+})
+
 router.get('/list',(req,res)=>{
     connection.query('SELECT o.OrderId,o.NODWarranty,o.CustomerId,u.UserName,u.ContactNo,o.CreatedAt FROM OrderTbl o,UserTbl u WHERE o.CustomerId=u.UserId AND u.RoleId=1',(error, results, fields)=>{
         if(error)
