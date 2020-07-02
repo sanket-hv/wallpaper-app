@@ -88,17 +88,15 @@ router.get('/pr', (req, res) => {
     });
 })
 
+//Create Order
 router.post('/add', (req, res) => {
     let customerid = req.body.cmbCustomer;
     let productid = req.body.txtProductName;
     let warranty = req.body.txtWarranty;
-    // console.log(warranty,customerid,productid);
-    // for(var i=0;i<productid.length; i++)
-    // {
-    //     connection.query("")
-    // }
+    let serviceid = req.body.cmbService;
+    let typeid = req.body.cmbType;
     var oid
-    connection.query('INSERT INTO OrderTbl(CustomerId,NODWarranty,WarrantyExpired) VALUES (?,?,?)', [customerid, warranty, 0], (error, results, fields) => {
+    connection.query('INSERT INTO OrderTbl(CustomerId,ServiceId,TypeId,NODWarranty,WarrantyExpired) VALUES (?,?,?,?,?)', [customerid, serviceid, typeid, warranty, 0], (error, results, fields) => {
         if (error) {
             res.redirect('/errpage');
         }
@@ -114,7 +112,7 @@ router.post('/add', (req, res) => {
                 else {
                     for (i = 0; i < productid.length; i++) {
                         // console.log(i);
-                        console.log(productid[i])
+                        // console.log(productid[i])
                         connection.query('INSERT INTO OrderDetailsTbl(OrderId,ProductId) VALUES(?,?)', [oid, productid[i]], (error, results, fields) => {
                             if (error) {
                                 res.redirect('/errpage');

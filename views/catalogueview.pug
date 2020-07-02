@@ -21,8 +21,6 @@ block content
                                             th Title
                                             th Price
                                             th Category
-                                            th Service
-                                            th Type
                                             //- th EDIT
                                     tbody
                                         each obj in op.data
@@ -32,11 +30,6 @@ block content
                                                 td #{obj.ProductTitle}
                                                 td #{obj.Price}
                                                 td #{obj.CategoryName}
-                                                td #{obj.ServiceName}
-                                                td #{obj.TypeName}
-                                                //- td 
-                                                //-     a(href="/register/edit/"+obj.UserId)
-                                                //-         button(class="btn btn-warning") EDIT
                                     
 //- This is a page level scripts
 block append bottomscripts

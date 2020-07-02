@@ -19,36 +19,6 @@ block append topscripts
                     //- alert(data[0]['AreaName']);
                 }
             })
-            $.ajax({
-                type: 'post',
-                url: '/common/service',
-                data: {'message' : "ajaxservice"} ,
-                success: function(data){
-                    var cmbs = '<select class="form-control custom-select" name="cmbService" required><option selected="" disabled>Select Service</option>';
-                    for (var i=0;i < data.length; i++)
-                    {
-                        cmbs += '<option value="'+data[i].ServiceId+'">'+data[i].ServiceName+'</option>';
-                    }
-                    document.getElementById('cmbservice').innerHTML = cmbs
-                    document.getElementById('cmbservice').innerHTML += '</select>';
-                    //- alert(data[0]['AreaName']);
-                }
-            })
-            $.ajax({
-                type: 'post',
-                url: '/common/type',
-                data: {'message' : "ajaxtype"} ,
-                success: function(data){
-                    var cmbt = '<select class="form-control custom-select" name="cmbType" required><option selected="" disabled>Select Wallpaper Type</option>';
-                    for (var i=0;i < data.length; i++)
-                    {
-                        cmbt += '<option value="'+data[i].TypeId+'">'+data[i].TypeName+'</option>';
-                    }
-                    document.getElementById('cmbtype').innerHTML = cmbt;
-                    document.getElementById('cmbtype').innerHTML += '</select>';
-                    //- alert(data[0]['RoleName']);
-                }
-            })
         })
 
 block content
@@ -79,15 +49,6 @@ block content
                                         span(style="color:red;font-weight:bold;") *
                                         label(for="cmbCategory") Select Category               
                                         div#cmbcategory                                      
-                                .form-group.row.mb-4.col-lg-10
-                                    .col
-                                        span(style="color:red;font-weight:bold;") *
-                                        label(for="cmbService")  Select Service
-                                        div#cmbservice
-                                    .col
-                                        span(style="color:red;font-weight:bold;") *
-                                        label(for="cmbType")  Select Wallpaper Type
-                                        div#cmbtype
                                 .form-group.row.mb-4.col-lg-5
                                     .col
                                         span(style="color:red;font-weight:bold;") *
