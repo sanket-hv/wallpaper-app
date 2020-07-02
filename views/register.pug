@@ -1,6 +1,8 @@
 extends layout.pug
 
-block append topscripts     
+block append topscripts
+    link(href='/plugins/sweetalerts/sweetalert2.min.css' rel='stylesheet' type='text/css')
+    link(href='/plugins/sweetalerts/sweetalert.css' rel='stylesheet' type='text/css')
     script(src="https://code.jquery.com/jquery-3.5.0.js").
     script(type='text/javascript').
         $(document).ready(function () {
@@ -83,17 +85,15 @@ block content
                                     .col        
                                         span(style="color:red;") * Required Field
                                 input.btn.btn-success(type='submit' name='time' value="SAVE")
-                //- else
-                //-     col-lg-12.col-12.layout-spacing
-                //-         .statbox.widget.box.box-shadow
-                //-             .widget-header
-                //-                 .row
-                //-                     .col-xl-12.col-md-12.col-sm-12.col-12
-                //-                         h4 Manage Area
-                //-             .widget-content.widget-content-area
-                //-                 form(method="post" action="/area/edit")
-                //-                     .form-group.mb-4.col-lg-5
-                //-                         input(type='hidden' name="txtAreaId" value=op.data[0].AreaId)                                    
-                //-                         label(for='txtAreaName') Enter Area Name    
-                //-                         input.form-control(type='text' placeholder='Area Name' name="txtAreaName" value=op.data[0].AreaName)
-                //-                     input.btn.btn-success(type='submit' name='time' value="Save")
+block append bottomscripts
+    script(src='/plugins/sweetalerts/sweetalert2.min.js').
+    script(type="text/javascript").
+        $(document).ready(function (){
+            if(#{op.flag==0})
+            {
+                swal({
+                    title: '#{op.message}',
+                    padding: '2em'
+                })
+        }
+        })

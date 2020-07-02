@@ -4,7 +4,13 @@ const router = express.Router();
 const md5 = require('md5');
 //get data
 router.get('/', (req, res) => {
-    res.render('register')
+
+    var op = {
+        flag: 1,
+        success: "true",
+        message: "Registered Successfully"
+    }
+    res.render('register', { op })
 })
 
 //Customer List
@@ -87,11 +93,11 @@ router.post('/add', (req, res) => {
                 success: "true",
                 status: 200,
                 data: results,
-                message: "Redirected"
+                message: "Registered Successfully"
             }
-            res.redirect('/register');
+            res.render('register', { op });
         }
-        
+
     });
 })
 

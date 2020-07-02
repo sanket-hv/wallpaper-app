@@ -1,10 +1,19 @@
 extends layout.pug
 
 block append topscripts
-    link(href="/assets/css/scrollspyNav.css" rel="stylesheet" type="text/css")     
+    link(href='/plugins/sweetalerts/sweetalert2.min.css' rel='stylesheet' type='text/css')
+    link(href='/plugins/sweetalerts/sweetalert.css' rel='stylesheet' type='text/css')
+    //- link(href="/assets/css/scrollspyNav.css" rel="stylesheet" type="text/css")     
     script(src="https://code.jquery.com/jquery-3.5.0.js").
     script(type="text/javascript").
         $(document).ready(function () {
+            if(#{op.flag==1})
+            {
+                swal({
+                    title: '#{op.message}',
+                    padding: '2em'
+                })
+            }
             $.ajax({
                 type: 'post',
                 url: '/common/customer',
@@ -116,7 +125,7 @@ block content
                                         span(style="color:red;") * Required Field
                                 input.btn.btn-success(type='submit' name='smt' value="SAVE")
 block append bottomscripts
-    script(src="/assets/js/scrollspyNav.js").
+    script(src='/plugins/sweetalerts/sweetalert2.min.js').
     script(type="text/javascript").
         var cnt = 1;
         function cmbchange()

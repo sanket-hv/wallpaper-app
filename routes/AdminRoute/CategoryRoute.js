@@ -34,12 +34,6 @@ router.post('/add', async (req, res) => {
     let fname = Date.now() + req.files.categoryImage.name;
     await imgfile.mv('./public/images/category/' + fname, (err) => {
         if (err) {
-            console.log(err)
-            var op = {
-                success: "false",
-                status: 404,
-                data: error
-            }
             res.redirect('/errpage');
         }
         else {
@@ -48,22 +42,19 @@ router.post('/add', async (req, res) => {
             let data = [CategoryName, fname];
             connection.query(sql, data, (error, results, fields) => {
                 if (error) {
-                    var op = {
-                        success: "false",
-                        status: 404,
-                        data: error
-                    }
+                    res.redirect('/errpage');
                 }
                 else {
                     var op = {
-                        flag: 0,
+                        flag: 2,
                         success: "true",
                         status: 200,
                         data: results,
-                        message: "Redirected"
+                        message: "Category Added"
                     }
+                    res.redirect('/category');
+                    // res.send({ op })
                 }
-                res.redirect('/category');
             })
         }
     })
@@ -75,11 +66,6 @@ router.get('/edit/:id', (req, res) => {
     const sql = 'SELECT * FROM CategoryTbl WHERE CategoryId = ?';
     connection.query('SELECT * FROM CategoryTbl WHERE CategoryId = ?', [cid], function (error, results, fields) {
         if (error) {
-            var op = {
-                success: "false",
-                status: 404,
-                data: error
-            }
             res.redirect('/errpage');
         }
         else {
@@ -117,11 +103,6 @@ router.post('/edit', async (req, res) => {
         sql = "UPDATE CategoryTbl SET CategoryName = ? WHERE CategoryId = ?";
         connection.query(sql, [CategoryName, cid], (error, results, fields) => {
             if (error) {
-                var op = {
-                    success: "false",
-                    status: 404,
-                    data: error
-                }
                 res.redirect('/errpage');
             }
             else {

@@ -18,24 +18,25 @@ block content
                             .widget-content.widget-content-area
                                 form(method="post" action="/category/add" enctype="multipart/form-data")
                                     .form-group.mb-4.col-lg-5
-                                            input(type='hidden' name="txtCatgoryId")
-                                            label(for='txtCategoryName') Enter Category Name                                        
-                                            input.form-control(type='text' placeholder='Category Name' name="txtCategoryName" required)
-                                            br
-                                            .custom-file.mb-4
-                                                input.custom-file-input(type='file' name="categoryImage" accept='image/*' required)
-                                                label.custom-file-label(for='txtCategoryImage') Select Category Image
+                                        input(type='hidden' name="txtCatgoryId")
+                                        label(for='txtCategoryName') Enter Category Name                                        
+                                        input.form-control(type='text' placeholder='Category Name' name="txtCategoryName" required)
+                                        br
+                                        .custom-file.mb-4
+                                            input.custom-file-input(type='file' name="categoryImage" accept='image/*' required)
+                                            label.custom-file-label(for='txtCategoryImage') Select Category Image
                                     input.btn.btn-success(type='submit' name='time' value="ADD")
                 else
-                    col-lg-12.col-12.layout-spacing
-                        .statbox.widget.box.box-shadow
-                            .widget-header
-                                .row
-                                    .col-xl-12.col-md-12.col-sm-12.col-12
-                                        h4 Manage Category
-                            .widget-content.widget-content-area
-                                form(method="post" action="/category/edit" enctype="multipart/form-data")
-                                    .form-group.mb-4.col-lg-5
+                    if(op.flag == 1)
+                        col-lg-12.col-12.layout-spacing
+                            .statbox.widget.box.box-shadow
+                                .widget-header
+                                    .row
+                                        .col-xl-12.col-md-12.col-sm-12.col-12
+                                            h4 Manage Category
+                                .widget-content.widget-content-area
+                                    form(method="post" action="/category/edit" enctype="multipart/form-data")
+                                        .form-group.mb-4.col-lg-5
                                             input(type='hidden' name="txtCategoryId" value=op.data[0].CategoryId)                                    
                                             label(for='txtCategoryName') Enter Category Name    
                                             input.form-control(type='text' placeholder='Category Name' name="txtCategoryName" value=op.data[0].CategoryName)
@@ -44,7 +45,7 @@ block content
                                                 input.custom-file-input(type='file' name="categoryImage" accept='image/*')
                                                 label.custom-file-label(for='txtCategoryImage') Select Category Image
                                                 img(src="/images/category/"+op.data[0].Img height="150px" width="150px")
-                                    input.btn.btn-success(type='submit' name='time' value="Save")
+                                        input.btn.btn-success(type='submit' name='time' value="Save")
                 //- table content is starting from here
                 if op.flag == 0
                     .col-xl-12.col-lg-12.col-sm-12.layout-spacing
@@ -57,7 +58,7 @@ block content
                                             th Category
                                             th EDIT
                                     tbody
-                                        
+
                                         each obj in op.data
                                             tr
                                                 td 
@@ -66,7 +67,7 @@ block content
                                                 td 
                                                     a(href="/Category/edit/"+obj.CategoryId)
                                                         button(class="btn btn-warning") EDIT
-                                    
+
 //- This is a page level scripts
 block append bottomscripts
     script(type="text/javascript" src='/plugins/table/datatable/datatables.js').

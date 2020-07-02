@@ -5,7 +5,12 @@ const router = express.Router();
 const fs = require('fs');
 //get data
 router.get('/', (req, res) => {
-    res.render('catalogue');
+    var op = {
+        flag: 1,
+        success: "true",
+        message: "Product Added Successfully"
+    }
+    res.render('catalogue', { op });
 })
 
 router.get('/view', (req, res) => {
@@ -69,10 +74,10 @@ router.post('/add', async (req, res) => {
                         success: "true",
                         status: 200,
                         data: results,
-                        message: "Redirected"
+                        message: "Product Added Successfully"
                     }
                 }
-                res.redirect('/catalogue');
+                res.render('catalogue', { op });
             })
         }
     })
