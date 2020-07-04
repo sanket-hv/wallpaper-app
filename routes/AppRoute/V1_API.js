@@ -531,77 +531,30 @@ router.get('/setJobStatus/:id', (req, res) => {
 
 router.post('/addInquiry', (req, res) => {
     console.log(req.body);
-    let token = req.headers['x-access-token'] || req.headers['authorization'];
-    console.log(token);
-    if (token === undefined) {
-        return res.json({
-            status: false,
-            message: "forbidden"
-        })
-    } else {
-        if (token.startsWith("Bearer ")) {
-            if (token) {
-                token = token.slice(7, token.length).trimLeft();
-                var payload
-                try {
-                    payload = jwt.verify(token, JWTKEY)
-                    console.log('Payload for welcome :- ' + payload)
-                } catch (e) {
-                    if (e instanceof jwt.JsonWebTokenError) {
-                        console.log(e)
-                        return res.json({
-                            message: e.message,
-                            status: false
-                        });
-                    }
-                }
-                console.log(payload);
-                if (payload !== undefined) {
-                    //  var InquiryDate	= new Date(req.body.InquiryDate).toUTCString();
-                    var name = req.body.name;
-                    var contactNo = req.body.contactNo;
-                    var emailId = req.body.emailId;
-                    connection.query("INSERT INTO InquiryTbl(InquiryDate, Name, ContactNo, EmailId, IsAttended) VALUES(CURRENT_TIMESTAMP, '" + name + "', '" + contactNo + "', '" + emailId + "', 0)", (err, result) => {
-                        if (err) {
-                            return res.json({
-                                status: false,
-                                message: err.message
-                            })
-                        } else {
-                            if (result.insertId > 0) {
-                                res.json({
-                                    status: true,
-                                    message: "Inquiry registered successfully"
-                                }).end();
-                            } else {
-                                res.json({
-                                    status: true,
-                                    message: "Something went wrong, please try again later"
-                                }).end();
-                            }
-
-                        }
-                    })
-                } else {
-                    return res.json({
-                        status: false,
-                        message: "invalid token payload or token is expired"
-                    })
-                }
-
-            } else {
-                return res.json({
-                    status: false,
-                    message: "forbidden"
-                })
-            }
-        } else {
+    var name = req.body.name;
+    var contactNo = req.body.contactNo;
+    var emailId = req.body.emailId;
+    connection.query("INSERT INTO InquiryTbl(InquiryDate, Name, ContactNo, EmailId, IsAttended) VALUES(CURRENT_TIMESTAMP, '" + name + "', '" + contactNo + "', '" + emailId + "', 0)", (err, result) => {
+        if (err) {
             return res.json({
                 status: false,
-                message: "Invalid token"
+                message: err.message
             })
+        } else {
+            if (result.insertId > 0) {
+                res.json({
+                    status: true,
+                    message: "Inquiry registered successfully"
+                }).end();
+            } else {
+                res.json({
+                    status: true,
+                    message: "Something went wrong, please try again later"
+                }).end();
+            }
+
         }
-    }
+    })
 })
 
 module.exports = router;
