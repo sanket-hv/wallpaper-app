@@ -14,6 +14,26 @@ block append topscripts
                     padding: '2em'
                 })
             }
+
+            $.ajax({
+                type: 'post',
+                url: '/order/pr',
+                data: {'message' : "ajaxproduct"} ,
+                success: function(data){
+                    var cmbp = '<div class="row" id="row1"><div class="col">';
+                    cmbp += '<select class="form-control custom-select" name="txtProductName[]" onchange="cmbchange()" id="cmb1" required><option selected="" disabled>Select Product</option>';
+                    for (var i=0;i < data.length; i++)
+                    {
+                        cmbp += '<option value="'+data[i].ProductId+'">'+data[i].ProductTitle+' - Price -- ' + data[i].Price +'</option>';
+                    }
+                    cmbp += '</select></div>';
+                    cmbp += '<div class="col">';
+                    cmbp += '<button class="btn btn-danger" type="button" id="btn1" onclick="deletecmbrow(1)" disabled="disabled">DELETE</button>';
+                    cmbp += '</div></div>';
+                    document.getElementById('cmbpr').innerHTML = cmbp;
+                }
+            })
+
             $.ajax({
                 type: 'post',
                 url: '/common/customer',
@@ -112,14 +132,6 @@ block content
                                         span(style="color:red;font-weight:bold;") *
                                         label(for="cmbProduct")  Add Product 
                                         div#cmbpr
-                                            div#row1.row
-                                                .col
-                                                    select.form-control.custom-select(name='txtProductName[]' onChange='cmbchange()' id='cmb1' required)
-                                                        option(selected="" disabled) Select Product
-                                                        each obj in results
-                                                            option(value=obj.ProductId) #{obj.ProductTitle} - Price--#{obj.Price}                                                    
-                                                .col
-                                                    button.btn.btn-danger(type="button" id="btn1" onclick='deletecmbrow(1)' disabled) DELETE
                                 .form-group.row.mb-4.col-lg-6
                                     .col        
                                         span(style="color:red;") * Required Field
@@ -130,7 +142,7 @@ block append bottomscripts
         var cnt = 1;
         function cmbchange()
         {
-            $.get('http://localhost:8000/order/pr',{},(data)=>{
+            $.post('http://localhost:8000/order/pr',{},(data)=>{
                 //- console.log(data);
                 //- alert(data);
                 cnt++;

@@ -13,7 +13,7 @@ block content
                     .col-xl-12.col-lg-12.col-sm-12.layout-spacing
                         .widget-content.widget-content-area.br-6
                             center
-                                h4 Complaint List
+                                h4 Job List
                             .table-responsive.mb-4.mt-4
                                 table#zero-config.table.text-center.table-hover(style='width:100%')
                                     thead   
@@ -28,22 +28,22 @@ block content
                                     tbody
                                         each obj in op.data
                                             tr
-                                                td #{obj.ComplaintId}
+                                                td #{obj.JobId}
                                                 td #{obj.CreatedAt}
                                                 td #{obj.UserName}
                                                 td #{obj.OrderId}
                                                 td
-                                                    if obj.ComplaintStatus==0
+                                                    if obj.JobStatus==0
                                                         span.shadow-none.badge.outline-badge-danger Pending
-                                                    else if obj.ComplaintStatus==1
+                                                    else if obj.JobStatus==1
                                                         span.shadow-none.badge.outline-badge-warning In Progress
-                                                    else if obj.ComplaintStatus==2
+                                                    else if obj.JobStatus==2
                                                         span.shadow-none.badge.outline-badge-success Completed
                                                 td 
                                                     if obj.AssignedTo == 0
                                                         div#notassigned
                                                             .dropdown.custom-dropdown
-                                                                a#assignedto.dropdown-toggle(href='#' onclick='funassign('+obj.ComplaintId+')' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                                                                a#assignedto.dropdown-toggle(href='#' onclick='funassign('+obj.JobId+')' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
                                                                     svg.feather.feather-more-horizontal(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
                                                                         circle(cx='12' cy='12' r='1')
                                                                         circle(cx='19' cy='12' r='1')
@@ -55,7 +55,7 @@ block content
                                                                 polyline(points='22 4 12 14.01 9 11.01')
 
                                                 td
-                                                    a(href='/complaint/view/'+obj.ComplaintId+'/'+obj.OrderId)
+                                                    a(href='/newjob/view/'+obj.JobId+'/'+obj.OrderId)
                                                         svg.feather.feather-eye(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
                                                             path(d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z')
                                                             circle(cx='12' cy='12' r='3')
@@ -63,10 +63,10 @@ block content
 //- This is a page level scripts
 block append bottomscripts
     script(type="text/javascript").
-        function funassign(cid){
+        function funassign(jid){
             //- alert(cid);
-            $.post('http://localhost:8000/complaint/ilist',{},(data)=>{
-                var control="<select id='cmbassign' class='form-control' onchange='assignto("+cid+")'><option value='0' selected disabled>--Select--</option>";
+            $.post('http://localhost:8000/newjob/ilist',{},(data)=>{
+                var control="<select id='cmbassign' class='form-control' onchange='assignto("+jid+")'><option value='0' selected disabled>--Select--</option>";
                 for(var i=0;i<data.length; i++)
                 {
                     control+="<option value='"+data[i].UserId+"'>"+data[i].UserName+"</option>"
@@ -76,15 +76,15 @@ block append bottomscripts
             })            
         }
 
-        function assignto(cmid){
+        function assignto(jobid){
             //- var inid = document.getElementById('cmbassign').value;
             //- alert(cmid);
             var inid = document.getElementById('cmbassign').value;
 
             $.ajax({
                 type: 'post',
-                url: '/complaint/change',
-                data: {'ComplaintId' : cmid,
+                url: '/newjob/change',
+                data: {'JobId' : jobid,
                     'InstallerId' : inid} ,
                 success: function(data){
                     //- alert('changed');

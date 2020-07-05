@@ -53,6 +53,10 @@ const inquiryRouter = require('./routes/AdminRoute/InquiryRoute');
 const catalogueRouter = require('./routes/AdminRoute/CatalogueRoute');
 //Order Router
 const orderRouter = require('./routes/AdminRoute/OrderRoute');
+//Complaint Router
+const complaintRouter = require('./routes/AdminRoute/ComplaintRoute');
+//New Job Router
+const newjobRouter = require('./routes/AdminRoute/NewjobRoute');
 //Category Router
 const categoryRouter = require('./routes/AdminRoute/CategoryRoute');
 //Area Router
@@ -73,7 +77,7 @@ app.get('/login', (req, res) => {
 })
 
 //error page
-app.get('/errpage',(req,res)=>{
+app.get('/errpage', (req, res) => {
     console.log("error page redirected");
     // res.render('error');
     res.sendFile(__dirname + '/views/error.html');
@@ -95,13 +99,17 @@ app.get('/auth/login', (req, res) => {
 //API Route
 app.use('/v1/api/', API_Router);
 //Dashboard Page
-app.use('/dashboard',welcome,dashboardRouter);
+app.use('/dashboard', welcome, dashboardRouter);
 //Customer & Installer Registration
 app.use(['/register', '/customer', '/installer'], welcome, registerRouter);
 //Catalogue Route
 app.use('/catalogue', welcome, catalogueRouter);
 //Order Route
 app.use('/order', welcome, orderRouter);
+//Complaint Route
+app.use('/complaint', welcome, complaintRouter);
+//New Job Route
+app.use('/newjob', welcome, newjobRouter);
 //Inquiry Route
 app.use('/inquiry', welcome, inquiryRouter);
 //Offer Route
@@ -114,8 +122,6 @@ app.use('/area', welcome, areaRouter);
 app.use('/gallery', welcome, galleryRouter);
 //Warranty Route
 app.use('/warranty', welcome, warrantyRouter);
-
-
 
 app.use('/common', commonRouter);
 

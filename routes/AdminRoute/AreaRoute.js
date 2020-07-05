@@ -6,11 +6,6 @@ const router = express.Router();
 router.get('/', (req, res) => {
     connection.query('SELECT * FROM AreaTbl', function (error, results, fields) {
         if (error) {
-            var op = {
-                success: "false",
-                status: 404,
-                data: error
-            }
             res.redirect('/errpage');
         }
         if (results) {
@@ -32,11 +27,6 @@ router.post('/add', (req, res) => {
     let areaname = req.body.txtAreaName;
     connection.query('INSERT INTO AreaTbl(AreaName) VALUES(?)', [areaname], function (error, results, fields) {
         if (error) {
-            var op = {
-                success: "false",
-                status: 404,
-                data: error
-            }
             res.redirect('/errpage');
         }
         if (results) {
@@ -58,11 +48,6 @@ router.get('/edit/:id', (req, res) => {
     let aid = req.params.id;
     connection.query('SELECT * FROM AreaTbl WHERE AreaId = ?', [aid], function (error, results, fields) {
         if (error) {
-            var op = {
-                success: "false",
-                status: 404,
-                data: error
-            }
             res.redirect('/errpage');
         }
         else if (results.length > 0) {
@@ -97,11 +82,6 @@ router.post('/edit', (req, res) => {
     let sql = "UPDATE AreaTbl SET AreaName = ? WHERE AreaId = ?";
     connection.query(sql, data, (error, results, fields) => {
         if (error) {
-            var op = {
-                success: "false",
-                status: 404,
-                data: error
-            }
             res.redirect('/errpage');
         }
         else {

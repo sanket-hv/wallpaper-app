@@ -4,21 +4,14 @@ const router = express.Router();
 const format = require('dateformat');
 
 router.get('/', (req, res) => {
-    connection.query('SELECT * FROM ProductTbl', function (error, results, fields) {
-        if (error) {
-            res.redirect('/errpage');
-        }
-        else {
-            var op = {
-                flag: 0,
-                success: "true",
-                status: 200,
-                data: results,
-                message: "Redirected"
-            }
-        }
-        res.render('order', { results, op });
-    });
+
+    var op = {
+        flag: 0,
+        success: "true",
+        status: 200,
+        message: "Redirected"
+    }
+    res.render('order', { op });
 })
 
 
@@ -73,7 +66,9 @@ router.get('/list', (req, res) => {
     })
 })
 
-router.get('/pr', (req, res) => {
+router.post('/pr', (req, res) => {
+
+    // console.log("Method called");
     connection.query('SELECT * FROM ProductTbl', function (error, results, fields) {
         if (error) {
             res.redirect('/errpage');
