@@ -96,7 +96,7 @@ router.post('/add', (req, res) => {
             oid = results.insertId;
             var flag = productid.length
             var i
-            connection.query('INSERT INTO JobTbl(CustomerId,OrderId,JobStatus,AssignedTo) VALUES(?,?,?,?)', [customerid, oid, 0, 0], (error, results, fields) => {
+            connection.query('INSERT INTO JobTbl(OrderId,JobStatus,AssignedTo) VALUES(?,?,?)', [oid, 0, 0], (error, results, fields) => {
                 if (error) {
                     res.redirect('/errpage');
                 }

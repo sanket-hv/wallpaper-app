@@ -389,7 +389,7 @@ router.post('/addComplaint', (req, res) => {
                 }
                 console.log(payload);
                 if (payload !== undefined) {
-                    var customerId = req.body.customerId;
+                    
                     var orderId = req.body.orderId;
                     var ComplaintImg = req.files.complaintImg;
                     var assignedTo = req.body.assignedTo;
@@ -405,7 +405,7 @@ router.post('/addComplaint', (req, res) => {
                                 message: err.message
                             });
                         } else {
-                            connection.query("INSERT INTO ComplaintTbl(CustomerId, OrderId, ComplaintImg, Remarks, ComplaintStatus, AssignedTo,CreatedAt) VALUES(" + customerId + "," + orderId + " , '" + fileName + "', '" + remarks + "', 0, " + assignedTo + ", CURRENT_TIMESTAMP)", (err, result) => {
+                            connection.query("INSERT INTO ComplaintTbl(OrderId, ComplaintImg, Remarks, ComplaintStatus, AssignedTo,CreatedAt) VALUES(" + customerId + "," + orderId + " , '" + fileName + "', '" + remarks + "', 0, " + assignedTo + ", CURRENT_TIMESTAMP)", (err, result) => {
                                 if (err) {
                                     res.json({
                                         status: false,
