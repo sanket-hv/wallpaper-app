@@ -1,0 +1,71 @@
+extends layout.pug
+
+block append topscripts
+    //- link(href="/assets/css/users/user-profile.css" rel="stylesheet" type="text/css")
+    
+block content
+    #content.main-content
+        .layout-px-spacing
+            .row-layout-spacing
+                div.col-xl-12.col-lg-6.col-md-7.col-sm-12.layout-top-spacing
+                    .bio.layout-spacing
+                        .widget-content.widget-content-area
+                            center
+                                    h4 Order Details
+                            table( cellPadding="5" cellSpacing="5")
+                                tr  
+                                    td(width="30%") 
+                                        span(style="color:blue") Order Id# : 
+                                        span(style="color:black") #{op[0].OrderId}
+                                    td(width="15%" align="right")
+                                        span(style="color:blue") Date: 
+                                        span(style="color:black") #{op[0].CreatedAt}
+                                tr    
+                                    td
+                                        span(style="color:blue") Customer name : 
+                                        span(style="color:black") #{op[0].UserName}
+                                    td(align="right")
+                                        span(style="color:blue") Area: 
+                                        span(style="color:black") #{op[0].AreaName}
+                                tr
+                                    td(colspan="2") 
+                                        span(style="color:blue") Service : 
+                                        span(style="color:black") #{op[0].ServiceName}
+                                tr
+                                    td(colspan="2")
+                                        span(style="color:blue") Wallpaper Type : 
+                                        span(style="color:black") #{op[0].TypeName}   
+                            //- p  Order Id : # #{op.data[0].OrderId}
+                            //- p
+                            //- | Sed vulputate, ligula eget mollis auctor, lectus elit feugiat urna, eget euismod turpis lectus sed ex. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc ut velit finibus, scelerisque sapien vitae, pharetra est. Nunc accumsan ligula vehicula scelerisque vulputate.
+                            //- .bio-skill-box
+                            //-     .row
+                            //-         .col-12.col-xl-6.col-lg-12.mb-xl-5.mb-5
+                            //-             .d-flex.b-skills
+                            //-                 div
+                            //-                 div
+                            //-                     h5 Sass Applications
+                            //-                     p
+                            //-                         | Duis aute irure dolor in reprehenderit in voluptate velit esse eu fugiat nulla pariatur.
+                            //-         .col-12.col-xl-6.col-lg-12.mb-xl-5.mb-5
+                            //-             .d-flex.b-skills
+                            //-                 div
+                            //-                 div
+                            //-                     h5 Github Countributer
+                            //-                     p
+                            //-                         | Ut enim ad minim veniam, quis nostrud exercitation aliquip ex ea commodo consequat.
+                            //-         .col-12.col-xl-6.col-lg-12.mb-xl-0.mb-5
+                            //-             .d-flex.b-skills
+                            //-                 div
+                            //-                 div
+                            //-                     h5 Photograhpy
+                            //-                     p
+                            //-                         | Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia anim id est laborum.
+                            //-         .col-12.col-xl-6.col-lg-12.mb-xl-0.mb-0
+                            //-             .d-flex.b-skills
+                            //-                 div
+                            //-                 div
+                            //-                     h5 Mobile Apps
+                            //-                     p
+                            //-                         | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do et dolore magna aliqua.
+                                        

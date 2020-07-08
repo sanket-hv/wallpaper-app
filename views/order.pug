@@ -21,7 +21,7 @@ block append topscripts
                 data: {'message' : "ajaxproduct"} ,
                 success: function(data){
                     var cmbp = '<div class="row" id="row1"><div class="col">';
-                    cmbp += '<select class="form-control custom-select" name="txtProductName[]" onchange="cmbchange()" id="cmb1" required><option selected="" disabled>Select Product</option>';
+                    cmbp += '<select class="form-control custom-select" id="cmbproduct" name="txtProductName[]" onchange="cmbchange()" id="cmb1" required><option selected="" disabled>Select Product</option>';
                     for (var i=0;i < data.length; i++)
                     {
                         cmbp += '<option value="'+data[i].ProductId+'">'+data[i].ProductTitle+' - Price -- ' + data[i].Price +'</option>';
@@ -142,21 +142,23 @@ block append bottomscripts
         var cnt = 1;
         function cmbchange()
         {
-            $.post('http://localhost:8000/order/pr',{},(data)=>{
-                //- console.log(data);
-                //- alert(data);
-                cnt++;
-                var control = "<div class='row' id='row"+cnt+"'><div class='col'><select class='form-control custom-select' name='txtProductName[]' onchange='cmbchange()' id='cmb"+cnt+"'><option selected='' disabled> Select Product </option>"
-                for(var i=0;i<data.length; i++)
-                {   
-                    //- alert(i);
-                    control+="<option value='"+data[i].ProductId+"'>"+data[i].ProductTitle+" - Price--"+data[i].Price+"</option>"
-                }
-                control+="</select></div>";
-                control+="<div class='col'><button id='btn"+cnt+"' class='btn btn-danger' type='button'  onclick='deletecmbrow("+cnt+")' value='DELETE'>DELETE</button></div></div>";
-                $("#cmbpr").append(control);
-            })
-
+            cnt++;
+            $.ajax({
+                type: 'post',
+                url: '/order/pr',
+                data: {},
+                success : function(data){  
+                    var control = "<div class='row' id='row"+cnt+"'><div class='col'><select class='form-control custom-select' name='txtProductName[]' onchange='cmbchange()' id='cmb"+cnt+"'><option selected='' disabled> Select Product </option>"
+                    for(var i=0;i<data.length; i++)
+                    {   
+                        //- alert(i);
+                        control+="<option value='"+data[i].ProductId+"'>"+data[i].ProductTitle+" - Price--"+data[i].Price+"</option>"
+                    }
+                    control+="</select></div>";
+                    control+="<div class='col'><button id='btn"+cnt+"' class='btn btn-danger' type='button'  onclick='deletecmbrow("+cnt+")' value='DELETE'>DELETE</button></div></div>";
+                    $("#cmbpr").append(control);    
+                    }
+                })
         }
         function deletecmbrow(rowid)
         {

@@ -1,15 +1,51 @@
 extends layout.pug
 
 block append topscripts
-    link(href='plugins/animate/animate.css' rel='stylesheet' type='text/css')
+    link(href="/assets/css/users/user-profile.css" rel="stylesheet" type="text/css")
     
 block content
     #content.main-content
         .layout-px-spacing
-            .row.layout-top-spacing
-                p This is a index page
-                //- p #{op._token}
-
+            .row-layout-spacing
+                div.col-xl-12.col-lg-6.col-md-7.col-sm-12.layout-top-spacing
+                    .bio.layout-spacing
+                        .widget-content.widget-content-area
+                            h3 Order Details
+                            p
+                            | I&apos;m Web Developer from California. I code and design websites worldwide. Mauris varius tellus vitae tristique sagittis. Sed aliquet, est nec auctor aliquet, orci ex vestibulum ex, non pharetra lacus erat ac nulla.
+                            p
+                            | Sed vulputate, ligula eget mollis auctor, lectus elit feugiat urna, eget euismod turpis lectus sed ex. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc ut velit finibus, scelerisque sapien vitae, pharetra est. Nunc accumsan ligula vehicula scelerisque vulputate.
+                            .bio-skill-box
+                                .row
+                                    .col-12.col-xl-6.col-lg-12.mb-xl-5.mb-5
+                                        .d-flex.b-skills
+                                            div
+                                            div
+                                                h5 Sass Applications
+                                                p
+                                                    | Duis aute irure dolor in reprehenderit in voluptate velit esse eu fugiat nulla pariatur.
+                                    .col-12.col-xl-6.col-lg-12.mb-xl-5.mb-5
+                                        .d-flex.b-skills
+                                            div
+                                            div
+                                                h5 Github Countributer
+                                                p
+                                                    | Ut enim ad minim veniam, quis nostrud exercitation aliquip ex ea commodo consequat.
+                                    .col-12.col-xl-6.col-lg-12.mb-xl-0.mb-5
+                                        .d-flex.b-skills
+                                            div
+                                            div
+                                                h5 Photograhpy
+                                                p
+                                                    | Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia anim id est laborum.
+                                    .col-12.col-xl-6.col-lg-12.mb-xl-0.mb-0
+                                        .d-flex.b-skills
+                                            div
+                                            div
+                                                h5 Mobile Apps
+                                                p
+                                                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do et dolore magna aliqua.
+                                        
 block append bottomscripts
     script(type="text/javascript").
         $(document).ready(function () {

@@ -134,4 +134,47 @@ router.post('/add', (req, res) => {
     })
     // res.send(cmb);
 })
+
+//show order detail
+router.get('/detail/:oid', (req, res) => {
+    console.log(req.params.oid);
+    let orderid = req.params.oid;
+    //getting product image SELECT p.* FROM ProductTbl p, OrderDetailsTbl od where od.ProductId=p.ProductId AND od.OrderId=2 
+    //Done let sql = 'SELECT o.OrderId,u.UserName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u where u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=2';
+    connection.query('SELECT o.OrderId,u.UserName,a.AreaName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u, AreaTbl a where u.AreaId = a.AreaId and u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=?', [orderid], (error, results, fields) => {
+        if (error) {
+            res.redirect('/errpage');
+        } else {
+            // res.send(results[0])
+            // var i
+            // var cnt = 1
+            var op = [];
+            // for (i = 0; i < results.length; i++) {
+
+                var tmpdate = results[0].CreatedAt;
+                var dt = format(tmpdate, 'dd-mm-yyyy');
+                op.push({
+                    'OrderId': results[0].OrderId,
+                    'UserName': results[0].UserName,
+                    'AreaName': results[0].AreaName,
+                    'ServiceName':results[0].ServiceName,
+                    'TypeName':results[0].TypeName,
+                    'NODWarranty': results[0].NODWarranty,
+                    'CreatedAt': dt
+                })
+            //     cnt += 1
+            // }if (cnt > results.length) {
+            //     var op = {
+            //         flag: 0,
+            //         success: "true",
+            //         status: 200,
+            //         data: newobj,
+            //         message: "Redirected"
+            //     }
+                res.render('orderview', { op });
+                // res.send()
+            // }
+        }
+    })
+})
 module.exports = router;
