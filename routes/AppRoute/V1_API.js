@@ -310,7 +310,7 @@ router.post('/addGallary/:id', (req, res) => {
                             } else {
                                 x++;
                                 console.log('file uploaded ' + x + ' file name is ' + fileName);
-                                connection.query("INSERT INTO GalleryTbl(JobId, GalleryImg, Hidden, CreatedAt) VALUES(" + jobId + ", '" + fileName + "', 0, CURRENT_TIMESTAMP)", (err, result) => {
+                                connection.query("INSERT INTO GalleryTbl(JobId, GalleryImg, Hidden, CreatedAt) VALUES(" + jobId + ", '" + fileName + "', 1, CURRENT_TIMESTAMP)", (err, result) => {
                                     if (err) {
                                         return res.json({
                                             status: false,
@@ -389,7 +389,7 @@ router.post('/addComplaint', (req, res) => {
                 }
                 console.log(payload);
                 if (payload !== undefined) {
-                    
+
                     var orderId = req.body.orderId;
                     var ComplaintImg = req.files.complaintImg;
                     var assignedTo = req.body.assignedTo;
@@ -405,7 +405,7 @@ router.post('/addComplaint', (req, res) => {
                                 message: err.message
                             });
                         } else {
-                            connection.query("INSERT INTO ComplaintTbl(OrderId, ComplaintImg, Remarks, ComplaintStatus, AssignedTo,CreatedAt) VALUES(" + customerId + "," + orderId + " , '" + fileName + "', '" + remarks + "', 0, " + assignedTo + ", CURRENT_TIMESTAMP)", (err, result) => {
+                            connection.query("INSERT INTO ComplaintTbl(OrderId, ComplaintImg, Remarks, ComplaintStatus, AssignedTo,CreatedAt) VALUES(" + orderId + " , '" + fileName + "', '" + remarks + "', 0, " + assignedTo + ", CURRENT_TIMESTAMP)", (err, result) => {
                                 if (err) {
                                     res.json({
                                         status: false,
@@ -450,6 +450,101 @@ router.post('/addComplaint', (req, res) => {
         }
     }
 });
+
+//Order list by customer id
+router.get('/orderlist/:cid', (req, res) => {
+    let customerid = req.params.cid;
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
+    console.log(token);
+    if (req.params.cid === undefined) {
+        return res.json({
+            status: false,
+            message: "invalid Customer Id"
+        })
+    }
+    if (token === undefined) {
+        return res.json({
+            status: false,
+            message: "forbidden"
+        })
+    } else {
+        if (token.startsWith("Bearer ")) {
+            if (token) {
+                token = token.slice(7, token.length).trimLeft();
+                var payload
+                try {
+                    payload = jwt.verify(token, JWTKEY)
+                    console.log('Payload for welcome :- ' + payload)
+                } catch (e) {
+                    if (e instanceof jwt.JsonWebTokenError) {
+                        console.log(e)
+                        return res.json({
+                            message: e.message,
+                            status: false
+                        });
+                    }
+                }
+                console.log(payload);
+                if (payload !== undefined) {
+                    connection.query('SELECT o.OrderId,o.NODWarranty,u.ContactNo,o.CreatedAt FROM OrderTbl o,UserTbl u WHERE o.CustomerId=u.UserId AND u.RoleId=1 and u.UserId = ?', [customerid], (error, results, fields) => {
+                        if (error) {
+                            // res.redirect('/error')
+                            res.json({
+                                status: false,
+                                message: err.message
+                            }).end()
+                        }
+                        else {
+                            var i
+                            var cnt = 1
+                            var newobj = [];
+                            for (i = 0; i < results.length; i++) {
+
+                                var tmpdate = results[i].CreatedAt;
+                                var dt = format(tmpdate, 'dd-mm-yyyy');
+                                newobj.push({
+                                    'OrderId': results[i].OrderId,
+                                    'NODWarranty': results[i].NODWarranty,
+                                    'CustomerId': results[i].CustomerId,
+                                    'UserName': results[i].UserName,
+                                    'ContactNo': results[i].ContactNo,
+                                    'CreatedAt': dt
+                                })
+                                cnt += 1
+                            }
+                            if (cnt > results.length) {
+                                return res.json({
+                                    flag: 0,
+                                    success: "true",
+                                    status: 200,
+                                    categories: newobj,
+                                    message: "Redirected"
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    return res.json({
+                        status: false,
+                        message: "invalid token payload or token is expired"
+                    })
+                }
+
+            } else {
+                return res.json({
+                    status: false,
+                    message: "forbidden"
+                })
+            }
+        } else {
+            return res.json({
+                status: false,
+                message: "Invalid token"
+            })
+        }
+    }
+
+})
 
 //set job status to completed
 router.get('/setJobStatus/:id', (req, res) => {

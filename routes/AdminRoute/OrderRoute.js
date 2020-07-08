@@ -137,7 +137,7 @@ router.post('/add', (req, res) => {
 
 //show order detail
 router.get('/detail/:oid', (req, res) => {
-    console.log(req.params.oid);
+    // console.log(req.params.oid);
     let orderid = req.params.oid;
     //getting product image SELECT p.* FROM ProductTbl p, OrderDetailsTbl od where od.ProductId=p.ProductId AND od.OrderId=2 
     //Done let sql = 'SELECT o.OrderId,u.UserName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u where u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=2';
@@ -145,11 +145,7 @@ router.get('/detail/:oid', (req, res) => {
         if (error) {
             res.redirect('/errpage');
         } else {
-            // res.send(results[0])
-            // var i
-            // var cnt = 1
             var op = [];
-            // for (i = 0; i < results.length; i++) {
 
                 var tmpdate = results[0].CreatedAt;
                 var dt = format(tmpdate, 'dd-mm-yyyy');
@@ -162,19 +158,27 @@ router.get('/detail/:oid', (req, res) => {
                     'NODWarranty': results[0].NODWarranty,
                     'CreatedAt': dt
                 })
-            //     cnt += 1
-            // }if (cnt > results.length) {
-            //     var op = {
-            //         flag: 0,
-            //         success: "true",
-            //         status: 200,
-            //         data: newobj,
-            //         message: "Redirected"
-            //     }
                 res.render('orderview', { op });
-                // res.send()
-            // }
         }
     })
+})
+
+router.post('/productimg',(req,res)=>{
+    let oid = req.body.OrderId;
+    console.log('img' + oid);
+    connection.query('SELECT p.* FROM ProductTbl p, OrderDetailsTbl od where od.ProductId=p.ProductId AND od.OrderId=?',[oid],(error, results, fields)=>{
+        if(error)
+        {
+            res.redirect('/errpage');
+        }
+        else
+        {
+            res.send(results);
+        }
+
+
+
+    })
+
 })
 module.exports = router;

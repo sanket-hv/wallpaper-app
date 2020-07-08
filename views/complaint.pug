@@ -64,16 +64,19 @@ block content
 block append bottomscripts
     script(type="text/javascript").
         function funassign(cid){
-            //- alert(cid);
-            $.post('http://localhost:8000/complaint/ilist',{},(data)=>{
-                var control="<select id='cmbassign' class='form-control' onchange='assignto("+cid+")'><option value='0' selected disabled>--Select--</option>";
+            $.ajax({
+                type: 'post',
+                url: '/complaint/ilist',
+                data: {},
+                success:function(data){
+                    var control="<select id='cmbassign' class='form-control' onchange='assignto("+cid+")'><option value='0' selected disabled>--Select--</option>";
                 for(var i=0;i<data.length; i++)
                 {
                     control+="<option value='"+data[i].UserId+"'>"+data[i].UserName+"</option>"
                 }
                 control+="</select>"
                 document.getElementById('notassigned').innerHTML = control;
-            })            
+                }           
         }
 
         function assignto(cmid){
