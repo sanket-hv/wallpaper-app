@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
 const { threadId } = require('./../../config');
+const format = require('dateformat');
 
 const router = express.Router();
 require("dotenv").config();
@@ -452,7 +453,8 @@ router.post('/addComplaint', (req, res) => {
 });
 
 //Order list by customer id
-router.get('/orderlist/:cid', (req, res) => {
+router.get('/olistcust/:cid', (req, res) => {
+    console.log(req.params.cid)
     let customerid = req.params.cid;
     let token = req.headers['x-access-token'] || req.headers['authorization'];
     console.log(token);
@@ -486,7 +488,7 @@ router.get('/orderlist/:cid', (req, res) => {
                 }
                 console.log(payload);
                 if (payload !== undefined) {
-                    connection.query('SELECT o.OrderId,o.NODWarranty,u.ContactNo,o.CreatedAt FROM OrderTbl o,UserTbl u WHERE o.CustomerId=u.UserId AND u.RoleId=1 and u.UserId = ?', [customerid], (error, results, fields) => {
+                    connection.query('SELECT OrderId,CreatedAt FROM `OrderTbl` WHERE CustomerId = ?', [customerid], (error, results, fields) => {
                         if (error) {
                             // res.redirect('/error')
                             res.json({
@@ -504,10 +506,6 @@ router.get('/orderlist/:cid', (req, res) => {
                                 var dt = format(tmpdate, 'dd-mm-yyyy');
                                 newobj.push({
                                     'OrderId': results[i].OrderId,
-                                    'NODWarranty': results[i].NODWarranty,
-                                    'CustomerId': results[i].CustomerId,
-                                    'UserName': results[i].UserName,
-                                    'ContactNo': results[i].ContactNo,
                                     'CreatedAt': dt
                                 })
                                 cnt += 1
@@ -544,6 +542,314 @@ router.get('/orderlist/:cid', (req, res) => {
         }
     }
 
+})
+
+//Past job by installer id
+router.get('/pastjob/:iid', (req, res) => {
+    let installerid = req.params.iid;
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
+    console.log(token);
+    if (req.params.iid === undefined) {
+        return res.json({
+            status: false,
+            message: "invalid Installer Id"
+        })
+    }
+    if (token === undefined) {
+        return res.json({
+            status: false,
+            message: "forbidden"
+        })
+    } else {
+        if (token.startsWith("Bearer ")) {
+            if (token) {
+                token = token.slice(7, token.length).trimLeft();
+                var payload
+                try {
+                    payload = jwt.verify(token, JWTKEY)
+                    console.log('Payload for welcome :- ' + payload)
+                } catch (e) {
+                    if (e instanceof jwt.JsonWebTokenError) {
+                        console.log(e)
+                        return res.json({
+                            message: e.message,
+                            status: false
+                        });
+                    }
+                }
+                console.log(payload);
+                if (payload !== undefined) {
+                    connection.query('SELECT JobId,OrderId,CreatedAt FROM JobTbl WHERE JobStatus=? and AssignedTo = ?', [2, installerid], (error, results, fields) => {
+                        if (error) {
+                            // res.redirect('/error')
+                            return res.json({
+                                status: false,
+                                message: err.message
+                            }).end()
+                        }
+                        else {
+                            if (result.length > 0) {
+                                var i
+                                var cnt = 1
+                                var newobj = [];
+                                for (i = 0; i < results.length; i++) {
+
+                                    var tmpdate = results[i].CreatedAt;
+                                    var dt = format(tmpdate, 'dd-mm-yyyy');
+                                    newobj.push({
+                                        'JobId': results[i].JobId,
+                                        'OrderId': results[i].OrderId,
+                                        'CreatedAt': dt
+                                    })
+                                    cnt += 1
+                                }
+                                if (cnt > results.length) {
+                                    return res.json({
+                                        success: "true",
+                                        status: 200,
+                                        categories: newobj,
+                                        message: "Past Job Founded"
+                                    })
+                                }
+                            }
+                            else {
+                                return res.json({
+                                    success: "true",
+                                    status: 200,
+                                    categoried: [],
+                                    message: "No Past Job Founded"
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    return res.json({
+                        status: false,
+                        message: "invalid token payload or token is expired"
+                    })
+                }
+
+            } else {
+                return res.json({
+                    status: false,
+                    message: "forbidden"
+                })
+            }
+        } else {
+            return res.json({
+                status: false,
+                message: "Invalid token"
+            })
+        }
+    }
+
+})
+
+//In Process Job
+router.get('/wipjob/:iid', (req, res) => {
+    let installerid = req.params.iid;
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
+    console.log(token);
+    if (req.params.iid === undefined) {
+        return res.json({
+            status: false,
+            message: "invalid Installer Id"
+        })
+    }
+    if (token === undefined) {
+        return res.json({
+            status: false,
+            message: "forbidden"
+        })
+    } else {
+        if (token.startsWith("Bearer ")) {
+            if (token) {
+                token = token.slice(7, token.length).trimLeft();
+                var payload
+                try {
+                    payload = jwt.verify(token, JWTKEY)
+                    console.log('Payload for welcome :- ' + payload)
+                } catch (e) {
+                    if (e instanceof jwt.JsonWebTokenError) {
+                        console.log(e)
+                        return res.json({
+                            message: e.message,
+                            status: false
+                        });
+                    }
+                }
+                console.log(payload);
+                if (payload !== undefined) {
+                    connection.query('SELECT JobId,OrderId,CreatedAt FROM JobTbl WHERE JobStatus=1 and AssignedTo = ?', [2, installerid], (error, results, fields) => {
+                        if (error) {
+                            // res.redirect('/error')
+                            res.json({
+                                status: false,
+                                message: err.message
+                            }).end()
+                        }
+                        else {
+                            if (result.length > 0) {
+                                var i
+                                var cnt = 1
+                                var newobj = [];
+                                for (i = 0; i < results.length; i++) {
+
+                                    var tmpdate = results[i].CreatedAt;
+                                    var dt = format(tmpdate, 'dd-mm-yyyy');
+                                    newobj.push({
+                                        'JobId': results[i].JobId,
+                                        'OrderId': results[i].OrderId,
+                                        'CreatedAt': dt
+                                    })
+                                    cnt += 1
+                                }
+                                if (cnt > results.length) {
+                                    return res.json({
+                                        success: "true",
+                                        status: 200,
+                                        categories: newobj,
+                                        message: "Past Job Founded"
+                                    })
+                                }
+                            }
+                            else {
+                                return res.json({
+                                    success: "true",
+                                    status: 200,
+                                    categoried: [],
+                                    message: "No Past Job Founded"
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    return res.json({
+                        status: false,
+                        message: "invalid token payload or token is expired"
+                    })
+                }
+
+            } else {
+                return res.json({
+                    status: false,
+                    message: "forbidden"
+                })
+            }
+        } else {
+            return res.json({
+                status: false,
+                message: "Invalid token"
+            })
+        }
+    }
+
+})
+
+//Order details by orderid
+router.get('/orderdetail/:oid', (req, res) => {
+    const orderid = req.params.oid;
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
+    if (req.params.oid === undefined) {
+        return res.json({
+            status: false,
+            message: "invalid Order Id"
+        })
+    }
+    if (token === undefined) {
+        return res.json({
+            status: false,
+            message: "forbidden"
+        })
+    } else {
+        if (token.startsWith("Bearer ")) {
+            if (token) {
+                token = token.slice(7, token.length).trimLeft();
+                var payload
+                try {
+                    payload = jwt.verify(token, JWTKEY)
+                    console.log('Payload for welcome :- ' + payload)
+                } catch (e) {
+                    if (e instanceof jwt.JsonWebTokenError) {
+                        console.log(e)
+                        return res.json({
+                            message: e.message,
+                            status: false
+                        });
+                    }
+                }
+                console.log(payload);
+                if (payload !== undefined) {
+                    connection.query('SELECT o.OrderId,u.UserName,a.AreaName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u, AreaTbl a where u.AreaId = a.AreaId and u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=?', [orderid], (error, results, fields) => {
+                        if (error) {
+                            return res.json({
+                                status: false,
+                                message: err.message
+                            }).end()
+                        }
+                        else {
+                            connection.query('SELECT p.ProductId,c.CategoryName,p.ProductTitle,p.Price,p.Details,p.ProductImg FROM ProductTbl p,CategoryTbl c, OrderDetailsTbl od where p.CategoryId=c.CategoryId AND od.ProductId=p.ProductId AND od.OrderId=?', [orderid], (error, products, fields) => {
+                                if (error) {
+                                    return res.json({
+                                        status: false,
+                                        message: err.message
+                                    }).end()
+                                }
+                                else {
+                                    var host = req.headers.host;
+                                    var imagepath = host + "/images/product";
+                                    var tmpdate = results[0].CreatedAt;
+                                    var dt = format(tmpdate, 'dd-mm-yyyy');
+                                    var op = [];
+                                    if (products.length > 0) {
+                                        var i = 0;
+                                        for (i = 0; i < products.length; i++) {
+                                            var img = products[i].ProductImg;
+                                            if (img !== undefined) {
+                                                products[i].ProductImg = imagepath + '/' + img;
+                                            }
+                                        }
+                                        op.push({
+                                            'OrderId': results[0].OrderId,
+                                            'UserName': results[0].UserName,
+                                            'AreaName': results[0].AreaName,
+                                            'ServiceName': results[0].ServiceName,
+                                            'TypeName': results[0].TypeName,
+                                            'NODWarranty': results[0].NODWarranty,
+                                            'product': products,
+                                            'CreatedAt': dt
+                                        })
+                                        return res.json({
+                                            status: true,
+                                            message: "Order Details are found",
+                                            categories: op
+                                        })
+                                    }
+                                }
+                            })
+                        }
+                    })
+
+                } else {
+                    return res.json({
+                        status: false,
+                        message: "invalid token payload or token is expired"
+                    })
+                }
+
+            } else {
+                return res.json({
+                    status: false,
+                    message: "forbidden"
+                })
+            }
+        } else {
+            return res.json({
+                status: false,
+                message: "Invalid token"
+            })
+        }
+    }
 })
 
 //set job status to completed

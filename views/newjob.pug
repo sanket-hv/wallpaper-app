@@ -65,15 +65,32 @@ block append bottomscripts
     script(type="text/javascript").
         function funassign(jid){
             //- alert(cid);
-            $.post('http://localhost:8000/newjob/ilist',{},(data)=>{
-                var control="<select id='cmbassign' class='form-control' onchange='assignto("+jid+")'><option value='0' selected disabled>--Select--</option>";
-                for(var i=0;i<data.length; i++)
-                {
-                    control+="<option value='"+data[i].UserId+"'>"+data[i].UserName+"</option>"
+                $.ajax({
+                type: 'post',
+                url: '/newjob/ilist',
+                data: {} ,
+                success: function(data){
+                    //- alert('changed');
+                    //- alert(data);
+                    var control="<select id='cmbassign' class='form-control' onchange='assignto("+jid+")'><option value='0' selected disabled>--Select--</option>";
+                    for(var i=0;i<data.length; i++)
+                    {
+                        control+="<option value='"+data[i].UserId+"'>"+data[i].UserName+"</option>"
+                    }
+                    control+="</select>"
+                    document.getElementById('notassigned').innerHTML = control;
                 }
-                control+="</select>"
-                document.getElementById('notassigned').innerHTML = control;
-            })            
+            })
+
+            //- $.post('http://localhost:8000/newjob/ilist',{},(data)=>{
+            //-     var control="<select id='cmbassign' class='form-control' onchange='assignto("+jid+")'><option value='0' selected disabled>--Select--</option>";
+            //-     for(var i=0;i<data.length; i++)
+            //-     {
+            //-         control+="<option value='"+data[i].UserId+"'>"+data[i].UserName+"</option>"
+            //-     }
+            //-     control+="</select>"
+            //-     document.getElementById('notassigned').innerHTML = control;
+            //- })            
         }
 
         function assignto(jobid){
