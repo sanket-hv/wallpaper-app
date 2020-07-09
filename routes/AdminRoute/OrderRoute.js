@@ -175,10 +175,6 @@ router.post('/productimg',(req,res)=>{
         {
             res.send(results);
         }
-
-
-
     })
-
 })
 module.exports = router;
