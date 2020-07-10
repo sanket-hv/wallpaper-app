@@ -53,24 +53,70 @@ router.post('/ilist', (req, res) => {
         if (error) {
             res.redirect('/errpage');
         }
-        else
-        {
+        else {
             res.send(results);
         }
     })
 })
 
 //Change Status to in progress
-router.post('/change',(req,res)=>{
-    let cmpid= req.body.ComplaintId;
+router.post('/change', (req, res) => {
+    let cmpid = req.body.ComplaintId;
     let inid = req.body.InstallerId;
-    connection.query('UPDATE ComplaintTbl SET ComplaintStatus=?,AssignedTo=? WHERE ComplaintId=?',[1,inid,cmpid],(error, results, fields)=>{
-        if(error)
-        {
+    connection.query('UPDATE ComplaintTbl SET ComplaintStatus=?,AssignedTo=? WHERE ComplaintId=?', [1, inid, cmpid], (error, results, fields) => {
+        if (error) {
             res.redirect('/errpage');
         }
-        else{
+        else {
             res.send("status changed");
+        }
+    })
+})
+
+router.get('/view/:cid', (req, res) => {
+    let complaintid = req.params.cid;
+    connection.query('SELECT c.ComplaintId,u.UserName,a.AreaName,c.OrderId,c.ComplaintImg,c.Remarks,c.ComplaintStatus,c.CreatedAt FROM ComplaintTbl c,OrderTbl o, UserTbl u,AreaTbl a WHERE u.AreaId = a.AreaId AND c.OrderId=o.OrderId AND o.CustomerId=u.UserId AND c.ComplaintId=?', [complaintid], (error, complaints, fields) => {
+        if (error) {
+            res.redirect('/errpage');
+        }
+        else {
+            connection.query('SELECT u.UserName from ComplaintTbl c, UserTbl u where c.AssignedTo = u.UserId AND c.ComplaintId=?', [complaintid], (error, installer, fields) => {
+                if (error) {
+                    res.redirect('/errpage')
+                }
+                else {
+                    var tmpdate = complaints[0].CreatedAt;
+                    var dt = format(tmpdate, 'dd-mm-yyyy');
+                    var op = [];
+                    if (installer.length > 0) {
+                        op.push({
+                            'ComplaintId': complaints[0].ComplaintId,
+                            'cname': complaints[0].UserName,
+                            'AreaName': complaints[0].AreaName,
+                            'OrderId': complaints[0].OrderId,
+                            'ComplaintImg': complaints[0].ComplaintImg,
+                            'Remarks': complaints[0].Remarks,
+                            'Status': complaints[0].ComplaintStatus,
+                            'iname': installer[0].UserName,
+                            'CreatedAt': dt
+                        })
+                    }
+                    else{
+                        op.push({
+                            'ComplaintId': complaints[0].ComplaintId,
+                            'cname': complaints[0].UserName,
+                            'AreaName': complaints[0].AreaName,
+                            'OrderId': complaints[0].OrderId,
+                            'ComplaintImg': complaints[0].ComplaintImg,
+                            'Remarks': complaints[0].Remarks,
+                            'Status': complaints[0].ComplaintStatus,
+                            'iname': "Not Assigned",
+                            'CreatedAt': dt
+                        })
+                    }
+                    res.render('complaintview',{op});
+                }
+            })
         }
     })
 })

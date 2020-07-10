@@ -1,0 +1,61 @@
+extends layout.pug
+
+block content
+    #content.main-content
+        .layout-px-spacing
+            .row-layout-spacing
+                div.col-xl-12.col-lg-6.col-md-7.col-sm-12.layout-top-spacing
+                    .bio.layout-spacing
+                        .widget-content.widget-content-area
+                            center
+                                h4 Job Details
+                            table(cellPadding="5" cellSpacing="5")
+                                tr  
+                                    td(width="30%") 
+                                        span(style="color:blue") Order Id# : 
+                                        span(style="color:black") #{op[0].OrderId}
+                                    td(width="15%" align="right")
+                                        span(style="color:blue") Date: 
+                                        span(style="color:black") #{op[0].CreatedAt}
+                                tr
+                                    td 
+                                        span(style="color:blue") Job Id# : 
+                                        span(style="color:black") #{op[0].JobId}
+                                    td(align="right")
+                                        span(style="color:blue") Customer name : 
+                                        span(style="color:black") #{op[0].cname}
+                                tr    
+                                if op[0].Status != 0
+                                    if op[0].Status == 1
+                                        tr    
+                                            td
+                                                span(style="color:blue") Assigned To?: 
+                                                span(style="color:black") #{op[0].iname}
+                                            td(align="right")
+                                                span(style="color:blue") Customer Area : 
+                                                span(style="color:black") #{op[0].AreaName}
+                                        tr    
+                                            td
+                                                span(style="color:blue") Status: 
+                                                span(style="color:#e6b800;") In Progress
+                                            
+                                    if op[0].Status == 2
+                                        tr    
+                                            td
+                                                span(style="color:blue") Assigned To?: 
+                                                span(style="color:black") #{op[0].iname}
+                                            td(align="right")
+                                                span(style="color:blue") Customer Area : 
+                                                span(style="color:black") #{op[0].AreaName}
+                                        tr    
+                                            td
+                                                span(style="color:blue") Status: 
+                                                span(style="color:#00b33c;") Completed
+                                else
+                                        tr    
+                                            td
+                                                span(style="color:blue") Status: 
+                                                span(style="color:red") Pending
+                                            td(align="right")
+                                                span(style="color:blue") Customer Area : 
+                                                span(style="color:black") #{op[0].AreaName}
