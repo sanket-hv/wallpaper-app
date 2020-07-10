@@ -37,29 +37,50 @@ block content
                     .bio.layout-spacing
                         .widget-content.widget-content-area
                             h4 Product Details
-                            table(border="1" cellPadding="5" cellSpacing="5")
+                            table(border="1" cellPadding="5" cellSpacing="5" width="100%" style="border:black;")
                                 thead   
                                     th 
                                         span(style="color:blue") Image
-                                    th 
+                                    th(width="15%") 
                                         span(style="color:blue") Title
-                                    th 
+                                    th(width="15%") 
+                                        span(style="color:blue") Category    
+                                    th(width="10%") 
                                         span(style="color:blue") Price
-                                    th 
+                                    th(width="30%")
                                         span(style="color:blue") Details
+                                each prod in op[0].product
+                                    tr
+                                        td  
+                                            img(src="/images/product/"+prod.ProductImg height="150px" width="300px")
+                                        td  #{prod.ProductTitle}
+                                        td  #{prod.CategoryName}
+                                        td  #{prod.Price}
+                                        td  #{prod.Details}
+
 block append bottomscripts  
     script.
         $(document).ready(function(){
             //- alert(#{op[0].OrderId});
             var oid = #{op[0].OrderId};
             //- alert("Order ID" + oid);
-            $.ajax({
+                $.ajax({
                 type: 'post',
                 url: '/order/productimg',
                 data: {'OrderId' : oid} ,
                 success: function(data){
-                    //- alert('changed');
-                    //- alert(data);
+                    var control = "";
+                    for (var i=0;i < data.length; i++)
+                    {
+                        control += "<tr>";
+                        control += "<td><img src="+data[i].ProductImg+"></img></td>"
+                        control += "<td>"+data[i].ProductTitle+"</td>"
+                        control += "<td>"+data[i].CategoryName+"</td>"
+                        control += "<td>"+data[i].Price+"</td>"
+                        control += "<td>"+data[i].Details+"</td>"
+                        control += "</tr>"
+                    }
+                    document.getElementById('productlist').append = control;
                 }
             })
         })

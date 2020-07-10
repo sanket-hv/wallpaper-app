@@ -20,7 +20,7 @@ router.get('/view/:id', (req, res) => {
     let id = req.params.id;
     connection.query('SELECT * FROM OrderTbl WHERE OrderId=?', [id], (error, results, fields) => {
         if (error) {
-
+            res.redirect('/errpage')
         }
         else {
             res.send(results);
@@ -136,43 +136,101 @@ router.post('/add', (req, res) => {
 })
 
 //show order detail
-router.get('/detail/:oid', (req, res) => {
-    // console.log(req.params.oid);
+
+router.get('/detail/:oid',(req,res)=>{
     let orderid = req.params.oid;
-    //getting product image SELECT p.* FROM ProductTbl p, OrderDetailsTbl od where od.ProductId=p.ProductId AND od.OrderId=2 
-    //Done let sql = 'SELECT o.OrderId,u.UserName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u where u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=2';
     connection.query('SELECT o.OrderId,u.UserName,a.AreaName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u, AreaTbl a where u.AreaId = a.AreaId and u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=?', [orderid], (error, results, fields) => {
         if (error) {
+            // return res.json({
+            //     status: false,
+            //     message: err.message
+            // }).end()
             res.redirect('/errpage');
-        } else {
-            var op = [];
-
-                var tmpdate = results[0].CreatedAt;
-                var dt = format(tmpdate, 'dd-mm-yyyy');
-                op.push({
-                    'OrderId': results[0].OrderId,
-                    'UserName': results[0].UserName,
-                    'AreaName': results[0].AreaName,
-                    'ServiceName':results[0].ServiceName,
-                    'TypeName':results[0].TypeName,
-                    'NODWarranty': results[0].NODWarranty,
-                    'CreatedAt': dt
-                })
-                res.render('orderview', { op });
+        }
+        else {
+            connection.query('SELECT p.ProductId,c.CategoryName,p.ProductTitle,p.Price,p.Details,p.ProductImg FROM ProductTbl p,CategoryTbl c, OrderDetailsTbl od where p.CategoryId=c.CategoryId AND od.ProductId=p.ProductId AND od.OrderId=?', [orderid], (error, products, fields) => {
+                if (error) {
+                    // return res.json({
+                    //     status: false,
+                    //     message: err.message
+                    // }).end()
+                    res.redirect('/errpage')
+                }
+                else {
+                    var host = req.headers.host;
+                    var imagepath = host + "/images/product";
+                    var tmpdate = results[0].CreatedAt;
+                    var dt = format(tmpdate, 'dd-mm-yyyy');
+                    var op = [];
+                    if (products.length > 0) 
+                    {
+                        // var i = 0;
+                        // for (i = 0; i < products.length; i++) {
+                        //     var img = products[i].ProductImg;
+                        //     if (img !== undefined) {
+                        //         products[i].ProductImg = imagepath + '/' + img;
+                        //     }
+                        // }
+                        op.push({
+                            'OrderId': results[0].OrderId,
+                            'UserName': results[0].UserName,
+                            'AreaName': results[0].AreaName,
+                            'ServiceName': results[0].ServiceName,
+                            'TypeName': results[0].TypeName,
+                            'NODWarranty': results[0].NODWarranty,
+                            'product': products,
+                            'CreatedAt': dt
+                        })
+                        // return res.json({
+                        //     status: true,
+                        //     message: "Order Details are found",
+                        //     categories: op
+                        // })
+                        res.render('orderview',{op});
+                    }
+                }
+            })
         }
     })
 })
 
-router.post('/productimg',(req,res)=>{
+// router.get('/detail/:oid', (req, res) => {
+//     // console.log(req.params.oid);
+//     let orderid = req.params.oid;
+//     //getting product image SELECT p.* FROM ProductTbl p, OrderDetailsTbl od where od.ProductId=p.ProductId AND od.OrderId=2 
+//     //Done let sql = 'SELECT o.OrderId,u.UserName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u where u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=2';
+//     connection.query('SELECT o.OrderId,u.UserName,a.AreaName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u, AreaTbl a where u.AreaId = a.AreaId and u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=?', [orderid], (error, results, fields) => {
+//         if (error) {
+//             res.redirect('/errpage');
+//         } else {
+//             var op = [];
+
+//             var tmpdate = results[0].CreatedAt;
+//             var dt = format(tmpdate, 'dd-mm-yyyy');
+//             // op.push({
+//             //     'OrderId': results[0].OrderId,
+//             //     'UserName': results[0].UserName,
+//             //     'AreaName': results[0].AreaName,
+//             //     'ServiceName':results[0].ServiceName,
+//             //     'TypeName':results[0].TypeName,
+//             //     'NODWarranty': results[0].NODWarranty,
+//             //     'CreatedAt': dt
+//             // })
+//             results[0].CreatedAt = dt;
+//             op.push(results)
+//             res.render('orderview', op);
+//         }
+//     })
+// })
+
+router.post('/productimg', (req, res) => {
     let oid = req.body.OrderId;
     console.log('img' + oid);
-    connection.query('SELECT p.* FROM ProductTbl p, OrderDetailsTbl od where od.ProductId=p.ProductId AND od.OrderId=?',[oid],(error, results, fields)=>{
-        if(error)
-        {
+    connection.query('SELECT p.ProductId,c.CategoryName,p.ProductTitle,p.Price,p.ProductImg,p.Details FROM ProductTbl p, OrderDetailsTbl od, CategoryTbl c where od.ProductId = p.ProductId AND p.CategoryId = c.CategoryId AND od.OrderId=?', [oid], (error, results, fields) => {
+        if (error) {
             res.redirect('/errpage');
         }
-        else
-        {
+        else {
             res.send(results);
         }
     })
