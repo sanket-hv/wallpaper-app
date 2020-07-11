@@ -126,7 +126,7 @@ router.get('/products/:id', (req, res) => {
             console.log(products.length);
             console.log(req.headers.host);
             var host = req.headers.host;
-            var imagepath = host + "/images/products";
+            var imagepath = host + "/images/product";
             if (products.length > 0) {
                 var i = 0;
                 for (i = 0; i < products.length; i++) {
@@ -163,7 +163,7 @@ router.get('/product/:id', (req, res) => {
             console.log(products.length);
             console.log(req.headers.host);
             var host = req.headers.host;
-            var imagepath = host + "/images/products";
+            var imagepath = host + "/images/product";
             if (products.length > 0) {
                 var i = 0;
                 for (i = 0; i < products.length; i++) {

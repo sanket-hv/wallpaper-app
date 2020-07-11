@@ -83,9 +83,6 @@ app.get('/errpage', (req, res) => {
     res.sendFile(__dirname + '/views/error.html');
 })
 
-
-
-
 //logout
 app.get('/logout', logout);
 //Authentication Route
