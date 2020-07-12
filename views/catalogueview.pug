@@ -1,9 +1,22 @@
 extends layout.pug
 
 block append topscripts     
+    link(href='/assets/css/scrollspyNav.css' rel='stylesheet' type='text/css')
+    link(rel='stylesheet' type='text/css' href='/assets/css/forms/switches.css')
     link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/datatables.css')
     link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/dt-global_style.css')
-
+    script(type="text/javascript").
+        function callcmb(id,val){
+            $.ajax({
+                type: 'post',
+                url: '/catalogue/edit',
+                data: {'productid' : id,
+                        'val': val} ,
+                success: function(data){
+                     window.location.href = "http://localhost:8000/catalogue/view"
+                }
+            })
+        }
 block content
     #content.main-content
         .layout-px-spacing
@@ -21,6 +34,7 @@ block content
                                             th Title
                                             th Price
                                             th Category
+                                            th IsActive?
                                             //- th EDIT
                                     tbody
                                         each obj in op.data
@@ -30,9 +44,19 @@ block content
                                                 td #{obj.ProductTitle}
                                                 td #{obj.Price}
                                                 td #{obj.CategoryName}
+                                                td 
+                                                    if obj.IsActive == 0
+                                                        label.switch.s-icons.s-outline.s-outline-primary.mb-4.mr-2
+                                                            input(type='checkbox' onChange="callcmb("+obj.ProductId+","+obj.IsActive+");")
+                                                            span.slider.round
+                                                    else
+                                                        label.switch.s-icons.s-outline.s-outline-primary.mb-4.mr-2
+                                                            input(type='checkbox' onChange="callcmb("+obj.ProductId+","+obj.IsActive+");" checked='')
+                                                            span.slider.round 
                                     
 //- This is a page level scripts
 block append bottomscripts
+    script(src='assets/js/scrollspyNav.js').
     script(type="text/javascript" src='/plugins/table/datatable/datatables.js').
     script(type="text/javascript").
         $('#zero-config').DataTable({

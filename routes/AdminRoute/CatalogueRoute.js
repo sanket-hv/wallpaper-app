@@ -83,4 +83,26 @@ router.post('/add', async (req, res) => {
     })
 })
 
+
+router.post('/edit',(req,res)=>{
+    let productid = req.body.productid;
+    let val = req.body.val;
+    let tempval
+    if (val == 0) {
+        tempval = 1;
+    }
+    else {
+        tempval = 0
+    }
+    connection.query('UPDATE ProductTbl SET IsActive = ? WHERE ProductId = ?',[tempval,productid],(error,results, fields)=>{
+        if(error)
+        {
+            res.redirect('/errpage');
+        }
+        else{
+            res.send("updated");
+        }
+    })
+
+})
 module.exports = router;

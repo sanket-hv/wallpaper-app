@@ -10,38 +10,44 @@ router.get('/', (req, res) => {
             res.redirect('/errpage');
         }
         else {
-            // res.send(results);
-            var i
-            var cnt = 1
-            var newobj = [];
-            for (i = 0; i < results.length; i++) {
-
-                var tmpdate = results[i].CreatedAt;
-                var dt = format(tmpdate, 'dd-mm-yyyy');
-                newobj.push({
-                    'ComplaintId': results[i].ComplaintId,
-                    'CustomerId': results[i].CustomerId,
-                    'UserName': results[i].UserName,
-                    'OrderId': results[i].OrderId,
-                    'Remarks': results[i].Remarks,
-                    'ComplaintStatus': results[i].ComplaintStatus,
-                    'AssignedTo': results[i].AssignedTo,
-                    'CreatedAt': dt
-                })
-                cnt += 1
-            }
-            if (cnt > results.length) {
-                var op = {
-                    flag: 0,
-                    success: "true",
-                    status: 200,
-                    data: newobj,
-                    message: "Redirected"
+            connection.query('SELECT UserId,UserName FROM UserTbl WHERE RoleId = 2', (error, installer, fields) => {
+                if (error) {
+                    res.redirect('/error')
                 }
-                // res.render('orderlist', { op });
-                res.render('complaint', { op })
-                // res.send(newobj);
-            }
+                else {
+                    var i
+                    var cnt = 1
+                    var newobj = [];
+                    for (i = 0; i < results.length; i++) {
+
+                        var tmpdate = results[i].CreatedAt;
+                        var dt = format(tmpdate, 'dd-mm-yyyy');
+                        newobj.push({
+                            'ComplaintId': results[i].ComplaintId,
+                            'CustomerId': results[i].CustomerId,
+                            'UserName': results[i].UserName,
+                            'OrderId': results[i].OrderId,
+                            'Remarks': results[i].Remarks,
+                            'ComplaintStatus': results[i].ComplaintStatus,
+                            'AssignedTo': results[i].AssignedTo,
+                            'CreatedAt': dt
+                        })
+                        cnt += 1
+                    }
+                    if (cnt > results.length) {
+                        var op = {
+                            flag: 0,
+                            success: "true",
+                            status: 200,
+                            data: newobj,
+                            ilist: installer,
+                            message: "Redirected"
+                        }
+                        // res.render('orderlist', { op });
+                        res.render('complaint', { op })
+                    }
+                }
+            })
         }
     });
 })
@@ -101,7 +107,7 @@ router.get('/view/:cid', (req, res) => {
                             'CreatedAt': dt
                         })
                     }
-                    else{
+                    else {
                         op.push({
                             'ComplaintId': complaints[0].ComplaintId,
                             'cname': complaints[0].UserName,
@@ -114,7 +120,7 @@ router.get('/view/:cid', (req, res) => {
                             'CreatedAt': dt
                         })
                     }
-                    res.render('complaintview',{op});
+                    res.render('complaintview', { op });
                 }
             })
         }

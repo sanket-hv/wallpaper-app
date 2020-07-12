@@ -680,7 +680,7 @@ router.get('/wipjob/:iid', (req, res) => {
                 }
                 console.log(payload);
                 if (payload !== undefined) {
-                    connection.query('SELECT JobId,OrderId,CreatedAt FROM JobTbl WHERE JobStatus=1 and AssignedTo = ?', [2, installerid], (error, results, fields) => {
+                    connection.query('SELECT JobId,OrderId,CreatedAt FROM JobTbl WHERE JobStatus=1 and AssignedTo = ?', [installerid], (error, results, fields) => {
                         if (error) {
                             // res.redirect('/error')
                             res.json({
@@ -689,7 +689,7 @@ router.get('/wipjob/:iid', (req, res) => {
                             }).end()
                         }
                         else {
-                            if (result.length > 0) {
+                            if (results.length > 0) {
                                 var i
                                 var cnt = 1
                                 var newobj = [];
