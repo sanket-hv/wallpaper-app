@@ -41,13 +41,10 @@ block content
                                                         span.shadow-none.badge.outline-badge-success Completed
                                                 td 
                                                     if obj.AssignedTo == 0
-                                                        div#notassigned
-                                                            .dropdown.custom-dropdown
-                                                                a#assignedto.dropdown-toggle(href='#' onclick='funassign('+obj.JobId+')' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-                                                                    svg.feather.feather-more-horizontal(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
-                                                                        circle(cx='12' cy='12' r='1')
-                                                                        circle(cx='19' cy='12' r='1')
-                                                                        circle(cx='5' cy='12' r='1')
+                                                        select#cmbassign.form-control(onchange="assignto("+obj.JobId+")")
+                                                            option(value="0" selected="" disabled ) --Select--
+                                                            each installer in op.ilist
+                                                                option(value=installer.UserId) #{installer.UserName}
                                                     else    
                                                         div#assigned
                                                             svg.feather.feather-check-circle.text-primary(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
@@ -63,15 +60,14 @@ block content
 //- This is a page level scripts
 block append bottomscripts
     script(type="text/javascript").
-        function funassign(jid){
-            //- alert(cid);
-                $.ajax({
+        $(document).ready(function () {
+              $.ajax({
                 type: 'post',
                 url: '/newjob/ilist',
                 data: {} ,
                 success: function(data){
                     //- alert('changed');
-                    //- alert(data);
+                    alert(data);
                     var control="<select id='cmbassign' class='form-control' onchange='assignto("+jid+")'><option value='0' selected disabled>--Select--</option>";
                     for(var i=0;i<data.length; i++)
                     {
@@ -81,17 +77,36 @@ block append bottomscripts
                     document.getElementById('notassigned').innerHTML = control;
                 }
             })
+        })
+        //- function funassign(jid){
+        //-     //- alert(cid);
+        //-         $.ajax({
+        //-         type: 'post',
+        //-         url: '/newjob/ilist',
+        //-         data: {} ,
+        //-         success: function(data){
+        //-             //- alert('changed');
+        //-             alert(data);
+        //-             var control="<select id='cmbassign' class='form-control' onchange='assignto("+jid+")'><option value='0' selected disabled>--Select--</option>";
+        //-             for(var i=0;i<data.length; i++)
+        //-             {
+        //-                 control+="<option value='"+data[i].UserId+"'>"+data[i].UserName+"</option>"
+        //-             }
+        //-             control+="</select>"
+        //-             document.getElementById('notassigned').innerHTML = control;
+        //-         }
+        //-     })
 
-            //- $.post('http://localhost:8000/newjob/ilist',{},(data)=>{
-            //-     var control="<select id='cmbassign' class='form-control' onchange='assignto("+jid+")'><option value='0' selected disabled>--Select--</option>";
-            //-     for(var i=0;i<data.length; i++)
-            //-     {
-            //-         control+="<option value='"+data[i].UserId+"'>"+data[i].UserName+"</option>"
-            //-     }
-            //-     control+="</select>"
-            //-     document.getElementById('notassigned').innerHTML = control;
-            //- })            
-        }
+        //-     //- $.post('http://localhost:8000/newjob/ilist',{},(data)=>{
+        //-     //-     var control="<select id='cmbassign' class='form-control' onchange='assignto("+jid+")'><option value='0' selected disabled>--Select--</option>";
+        //-     //-     for(var i=0;i<data.length; i++)
+        //-     //-     {
+        //-     //-         control+="<option value='"+data[i].UserId+"'>"+data[i].UserName+"</option>"
+        //-     //-     }
+        //-     //-     control+="</select>"
+        //-     //-     document.getElementById('notassigned').innerHTML = control;
+        //-     //- })            
+        //- }
 
         function assignto(jobid){
             //- var inid = document.getElementById('cmbassign').value;

@@ -8,35 +8,45 @@ router.get('/', (req, res) => {
             res.redirect('/errpage');
         }
         else {
-            // res.send(results);
-            var i
-            var cnt = 1
-            var newobj = [];
-            for (i = 0; i < results.length; i++) {
-
-                var tmpdate = results[i].CreatedAt;
-                var dt = format(tmpdate, 'dd-mm-yyyy');
-                newobj.push({
-                    'JobId': results[i].JobId,
-                    'CustomerId': results[i].CustomerId,
-                    'UserName': results[i].UserName,
-                    'OrderId': results[i].OrderId,
-                    'JobStatus': results[i].JobStatus,
-                    'AssignedTo': results[i].AssignedTo,
-                    'CreatedAt': dt
-                })
-                cnt += 1
-            }
-            if (cnt > results.length) {
-                var op = {
-                    flag: 0,
-                    success: "true",
-                    status: 200,
-                    data: newobj,
-                    message: "Redirected"
+            connection.query('SELECT UserId,UserName FROM UserTbl WHERE RoleId=2', (error, installer, fields) => {
+                if (error) {
+                    res.redirect('/errpage');
                 }
-                res.render('newjob', { op })
-            }
+                else {
+                    // res.send(results);
+                    // res.send(results);
+                    var i
+                    var cnt = 1
+                    var newobj = [];
+                    for (i = 0; i < results.length; i++) {
+
+                        var tmpdate = results[i].CreatedAt;
+                        var dt = format(tmpdate, 'dd-mm-yyyy');
+                        newobj.push({
+                            'JobId': results[i].JobId,
+                            'CustomerId': results[i].CustomerId,
+                            'UserName': results[i].UserName,
+                            'OrderId': results[i].OrderId,
+                            'JobStatus': results[i].JobStatus,
+                            'AssignedTo': results[i].AssignedTo,
+                            'CreatedAt': dt
+                        })
+                        cnt += 1
+                    }
+                    if (cnt > results.length) {
+                        var op = {
+                            flag: 0,
+                            success: "true",
+                            status: 200,
+                            data: newobj,
+                            ilist: installer,
+                            message: "Redirected"
+                        }
+                        res.render('newjob', { op })
+                        // res.send({ op });
+                    }
+                }
+            })
         }
     });
 })
@@ -76,7 +86,6 @@ router.get('/view/:jid', (req, res) => {
             res.redirect('/errpage');
         }
         else {
-            
             connection.query('SELECT u.UserName FROM UserTbl u, JobTbl j Where u.UserId=j.AssignedTo AND j.JobId=?', [jobid], (error, installer, fields) => {
                 if (error) {
                     res.redirect('/errpage');
@@ -105,7 +114,7 @@ router.get('/view/:jid', (req, res) => {
                             'iname': "not assigned",
                             'CreatedAt': dt
                         })
-            
+
                     }
                     res.render('newjobview', { op });
                 }
