@@ -584,11 +584,11 @@ router.get('/pastjob/:iid', (req, res) => {
                             // res.redirect('/error')
                             return res.json({
                                 status: false,
-                                message: err.message
+                                message: error.message
                             }).end()
                         }
                         else {
-                            if (result.length > 0) {
+                            if (results.length > 0) {
                                 var i
                                 var cnt = 1
                                 var newobj = [];
@@ -745,6 +745,292 @@ router.get('/wipjob/:iid', (req, res) => {
     }
 
 })
+
+//PAST Complaint by CustomerID
+router.get('/pastcomplaint/:cid', (req, res) => {
+    let customerid = req.params.cid;
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
+    console.log(token);
+    if (req.params.cid === undefined) {
+        return res.json({
+            status: false,
+            message: "invalid Customer Id"
+        })
+    }
+    if (token === undefined) {
+        return res.json({
+            status: false,
+            message: "forbidden"
+        })
+    } else {
+        if (token.startsWith("Bearer ")) {
+            if (token) {
+                token = token.slice(7, token.length).trimLeft();
+                var payload
+                try {
+                    payload = jwt.verify(token, JWTKEY)
+                    console.log('Payload for welcome :- ' + payload)
+                } catch (e) {
+                    if (e instanceof jwt.JsonWebTokenError) {
+                        console.log(e)
+                        return res.json({
+                            message: e.message,
+                            status: false
+                        });
+                    }
+                }
+                console.log(payload);
+                if (payload !== undefined) {
+                    connection.query('SELECT c.ComplaintId,c.OrderId,c.ComplaintStatus,c.CreatedAt FROM ComplaintTbl c, OrderTbl o WHERE c.OrderId = o.OrderId AND o.CustomerId = ?', [customerid], (error, results, fields) => {
+                        if (error) {
+                            // res.redirect('/error')
+                            return res.json({
+                                status: false,
+                                message: error.message
+                            }).end()
+                        }
+                        else {
+                            if (results.length > 0) {
+                                var i
+                                var cnt = 1
+                                var newobj = [];
+                                for (i = 0; i < results.length; i++) {
+
+                                    var tmpdate = results[i].CreatedAt;
+                                    var dt = format(tmpdate, 'dd-mm-yyyy');
+                                    newobj.push({
+                                        'ComplaintId': results[i].ComplaintId,
+                                        'OrderId': results[i].OrderId,
+                                        'CreatedAt': dt
+                                    })
+                                    cnt += 1
+                                }
+                                if (cnt > results.length) {
+                                    return res.json({
+                                        success: "true",
+                                        status: 200,
+                                        categories: newobj,
+                                        message: "Past Complaint Founded"
+                                    })
+                                }
+                            }
+                            else {
+                                return res.json({
+                                    success: "true",
+                                    status: 200,
+                                    categoried: [],
+                                    message: "No Past Complaint Founded"
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    return res.json({
+                        status: false,
+                        message: "invalid token payload or token is expired"
+                    })
+                }
+
+            } else {
+                return res.json({
+                    status: false,
+                    message: "forbidden"
+                })
+            }
+        } else {
+            return res.json({
+                status: false,
+                message: "Invalid token"
+            })
+        }
+    }
+
+})
+
+//Complaint by InstallerId
+router.get('/complaintlist/:iid', (req, res) => {
+    let installerid = req.params.iid;
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
+    console.log(token);
+    if (req.params.iid === undefined) {
+        return res.json({
+            status: false,
+            message: "invalid Installer Id"
+        })
+    }
+    if (token === undefined) {
+        return res.json({
+            status: false,
+            message: "forbidden"
+        })
+    } else {
+        if (token.startsWith("Bearer ")) {
+            if (token) {
+                token = token.slice(7, token.length).trimLeft();
+                var payload
+                try {
+                    payload = jwt.verify(token, JWTKEY)
+                    console.log('Payload for welcome :- ' + payload)
+                } catch (e) {
+                    if (e instanceof jwt.JsonWebTokenError) {
+                        console.log(e)
+                        return res.json({
+                            message: e.message,
+                            status: false
+                        });
+                    }
+                }
+                console.log(payload);
+                var host = req.headers.host;
+                var imagepath = host + "/images/complaints/";
+                if (payload !== undefined) {
+                    connection.query('SELECT * FROM ComplaintTbl WHERE AssignedTo = ?', [installerid], (error, results, fields) => {
+                        if (error) {
+                            // res.redirect('/error')
+                            return res.json({
+                                status: false,
+                                message: error.message
+                            }).end()
+                        }
+                        else {
+                            if (results.length > 0) {
+                                var i
+                                var cnt = 1
+                                var newobj = [];
+                                for (i = 0; i < results.length; i++) {
+
+                                    var tmpdate = results[i].CreatedAt;
+                                    var dt = format(tmpdate, 'dd-mm-yyyy');
+                                    newobj.push({
+                                        'ComplaintId': results[i].ComplaintId,
+                                        'OrderId': results[i].OrderId,
+                                        'ComplaintImg': imagepath + results[i].ComplaintImg,
+                                        'ComaplaintStatus': results[i].ComplaintStatus,
+                                        'Remarks': results[i].Remarks,
+                                        'CreatedAt': dt
+                                    })
+                                    cnt += 1
+                                }
+                                if (cnt > results.length) {
+                                    return res.json({
+                                        success: "true",
+                                        status: 200,
+                                        categories: newobj,
+                                        message: "Complaint Founded"
+                                    })
+                                }
+                            }
+                            else {
+                                return res.json({
+                                    success: "true",
+                                    status: 200,
+                                    categoried: [],
+                                    message: "No Complaint Founded"
+                                })
+                            }
+                        }
+                    })
+                } else {
+                    return res.json({
+                        status: false,
+                        message: "invalid token payload or token is expired"
+                    })
+                }
+
+            } else {
+                return res.json({
+                    status: false,
+                    message: "forbidden"
+                })
+            }
+        } else {
+            return res.json({
+                status: false,
+                message: "Invalid token"
+            })
+        }
+    }
+
+})
+
+//set Complaint status to completed
+router.get('/setComplaintStatus/:id', (req, res) => {
+    var complaintId = req.params.id;
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
+    console.log(token);
+    if (req.params.id === undefined) {
+        return res.json({
+            status: false,
+            message: "invalid job Id"
+        })
+    }
+    if (token === undefined) {
+        return res.json({
+            status: false,
+            message: "forbidden"
+        })
+    } else {
+        if (token.startsWith("Bearer ")) {
+            if (token) {
+                token = token.slice(7, token.length).trimLeft();
+                var payload
+                try {
+                    payload = jwt.verify(token, JWTKEY)
+                    console.log('Payload for welcome :- ' + payload)
+                } catch (e) {
+                    if (e instanceof jwt.JsonWebTokenError) {
+                        console.log(e)
+                        return res.json({
+                            message: e.message,
+                            status: false
+                        });
+                    }
+                }
+                console.log(payload);
+                if (payload !== undefined) {
+                    connection.query("UPDATE ComplaintTbl SET ComplaintStatus = 2 WHERE ComplaintId =" + complaintId, (err, result) => {
+                        if (err) {
+                            return res.json({
+                                status: false,
+                                message: err.message
+                            })
+                        } else {
+                            if (result.changedRows > 0) {
+                                res.json({
+                                    status: true,
+                                    message: "Complaint Status is changed successfully"
+                                }).end();
+                            } else {
+                                res.json({
+                                    status: true,
+                                    message: "Something went wrong, please try again later"
+                                }).end();
+                            }
+
+                        }
+                    })
+                } else {
+                    return res.json({
+                        status: false,
+                        message: "invalid token payload or token is expired"
+                    })
+                }
+
+            } else {
+                return res.json({
+                    status: false,
+                    message: "forbidden"
+                })
+            }
+        } else {
+            return res.json({
+                status: false,
+                message: "Invalid token"
+            })
+        }
+    }
+})
+
 
 //Order details by orderid
 router.get('/orderdetail/:oid', (req, res) => {
