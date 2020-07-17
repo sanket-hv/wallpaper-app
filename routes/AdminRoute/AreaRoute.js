@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
 //add Database
 router.post('/add', (req, res) => {
     let areaname = req.body.txtAreaName;
-    connection.query('INSERT INTO AreaTbl(AreaName) VALUES(?)', [areaname], function (error, results, fields) {
+    connection.query('INSERT INTO AreaTbl(AreaName,IsActive) VALUES(?,?)', [areaname,0], function (error, results, fields) {
         if (error) {
             res.redirect('/errpage');
         }
@@ -98,4 +98,26 @@ router.post('/edit', (req, res) => {
     })
 })
 
+//IsActive Status change
+router.post('/isactive',(req,res)=>{
+    let areaid = req.body.areaid;
+    let val = req.body.val;
+    let tempval
+    if (val == 0) {
+        tempval = 1;
+    }
+    else {
+        tempval = 0
+    }
+    connection.query('UPDATE AreaTbl SET IsActive = ? WHERE AreaId = ?',[tempval,areaid],(error,results, fields)=>{
+        if(error)
+        {
+            res.redirect('/errpage');
+        }
+        else{
+            res.send("updated");
+        }
+    })
+
+})
 module.exports = router;

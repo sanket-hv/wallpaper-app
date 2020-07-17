@@ -84,6 +84,7 @@ router.post('/add', async (req, res) => {
 })
 
 
+//IsActive Status change
 router.post('/edit',(req,res)=>{
     let productid = req.body.productid;
     let val = req.body.val;

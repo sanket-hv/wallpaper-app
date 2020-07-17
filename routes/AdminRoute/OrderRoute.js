@@ -66,7 +66,7 @@ router.get('/list', (req, res) => {
 })
 
 router.post('/pr', (req, res) => {
-    connection.query('SELECT * FROM ProductTbl', function (error, results, fields) {
+    connection.query('SELECT * FROM ProductTbl WHERE IsActive = ?', [0], function (error, results, fields) {
         if (error) {
             res.redirect('/errpage');
         }
@@ -129,7 +129,7 @@ router.post('/add', (req, res) => {
 
 //show order detail
 
-router.get('/detail/:oid',(req,res)=>{
+router.get('/detail/:oid', (req, res) => {
     let orderid = req.params.oid;
     connection.query('SELECT o.OrderId,u.UserName,u.Address,a.AreaName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u, AreaTbl a where u.AreaId = a.AreaId and u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=?', [orderid], (error, results, fields) => {
         if (error) {
@@ -146,8 +146,7 @@ router.get('/detail/:oid',(req,res)=>{
                     var tmpdate = results[0].CreatedAt;
                     var dt = format(tmpdate, 'dd-mm-yyyy');
                     var op = [];
-                    if (products.length > 0) 
-                    {
+                    if (products.length > 0) {
                         op.push({
                             'OrderId': results[0].OrderId,
                             'UserName': results[0].UserName,
@@ -158,7 +157,7 @@ router.get('/detail/:oid',(req,res)=>{
                             'product': products,
                             'CreatedAt': dt
                         })
-                        res.render('orderview',{op});
+                        res.render('orderview', { op });
                     }
                 }
             })

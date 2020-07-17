@@ -77,7 +77,7 @@ router.post('/login', (req, res) => {
 
 //get all category
 router.get('/category', (req, res) => {
-    connection.query('SELECT * FROM CategoryTbl', (err, categories) => {
+    connection.query('SELECT * FROM CategoryTbl WHERE IsActive = ?', [0], (err, categories) => {
         if (err) {
             return res.json({
                 status: false,
@@ -110,7 +110,6 @@ router.get('/category', (req, res) => {
         }
     })
 })
-
 
 //get all products from category
 router.get('/products/:id', (req, res) => {

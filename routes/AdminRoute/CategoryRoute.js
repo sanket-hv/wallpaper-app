@@ -159,9 +159,28 @@ router.post('/edit', async (req, res) => {
             }
         })
     }
+})
 
-
-
+//IsActive Status change
+router.post('/isactive',(req,res)=>{
+    let categoryid = req.body.categoryid;
+    let val = req.body.val;
+    let tempval
+    if (val == 0) {
+        tempval = 1;
+    }
+    else {
+        tempval = 0
+    }
+    connection.query('UPDATE CategoryTbl SET IsActive = ? WHERE CategoryId = ?',[tempval,categoryid],(error,results, fields)=>{
+        if(error)
+        {
+            res.redirect('/errpage');
+        }
+        else{
+            res.send("updated");
+        }
+    })
 })
 
 module.exports = router;

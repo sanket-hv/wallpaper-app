@@ -5,7 +5,7 @@ const router = express.Router();
 //This is for AREA AJAX Call
 router.post('/area', (req, res) => {
     if (req.body.message == "ajaxarea") {
-        connection.query('SELECT * FROM AreaTbl', function (error, results, fields) {
+        connection.query('SELECT * FROM AreaTbl WHERE IsActive = ?', [0], function (error, results, fields) {
             // console.log('common area');
             if (error) {
                 res.redirect('/errpage');
@@ -34,7 +34,7 @@ router.post('/role', (req, res) => {
 //category
 router.post('/category', (req, res) => {
     if (req.body.message == "ajaxcategory") {
-        connection.query('SELECT * FROM CategoryTbl', function (error, results, fields) {
+        connection.query('SELECT * FROM CategoryTbl WHERE IsActive = ?', [0], function (error, results, fields) {
             // console.log('common area');
             if (error) {
                 res.redirect('/errpage');
@@ -76,7 +76,7 @@ router.post('/type', (req, res) => {
 //Product
 router.post('/product', (req, res) => {
     if (req.body.message == "ajaxproduct") {
-        connection.query('SELECT * FROM ProductTbl', function (error, results, fields) {
+        connection.query('SELECT * FROM ProductTbl WhERE IsActive = ? ', [0], function (error, results, fields) {
             if (error) {
                 res.redirect('/errpage');
             }

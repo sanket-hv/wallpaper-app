@@ -1,9 +1,21 @@
 extends layout.pug
 
 block append topscripts     
+    link(rel='stylesheet' type='text/css' href='/assets/css/forms/switches.css')
     link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/datatables.css')
     link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/dt-global_style.css')
-
+    script(type="text/javascript").
+        function callcmb(id,val){
+            $.ajax({
+                type: 'post',
+                url: '/area/isactive',
+                data: {'areaid' : id,
+                        'val': val} ,
+                success: function(data){
+                     
+                }
+            })
+        }
 block content
     #content.main-content
         .layout-px-spacing
@@ -45,12 +57,22 @@ block content
                                     thead   
                                         tr
                                             th Area
+                                            th IsActive?
                                             th EDIT
                                     tbody
                                         
                                         each obj in op.data
                                             tr
                                                 td #{obj.AreaName}
+                                                td 
+                                                    if obj.IsActive == 1
+                                                        label.switch.s-icons.s-outline.s-outline-primary.mb-4.mr-2
+                                                            input(type='checkbox' onChange="callcmb("+obj.AreaId+","+obj.IsActive+");")
+                                                            span.slider.round
+                                                    else
+                                                        label.switch.s-icons.s-outline.s-outline-primary.mb-4.mr-2
+                                                            input(type='checkbox' onChange="callcmb("+obj.AreaId+","+obj.IsActive+");" checked='')
+                                                            span.slider.round 
                                                 td 
                                                     a(href="/area/edit/"+obj.AreaId)
                                                         button(class="btn btn-warning") EDIT
