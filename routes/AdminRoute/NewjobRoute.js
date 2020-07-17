@@ -80,7 +80,7 @@ router.post('/change', (req, res) => {
 //View the job details by passing JobID
 router.get('/view/:jid', (req, res) => {
     let jobid = req.params.jid;
-    connection.query('SELECT j.JobId,j.OrderId,j.JobStatus,a.AreaName,u.UserName FROM JobTbl j, OrderTbl o,UserTbl u,AreaTbl a WHERE j.OrderId=o.OrderId AND o.CustomerId=u.UserId AND u.AreaId=a.AreaId AND j.JobId=?', [jobid], (error, job, fields) => {
+    connection.query('SELECT j.JobId,j.OrderId,j.JobStatus,a.AreaName,u.UserName,u.Address FROM JobTbl j, OrderTbl o,UserTbl u,AreaTbl a WHERE j.OrderId=o.OrderId AND o.CustomerId=u.UserId AND u.AreaId=a.AreaId AND j.JobId=?', [jobid], (error, job, fields) => {
         if (error) {
             console.error(error);
             res.redirect('/errpage');

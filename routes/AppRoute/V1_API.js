@@ -34,8 +34,8 @@ router.post('/login', (req, res) => {
             message: "forbidden"
         })
     }
-    console.log(md5(password));
-    connection.query("SELECT * FROM UserTbl WHERE Email ='" + username + "' AND Password = '" + md5(password) + "'", (err, user) => {
+    console.log(password);
+    connection.query("SELECT * FROM UserTbl WHERE Email = ? AND Password = ?", [username, password], (err, user) => {
         if (err) {
             //error handling
             return res.json({
@@ -1066,7 +1066,7 @@ router.get('/orderdetail/:oid', (req, res) => {
                 }
                 console.log(payload);
                 if (payload !== undefined) {
-                    connection.query('SELECT o.OrderId,u.UserName,a.AreaName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u, AreaTbl a where u.AreaId = a.AreaId and u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=?', [orderid], (error, results, fields) => {
+                    connection.query('SELECT o.OrderId,u.UserName,u.Address,a.AreaName,s.ServiceName,w.TypeName,o.NODWarranty,o.CreatedAt FROM OrderTbl o,ServiceTbl s, WallpaperTypeTbl w, UserTbl u, AreaTbl a where u.AreaId = a.AreaId and u.UserId = o.CustomerId and o.ServiceId= s.ServiceId and o.TypeId=w.TypeId and o.OrderId=?', [orderid], (error, results, fields) => {
                         if (error) {
                             return res.json({
                                 status: false,

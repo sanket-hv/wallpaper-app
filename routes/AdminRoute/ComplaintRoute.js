@@ -81,7 +81,7 @@ router.post('/change', (req, res) => {
 
 router.get('/view/:cid', (req, res) => {
     let complaintid = req.params.cid;
-    connection.query('SELECT c.ComplaintId,u.UserName,a.AreaName,c.OrderId,c.ComplaintImg,c.Remarks,c.ComplaintStatus,c.CreatedAt FROM ComplaintTbl c,OrderTbl o, UserTbl u,AreaTbl a WHERE u.AreaId = a.AreaId AND c.OrderId=o.OrderId AND o.CustomerId=u.UserId AND c.ComplaintId=?', [complaintid], (error, complaints, fields) => {
+    connection.query('SELECT c.ComplaintId,u.UserName,a.AreaName,,u.Address,c.OrderId,c.ComplaintImg,c.Remarks,c.ComplaintStatus,c.CreatedAt FROM ComplaintTbl c,OrderTbl o, UserTbl u,AreaTbl a WHERE u.AreaId = a.AreaId AND c.OrderId=o.OrderId AND o.CustomerId=u.UserId AND c.ComplaintId=?', [complaintid], (error, complaints, fields) => {
         if (error) {
             res.redirect('/errpage');
         }

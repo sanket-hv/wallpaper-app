@@ -17,17 +17,21 @@ block content
                                 table#zero-config.table.table-hover(style='width:100%')
                                     thead   
                                         tr
-                                            th Name
-                                            th Email
-                                            th Contact No
-                                            th Area
+                                            th(width="10%") Name
+                                            th(width="20%") Email
+                                            th(width="15%") Password
+                                            th(width="15%") Contact No
+                                            th Address
+                                            th(width="15%") Area
                                             //- th EDIT
                                     tbody
                                         each obj in op.data
                                             tr
                                                 td #{obj.UserName}
                                                 td #{obj.Email}
+                                                td #{obj.Password}
                                                 td #{obj.ContactNo}
+                                                td #{obj.Address}
                                                 td #{obj.AreaName}
                                                 //- td 
                                                 //-     a(href="/register/edit/"+obj.UserId)
