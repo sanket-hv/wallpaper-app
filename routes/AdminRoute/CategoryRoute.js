@@ -38,8 +38,8 @@ router.post('/add', async (req, res) => {
         }
         else {
             let CategoryName = req.body.txtCategoryName;
-            let sql = "INSERT INTO CategoryTbl(CategoryName,Img) VALUES(?,?)"
-            let data = [CategoryName, fname];
+            let sql = "INSERT INTO CategoryTbl(CategoryName,Img,IsActive) VALUES(?,?,?)"
+            let data = [CategoryName, fname, 0];
             connection.query(sql, data, (error, results, fields) => {
                 if (error) {
                     res.redirect('/errpage');
@@ -162,7 +162,7 @@ router.post('/edit', async (req, res) => {
 })
 
 //IsActive Status change
-router.post('/isactive',(req,res)=>{
+router.post('/isactive', (req, res) => {
     let categoryid = req.body.categoryid;
     let val = req.body.val;
     let tempval
@@ -172,12 +172,11 @@ router.post('/isactive',(req,res)=>{
     else {
         tempval = 0
     }
-    connection.query('UPDATE CategoryTbl SET IsActive = ? WHERE CategoryId = ?',[tempval,categoryid],(error,results, fields)=>{
-        if(error)
-        {
+    connection.query('UPDATE CategoryTbl SET IsActive = ? WHERE CategoryId = ?', [tempval, categoryid], (error, results, fields) => {
+        if (error) {
             res.redirect('/errpage');
         }
-        else{
+        else {
             res.send("updated");
         }
     })
