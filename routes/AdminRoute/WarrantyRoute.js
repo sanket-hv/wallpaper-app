@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
 router.post('/add', (req, res) => {
     let warrantyname = req.body.txtWarrantyName;
     let warrantyvalue = req.body.txtWarrantyValue;
-    connection.query('INSERT INTO WarrantyTbl(WarrantyName,WarrantyValue) VALUES(?,?)', [warrantyname, warrantyvalue], function (error, results, fields) {
+    connection.query('INSERT INTO WarrantyTbl(WarrantyName,WarrantyValue,IsActive) VALUES(?,?,?)', [warrantyname, warrantyvalue, 0], function (error, results, fields) {
         if (error) {
             var op = {
                 success: "false",
