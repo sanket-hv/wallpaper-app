@@ -3,7 +3,19 @@ extends layout.pug
 block append topscripts     
     link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/datatables.css')
     link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/dt-global_style.css')
-
+    link(rel='stylesheet' type='text/css' href='/assets/css/forms/switches.css')
+    script(type="text/javascript").
+        function callcmb(id,val){
+            $.ajax({
+                type: 'post',
+                url: '/offer/isactive',
+                data: {'offerid' : id,
+                        'val': val} ,
+                success: function(data){
+                     
+                }
+            })
+        }
 block content
     #content.main-content
         .layout-px-spacing
@@ -33,12 +45,22 @@ block content
                             thead   
                                 tr
                                     th Offer
+                                    th IsActive?
                                     th Edit
                             tbody
                                     
                                 each obj in op.data
                                     tr
                                         td #{obj.OfferName}
+                                        td 
+                                            if obj.IsActive == 1
+                                                label.switch.s-icons.s-outline.s-outline-primary.mb-4.mr-2
+                                                    input(type='checkbox' onChange="callcmb("+obj.OfferId+","+obj.IsActive+");")
+                                                    span.slider.round
+                                            else
+                                                label.switch.s-icons.s-outline.s-outline-primary.mb-4.mr-2
+                                                    input(type='checkbox' onChange="callcmb("+obj.OfferId+","+obj.IsActive+");" checked='')
+                                                    span.slider.round
                                         td 
                                             a(href="/offer/edit/"+obj.OfferId)
                                                 button(class="btn btn-warning") EDIT

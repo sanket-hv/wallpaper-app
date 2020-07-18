@@ -29,6 +29,7 @@ router.get('/', (req, res) => {
                     'Name': results[i].Name,
                     'ContactNo': results[i].ContactNo,
                     'EmailId': results[i].EmailId,
+                    'Remarks' : results[i].Remarks,
                     'IsAttended': results[i].IsAttended
                 })
                 cnt += 1

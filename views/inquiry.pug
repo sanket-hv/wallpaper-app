@@ -34,6 +34,7 @@ block content
                                     th Name
                                     th Contact No
                                     th Email 
+                                    th Remarks
                                     th Is Attended?
                             tbody 
                                 each obj in op.data
@@ -42,6 +43,7 @@ block content
                                         td #{obj.Name}
                                         td #{obj.ContactNo}
                                         td #{obj.EmailId}
+                                        td #{obj.Remarks}
                                         td 
                                             if obj.IsAttended == 0
                                                 label.switch.s-icons.s-outline.s-outline-primary.mb-4.mr-2

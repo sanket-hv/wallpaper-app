@@ -118,4 +118,25 @@ router.post('/edit', (req, res) => {
     })
 })
 
+router.post('/isactive',(req,res)=>{
+    let warrantyid = req.body.warrantyid;
+    let val = req.body.val;
+    let tempval
+    if (val == 0) {
+        tempval = 1;
+    }
+    else {
+        tempval = 0
+    }
+    connection.query('UPDATE WarrantyTbl SET IsActive = ? WHERE WarrantyId = ?',[tempval,warrantyid],(error,results, fields)=>{
+        if(error)
+        {
+            res.redirect('/errpage');
+        }
+        else{
+            res.send("updated");
+        }
+    })
+})
+
 module.exports = router;

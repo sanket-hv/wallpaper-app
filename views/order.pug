@@ -83,7 +83,7 @@ block append topscripts
                 url: '/common/type',
                 data: {'message' : "ajaxtype"} ,
                 success: function(data){
-                    var cmbt = '<select class="form-control custom-select" name="cmbType" required><option selected="" disabled>Select Wallpaper Type</option>';
+                    var cmbt = '<select class="form-control custom-select" name="cmbType" required><option selected="" disabled>Select Job Type</option>';
                     for (var i=0;i < data.length; i++)
                     {
                         cmbt += '<option value="'+data[i].TypeId+'">'+data[i].TypeName+'</option>';
@@ -125,7 +125,7 @@ block content
                                         div#cmbservice
                                     .col
                                         span(style="color:red;font-weight:bold;") *
-                                        label(for="cmbType")  Select Wallpaper Type
+                                        label(for="cmbType")  Select Job Type
                                         div#cmbtype        
                                 .form-group.row.mb-4.col-lg-7
                                     .col

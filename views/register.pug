@@ -5,6 +5,29 @@ block append topscripts
     link(href='/plugins/sweetalerts/sweetalert.css' rel='stylesheet' type='text/css')
     script(src="https://code.jquery.com/jquery-3.5.0.js").
     script(type='text/javascript').
+
+        function checkemail()
+        {
+            //- alert("Check Email called");
+            var ckemail = document.getElementById('txtEmail').value
+            //- alert(ckemail);
+            $.ajax({
+                type: 'post',
+                url: '/register/checkemail',
+                data: {'emailadd' : ckemail} ,
+                success: function(data){
+                    //- alert("called")
+                    //- alert(data.op);
+                    if(data.op == 1){
+                        document.getElementById('erremail').innerHTML = "<span style='color:red;font-weight:bold;'> Email Exists </span>";
+                        document.getElementById('txtEmail').focus();
+                    }
+                    else{
+                        document.getElementById('erremail').innerHTML = "";
+                    }
+                }
+            })
+        }
         $(document).ready(function () {
             $.ajax({
                 type: 'post',
@@ -54,9 +77,10 @@ block content
                             form(method="post" action="/register/add")
                                 .form-group.row.mb-4.col-lg-6
                                     .col
-                                        span(style="color:red;font-weight:bold;") *
+                                        //- span(style="color:red;font-weight:bold;") *
+                                        div#erremail
                                         label(for="txtEmail")  Enter Email
-                                        input.form-control(type='email' placeholder='name@example.com' name="txtEmail" required)
+                                        input.form-control(type='email' placeholder='name@example.com' id="txtEmail" name="txtEmail" onblur="checkemail()" required)
                                 .form-group.row.mb-4.col-lg-6
                                     .col
                                         span(style="color:red;font-weight:bold;") *

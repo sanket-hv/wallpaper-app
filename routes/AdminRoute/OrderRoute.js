@@ -151,6 +151,7 @@ router.get('/detail/:oid', (req, res) => {
                             'OrderId': results[0].OrderId,
                             'UserName': results[0].UserName,
                             'AreaName': results[0].AreaName,
+                            'Address' : results[0].Address,
                             'ServiceName': results[0].ServiceName,
                             'TypeName': results[0].TypeName,
                             'NODWarranty': results[0].NODWarranty,

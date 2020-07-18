@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2020 at 02:39 PM
+-- Generation Time: Jul 18, 2020 at 01:54 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -52,6 +52,13 @@ CREATE TABLE `AreaTbl` (
   `AreaName` varchar(100) NOT NULL,
   `IsActive` int(11) NOT NULL COMMENT '0-Show, 1-Hidden'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `AreaTbl`
+--
+
+INSERT INTO `AreaTbl` (`AreaId`, `AreaName`, `IsActive`) VALUES
+(1, 'Malaysia', 0);
 
 -- --------------------------------------------------------
 
@@ -109,6 +116,7 @@ CREATE TABLE `InquiryTbl` (
   `Name` varchar(50) NOT NULL,
   `ContactNo` text NOT NULL,
   `EmailId` text NOT NULL,
+  `Remarks` int(11) NOT NULL,
   `IsAttended` int(11) NOT NULL DEFAULT '0' COMMENT '0- Not Attended, 1- Attended'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -135,15 +143,16 @@ CREATE TABLE `JobTbl` (
 
 CREATE TABLE `OfferTbl` (
   `OfferId` int(11) NOT NULL,
-  `OfferName` varchar(150) NOT NULL COMMENT 'EG.: 10% off in this month'
+  `OfferName` varchar(150) NOT NULL COMMENT 'EG.: 10% off in this month',
+  `IsActive` int(11) NOT NULL COMMENT '0-Show, 1-Hidden'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `OfferTbl`
 --
 
-INSERT INTO `OfferTbl` (`OfferId`, `OfferName`) VALUES
-(1, '10% off');
+INSERT INTO `OfferTbl` (`OfferId`, `OfferName`, `IsActive`) VALUES
+(1, '10% off', 0);
 
 -- --------------------------------------------------------
 
@@ -228,8 +237,14 @@ CREATE TABLE `ServiceTbl` (
 --
 
 INSERT INTO `ServiceTbl` (`ServiceId`, `ServiceName`) VALUES
-(1, 'Service 1'),
-(2, 'Service 2');
+(1, 'High Wall(>= 11 ft)'),
+(2, 'Normal Wall(< = 10 ft)'),
+(3, 'Ceiling'),
+(4, 'Skin Coat'),
+(5, 'Removing Wallpaper'),
+(6, 'Install Sticker'),
+(7, 'Install Roller Blinds'),
+(8, 'Other');
 
 -- --------------------------------------------------------
 
@@ -266,8 +281,13 @@ CREATE TABLE `WallpaperTypeTbl` (
 --
 
 INSERT INTO `WallpaperTypeTbl` (`TypeId`, `TypeName`) VALUES
-(1, 'Type 1'),
-(2, 'Type 2');
+(1, '21\" Wallpaper'),
+(2, 'Korean Wallpaper'),
+(3, 'Mural Wallpaper'),
+(4, 'Touch Up Service'),
+(5, '#M Sticker'),
+(6, 'Canvas'),
+(7, 'Roller Blinds');
 
 -- --------------------------------------------------------
 
@@ -278,7 +298,8 @@ INSERT INTO `WallpaperTypeTbl` (`TypeId`, `TypeName`) VALUES
 CREATE TABLE `WarrantyTbl` (
   `WarrantyId` int(11) NOT NULL,
   `WarrantyName` varchar(50) NOT NULL,
-  `WarrantyValue` int(11) NOT NULL COMMENT 'Warrany value in days.'
+  `WarrantyValue` int(11) NOT NULL COMMENT 'Warrany value in days.',
+  `IsActive` int(11) NOT NULL COMMENT '0-Show, 1-Hidden'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -395,7 +416,7 @@ ALTER TABLE `AdminTbl`
 -- AUTO_INCREMENT for table `AreaTbl`
 --
 ALTER TABLE `AreaTbl`
-  MODIFY `AreaId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `AreaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `CategoryTbl`
@@ -461,7 +482,7 @@ ALTER TABLE `RoleTbl`
 -- AUTO_INCREMENT for table `ServiceTbl`
 --
 ALTER TABLE `ServiceTbl`
-  MODIFY `ServiceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ServiceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `UserTbl`
@@ -473,7 +494,7 @@ ALTER TABLE `UserTbl`
 -- AUTO_INCREMENT for table `WallpaperTypeTbl`
 --
 ALTER TABLE `WallpaperTypeTbl`
-  MODIFY `TypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `TypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `WarrantyTbl`

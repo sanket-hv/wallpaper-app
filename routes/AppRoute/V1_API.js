@@ -1098,6 +1098,7 @@ router.get('/orderdetail/:oid', (req, res) => {
                                             'OrderId': results[0].OrderId,
                                             'UserName': results[0].UserName,
                                             'AreaName': results[0].AreaName,
+                                            'Address': results[0].Address,
                                             'ServiceName': results[0].ServiceName,
                                             'TypeName': results[0].TypeName,
                                             'NODWarranty': results[0].NODWarranty,
@@ -1220,7 +1221,8 @@ router.post('/addInquiry', (req, res) => {
     var name = req.body.name;
     var contactNo = req.body.contactNo;
     var emailId = req.body.emailId;
-    connection.query("INSERT INTO InquiryTbl(InquiryDate, Name, ContactNo, EmailId, IsAttended) VALUES(CURRENT_TIMESTAMP, '" + name + "', '" + contactNo + "', '" + emailId + "', 0)", (err, result) => {
+    var remarks = req.body.remarks;
+    connection.query("INSERT INTO InquiryTbl(InquiryDate, Name, ContactNo, EmailId,Remarks, IsAttended) VALUES(CURRENT_TIMESTAMP, '" + name + "', '" + contactNo + "', '" + emailId + "', '" + remarks + "', 0)", (err, result) => {
         if (err) {
             return res.json({
                 status: false,

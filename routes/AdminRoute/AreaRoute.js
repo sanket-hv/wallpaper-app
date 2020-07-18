@@ -118,6 +118,5 @@ router.post('/isactive',(req,res)=>{
             res.send("updated");
         }
     })
-
 })
 module.exports = router;

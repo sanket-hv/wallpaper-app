@@ -104,7 +104,7 @@ router.post('/customer', (req, res) => {
 //warranty
 router.post('/warranty', (req, res) => {
     if (req.body.message == "ajaxwarranty") {
-        connection.query('SELECT * FROM WarrantyTbl', function (error, results, fields) {
+        connection.query('SELECT * FROM WarrantyTbl WHERE IsActive = ?', [0], function (error, results, fields) {
             if (error) {
                 res.redirect('/errpage');
             }

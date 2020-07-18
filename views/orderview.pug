@@ -9,7 +9,7 @@ block content
                         .widget-content.widget-content-area
                             center
                                 h4 Order Details
-                            table( cellPadding="5" cellSpacing="5")
+                            table(cellPadding="5" cellSpacing="5")
                                 tr  
                                     td(width="30%") 
                                         span(style="color:blue") Order Id# : 
@@ -25,35 +25,38 @@ block content
                                         span(style="color:blue") Area: 
                                         span(style="color:black") #{op[0].AreaName}
                                 tr
-                                    td(colspan="2") 
+                                    td
                                         span(style="color:blue") Service : 
                                         span(style="color:black") #{op[0].ServiceName}
+                                    td(align="right" rowspan="2")
+                                            span(style="color:blue") Address: 
+                                            span(style="color:black") #{op[0].Address}
                                 tr
-                                    td(colspan="2")
+                                    td()
                                         span(style="color:blue") Wallpaper Type : 
                                         span(style="color:black") #{op[0].TypeName}   
 
-                div.col-xl-12.col-lg-6.col-md-7.col-sm-12.layout-top-spacing
-                    .bio.layout-spacing
-                        .widget-content.widget-content-area
-                            h4 Product Details
-                            table(border="1" cellPadding="5" cellSpacing="5" width="100%" style="border:black;")
-                                thead   
-                                    th 
-                                        span(style="color:blue") Image
-                                    th(width="15%") 
-                                        span(style="color:blue") Title
-                                    th(width="15%") 
-                                        span(style="color:blue") Category    
-                                    th(width="10%") 
-                                        span(style="color:blue") Price
-                                    th(width="30%")
-                                        span(style="color:blue") Details
-                                each prod in op[0].product
-                                    tr
-                                        td  
-                                            img(src="/images/product/"+prod.ProductImg height="150px" width="300px")
-                                        td  #{prod.ProductTitle}
-                                        td  #{prod.CategoryName}
-                                        td  #{prod.Price}
-                                        td  #{prod.Details}
+                //- div.col-xl-12.col-lg-6.col-md-7.col-sm-12.layout-top-spacing
+                //-     .bio.layout-spacing
+                //-         .widget-content.widget-content-area
+                //-             h4 Product Details
+                //-             table(border="1" cellPadding="5" cellSpacing="5" width="100%" style="border:black;")
+                //-                 thead   
+                //-                     th 
+                //-                         span(style="color:blue") Image
+                //-                     th(width="15%") 
+                //-                         span(style="color:blue") Title
+                //-                     th(width="15%") 
+                //-                         span(style="color:blue") Category    
+                //-                     th(width="10%") 
+                //-                         span(style="color:blue") Price
+                //-                     th(width="30%")
+                //-                         span(style="color:blue") Details
+                //-                 each prod in op[0].product
+                //-                     tr
+                //-                         td  
+                //-                             img(src="/images/product/"+prod.ProductImg height="150px" width="300px")
+                //-                         td  #{prod.ProductTitle}
+                //-                         td  #{prod.CategoryName}
+                //-                         td  #{prod.Price}
+                //-                         td  #{prod.Details}

@@ -3,6 +3,19 @@ extends layout.pug
 block append topscripts     
     link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/datatables.css')
     link(rel='stylesheet' type='text/css' href='/plugins/table/datatable/dt-global_style.css')
+    link(rel='stylesheet' type='text/css' href='/assets/css/forms/switches.css')
+    script(type="text/javascript").
+        function callcmb(id,val){
+            $.ajax({
+                type: 'post',
+                url: '/warranty/isactive',
+                data: {'warrantyid' : id,
+                        'val': val} ,
+                success: function(data){
+                     
+                }
+            })
+        }
 
 block content
     #content.main-content
@@ -50,6 +63,7 @@ block content
                                         tr
                                             th Warranty
                                             th No. of Day
+                                            th IsActive
                                             th EDIT
                                     tbody
                                         
@@ -57,6 +71,15 @@ block content
                                             tr
                                                 td #{obj.WarrantyName}
                                                 td #{obj.WarrantyValue} Days
+                                                td 
+                                                    if obj.IsActive == 1
+                                                        label.switch.s-icons.s-outline.s-outline-primary.mb-4.mr-2
+                                                            input(type='checkbox' onChange="callcmb("+obj.WarrantyId+","+obj.IsActive+");")
+                                                            span.slider.round
+                                                    else
+                                                        label.switch.s-icons.s-outline.s-outline-primary.mb-4.mr-2
+                                                            input(type='checkbox' onChange="callcmb("+obj.WarrantyId+","+obj.IsActive+");" checked='')
+                                                            span.slider.round
                                                 td 
                                                     a(href="/warranty/edit/"+obj.WarrantyId)
                                                         button(class="btn btn-warning") EDIT

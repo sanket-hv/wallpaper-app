@@ -24,12 +24,13 @@ block content
                                     td(align="right")
                                         span(style="color:blue") Customer name : 
                                         span(style="color:black") #{op[0].cname}
+                                
                                 tr    
                                 if op[0].Status != 0
                                     if op[0].Status == 1
                                         tr    
                                             td
-                                                span(style="color:blue") Assigned To?: 
+                                                span(style="color:blue") Assigned To: 
                                                 span(style="color:black") #{op[0].iname}
                                             td(align="right")
                                                 span(style="color:blue") Customer Area : 
@@ -59,3 +60,10 @@ block content
                                             td(align="right")
                                                 span(style="color:blue") Customer Area : 
                                                 span(style="color:black") #{op[0].AreaName}
+                                tr
+                                    td 
+                                    //-     span(style="color:blue") Job Id# : 
+                                    //-     span(style="color:black") #{op[0].JobId}
+                                    td(align="right")
+                                        span(style="color:blue") Address : 
+                                        span(style="color:black") #{op[0].Address}

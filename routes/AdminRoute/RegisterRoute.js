@@ -102,4 +102,30 @@ router.post('/add', (req, res) => {
     });
 })
 
+router.post('/checkemail',(req,res)=>{
+    const ckemail = req.body.emailadd;
+    connection.query('SELECT * FROM UserTbl WHERE Email = ?',[ckemail],(error,results)=>{
+        if(error){
+            res.redirect('/errpage')
+        }
+        else{
+            if (results.length > 0)
+            {
+                res.send({
+                    status: 200,
+                    op : 1
+                })
+            }
+            else{
+                res.send({
+                    status: 200,
+                    op : 0
+                })
+            }
+
+        }
+    })
+
+})
+
 module.exports = router;

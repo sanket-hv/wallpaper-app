@@ -69,7 +69,9 @@ router.get('/edit/:id', (req, res) => {
             res.redirect('/errpage');
         }
         else {
+            
             if (results.length > 0) {
+                tempimg = results[0].Img;
                 var op = {
                     flag: 1,
                     success: "true",
@@ -118,28 +120,29 @@ router.post('/edit', async (req, res) => {
         })
     }
     else {
+        // console.log(tempimg);
         imgfile = req.files.categoryImage;
         fname = Date.now() + req.files.categoryImage.name;
         const rmpath = './public/images/category/' + tempimg;
+        // console.log(rmpath);
         fs.unlink(rmpath, (err) => {
             if (err) {
+                // console.log('delete error')
                 res.redirect('/errpage')
             }
             else {
                 imgfile.mv('./public/images/category/' + fname, (err1) => {
                     if (err1) {
+                        // console.log("move erro")
                         res.redirect('/errpage')
                     }
                     else {
-                        console.log("File deleted")
+                        // console.log("File deleted")
                         sql = "UPDATE CategoryTbl SET CategoryName = ?, Img = ? WHERE CategoryId = ?";
+                        // console.log([CategoryName, fname, cid])
                         connection.query(sql, [CategoryName, fname, cid], (error, results, fields) => {
                             if (error) {
-                                var op = {
-                                    success: "false",
-                                    status: 404,
-                                    data: error
-                                }
+                                res.redirect('/errpage');
                             }
                             else {
                                 var op = {
