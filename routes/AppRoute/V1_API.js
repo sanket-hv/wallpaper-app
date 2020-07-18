@@ -1030,7 +1030,6 @@ router.get('/setComplaintStatus/:id', (req, res) => {
     }
 })
 
-
 //Order details by orderid
 router.get('/orderdetail/:oid', (req, res) => {
     const orderid = req.params.oid;
