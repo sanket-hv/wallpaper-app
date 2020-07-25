@@ -81,13 +81,16 @@ router.post('/change', (req, res) => {
 
 router.get('/view/:cid', (req, res) => {
     let complaintid = req.params.cid;
-    connection.query('SELECT c.ComplaintId,u.UserName,a.AreaName,,u.Address,c.OrderId,c.ComplaintImg,c.Remarks,c.ComplaintStatus,c.CreatedAt FROM ComplaintTbl c,OrderTbl o, UserTbl u,AreaTbl a WHERE u.AreaId = a.AreaId AND c.OrderId=o.OrderId AND o.CustomerId=u.UserId AND c.ComplaintId=?', [complaintid], (error, complaints, fields) => {
+    console.log(complaintid)
+    connection.query('SELECT c.ComplaintId,u.UserName,a.AreaName,u.Address,c.OrderId,c.ComplaintImg,c.Remarks,c.ComplaintStatus,c.CreatedAt FROM ComplaintTbl c,OrderTbl o, UserTbl u,AreaTbl a WHERE u.AreaId = a.AreaId AND c.OrderId=o.OrderId AND o.CustomerId=u.UserId AND c.ComplaintId=?', [complaintid], (error, complaints, fields) => {
         if (error) {
+            console.log("first")
             res.redirect('/errpage');
         }
         else {
             connection.query('SELECT u.UserName from ComplaintTbl c, UserTbl u where c.AssignedTo = u.UserId AND c.ComplaintId=?', [complaintid], (error, installer, fields) => {
                 if (error) {
+                    console.log("second")
                     res.redirect('/errpage')
                 }
                 else {

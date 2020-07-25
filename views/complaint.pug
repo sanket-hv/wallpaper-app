@@ -41,7 +41,7 @@ block content
                                                         span.shadow-none.badge.outline-badge-success Completed
                                                 td 
                                                     if obj.AssignedTo == 0
-                                                        select#cmbassign.form-control(onchange="assignto("+obj.ComplaintId+")")
+                                                        select#cmbassign.form-control(onchange="assignto("+obj.ComplaintId+",this.value)")
                                                             option(value="0" style="color:black" selected="" disabled) -- Select --
                                                             each installer in op.ilist
                                                                 option(value=installer.UserId style="color:black") #{installer.UserName}
@@ -60,9 +60,7 @@ block content
 //- This is a page level scripts
 block append bottomscripts
     script(type="text/javascript").
-        function assignto(cmid){
-            var inid = document.getElementById('cmbassign').value;
-
+        function assignto(cmid,inid){
             $.ajax({
                 type: 'post',
                 url: '/complaint/change',

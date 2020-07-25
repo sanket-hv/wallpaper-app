@@ -188,7 +188,7 @@ router.get('/product/:id', (req, res) => {
 
 //get all offers
 router.get('/offers', (req, res) => {
-    connection.query('SELECT * FROM OfferTbl', (err, offers) => {
+    connection.query('SELECT * FROM OfferTbl WHERE IsActive = ?',[0], (err, offers) => {
         if (err) {
             return res.json({
                 status: false,
@@ -892,12 +892,12 @@ router.get('/complaintlist/:iid', (req, res) => {
                             }).end()
                         }
                         else {
+                            // console.log(results)
                             if (results.length > 0) {
                                 var i
                                 var cnt = 1
                                 var newobj = [];
                                 for (i = 0; i < results.length; i++) {
-
                                     var tmpdate = results[i].CreatedAt;
                                     var dt = format(tmpdate, 'dd-mm-yyyy');
                                     newobj.push({
