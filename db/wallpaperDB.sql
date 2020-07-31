@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 18, 2020 at 01:54 PM
+-- Generation Time: Jul 31, 2020 at 07:25 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -52,13 +52,6 @@ CREATE TABLE `AreaTbl` (
   `AreaName` varchar(100) NOT NULL,
   `IsActive` int(11) NOT NULL COMMENT '0-Show, 1-Hidden'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `AreaTbl`
---
-
-INSERT INTO `AreaTbl` (`AreaId`, `AreaName`, `IsActive`) VALUES
-(1, 'Malaysia', 0);
 
 -- --------------------------------------------------------
 
@@ -116,7 +109,7 @@ CREATE TABLE `InquiryTbl` (
   `Name` varchar(50) NOT NULL,
   `ContactNo` text NOT NULL,
   `EmailId` text NOT NULL,
-  `Remarks` int(11) NOT NULL,
+  `Remarks` varchar(50) NOT NULL,
   `IsAttended` int(11) NOT NULL DEFAULT '0' COMMENT '0- Not Attended, 1- Attended'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -244,7 +237,8 @@ INSERT INTO `ServiceTbl` (`ServiceId`, `ServiceName`) VALUES
 (5, 'Removing Wallpaper'),
 (6, 'Install Sticker'),
 (7, 'Install Roller Blinds'),
-(8, 'Other');
+(8, 'Install Mural Wallpaper'),
+(9, 'Other');
 
 -- --------------------------------------------------------
 
@@ -416,7 +410,7 @@ ALTER TABLE `AdminTbl`
 -- AUTO_INCREMENT for table `AreaTbl`
 --
 ALTER TABLE `AreaTbl`
-  MODIFY `AreaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `AreaId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `CategoryTbl`
@@ -482,7 +476,7 @@ ALTER TABLE `RoleTbl`
 -- AUTO_INCREMENT for table `ServiceTbl`
 --
 ALTER TABLE `ServiceTbl`
-  MODIFY `ServiceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ServiceId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `UserTbl`
