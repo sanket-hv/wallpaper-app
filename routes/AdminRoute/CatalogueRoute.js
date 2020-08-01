@@ -39,6 +39,80 @@ router.get('/view', (req, res) => {
     });
 })
 
+
+//product select for edit
+router.get('/edit/:id', (req, res) => {
+
+    // console.log("called");
+    let id = req.params.id
+    let sql = "select * from ProductTbl where ProductId = ?"
+    connection.query(sql, [id], (error, result) => {
+        if (error) {
+            res.redirect('/errpage');
+        }
+        else {
+            
+            if (result.length > 0) {
+                var op = {
+                    flag: 2,
+                    success: "true",
+                    status: 200,
+                    data: result,
+                    message: "Redirected"
+                }
+            }
+            else {
+                var op = {
+                    flag: 1,
+                    success: "false",
+                    status: 200,
+                    data: result,
+                    message: "Product Not Available"
+                }
+            }
+            // console.log(op.data[0].Details);
+            res.render('catalogue', { op });
+        }
+    })
+})
+
+//Edit submit
+router.post('/editSubmit',(req,res)=>{
+    let pid = req.body.txtProductId
+    let title = req.body.txtTitle
+    let price = req.body.txtPrice
+    let detail = req.body.txtDetail
+
+    let sql = "UPDATE ProductTbl SET ProductTitle = ?, Price = ?, Details = ? WHERE ProductId = ?"
+    connection.query(sql,[title,price,detail,pid],(error,result)=>{
+        if(error){
+            res.redirect('/errpage');
+        }
+        else{
+            if(result.affectedRows > 0)
+            {
+                var op = {
+                    flag: 0,
+                    success: "true",
+                    status: 200,
+                    data: result,
+                    message: "Product Edited Successfully"
+                }
+            }
+            else
+            {
+                var op = {
+                    success: "false",
+                    status: 404,
+                    data: error
+                }
+            }
+            res.redirect('/catalogue/view');
+        }
+    })
+})
+
+
 //add category
 router.post('/add', async (req, res) => {
     let categoryid = req.body.cmbCategory;
@@ -85,7 +159,7 @@ router.post('/add', async (req, res) => {
 
 
 //IsActive Status change
-router.post('/edit',(req,res)=>{
+router.post('/edit', (req, res) => {
     let productid = req.body.productid;
     let val = req.body.val;
     let tempval
@@ -95,15 +169,17 @@ router.post('/edit',(req,res)=>{
     else {
         tempval = 0
     }
-    connection.query('UPDATE ProductTbl SET IsActive = ? WHERE ProductId = ?',[tempval,productid],(error,results, fields)=>{
-        if(error)
-        {
+    connection.query('UPDATE ProductTbl SET IsActive = ? WHERE ProductId = ?', [tempval, productid], (error, results, fields) => {
+        if (error) {
             res.redirect('/errpage');
         }
-        else{
+        else {
             res.send("updated");
         }
     })
 
 })
+
+
+
 module.exports = router;

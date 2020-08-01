@@ -28,44 +28,71 @@ block content
         .layout-px-spacing
             .row.layout-top-spacing#cancel-row
                 //- Form content is starting from here
-                //- if (op.flag == 0)
-                col-lg-12.col-12.layout-spacing
-                    .statbox.widget.box.box-shadow
-                        .widget-header
-                            .row
-                                .col-xl-12.col-md-12.col-sm-12.col-12
-                                    h4 Add Product
-                        .widget-content.widget-content-area
-                            form(method="post" action="/catalogue/add" enctype="multipart/form-data")
-                                .form-group.row.mb-4.col-lg-10
-                                    .col
-                                        span(style="color:red;font-weight:bold;") *
-                                        label(for="txtTitle")  Enter Product Title
-                                        input.form-control(type='text' placeholder='Product Title' name="txtTitle" required)
-                                    .col
-                                        span(style="color:red;font-weight:bold;") *
-                                        label(for="txtPrice")  Enter Price
-                                        input.form-control(type='number' placeholder='Enter Price' name="txtPrice" min="0" style="-moz-appearance: textfield" required)  
-                                .form-group.row.mb-4.col-lg-5
-                                    .col
-                                        span(style="color:red;font-weight:bold;") *
-                                        label(for="cmbCategory") Select Category               
-                                        div#cmbcategory                                      
-                                .form-group.row.mb-4.col-lg-5
-                                    .col
-                                        span(style="color:red;font-weight:bold;") *
-                                        label(for="ProductImage") Select Product Image
-                                        .custom-file.mb-4    
-                                            input.custom-file-input(type='file' name="ProductImage" accept='image/*' required)
-                                            label.custom-file-label(for='ProductImage') Select Product Image          
-                                .form-group.row.mb-4.col-lg-5
-                                    .col
-                                        label(for="txtDetail") Product Details
-                                        textarea.form-control(name="txtDetail")
-                                .form-group.row.mb-4.col-lg-12
-                                    .col
-                                        span(style="color:red;") * Required Field
-                                input.btn.btn-success(type='submit' name='time' value="SAVE")
+                if (op.flag == 2)
+                    col-lg-12.col-12.layout-spacing
+                        .statbox.widget.box.box-shadow
+                            .widget-header
+                                .row
+                                    .col-xl-12.col-md-12.col-sm-12.col-12
+                                        h4 Add Product
+                            .widget-content.widget-content-area
+                                form(method="post" action="/catalogue/editSubmit" enctype="multipart/form-data")
+                                    .form-group.row.mb-4.col-lg-10
+                                        input(type='hidden' name="txtProductId" value=op.data[0].ProductId)
+                                        .col
+                                            span(style="color:red;font-weight:bold;") *
+                                            label(for="txtTitle")  Enter Product Title
+                                            input.form-control(type='text' placeholder='Product Title' name="txtTitle" value=op.data[0].ProductTitle required)
+                                        .col
+                                            span(style="color:red;font-weight:bold;") *
+                                            label(for="txtPrice")  Enter Price
+                                            input.form-control(type='number' placeholder='Enter Price' name="txtPrice" min="0" value=op.data[0].Price style="-moz-appearance: textfield" required)  
+                                    .form-group.row.mb-4.col-lg-5
+                                        .col
+                                            label(for="txtDetail") Product Details
+                                            textarea.form-control(name="txtDetail") #{op.data[0].Details}
+                                    .form-group.row.mb-4.col-lg-12
+                                        .col
+                                            span(style="color:red;") * Required Field
+                                    input.btn.btn-success(type='submit' name='time' value="SAVE")
+                else
+                    col-lg-12.col-12.layout-spacing
+                        .statbox.widget.box.box-shadow
+                            .widget-header
+                                .row
+                                    .col-xl-12.col-md-12.col-sm-12.col-12
+                                        h4 Add Product
+                            .widget-content.widget-content-area
+                                form(method="post" action="/catalogue/add" enctype="multipart/form-data")
+                                    .form-group.row.mb-4.col-lg-10
+                                        .col
+                                            span(style="color:red;font-weight:bold;") *
+                                            label(for="txtTitle")  Enter Product Title
+                                            input.form-control(type='text' placeholder='Product Title' name="txtTitle" required)
+                                        .col
+                                            span(style="color:red;font-weight:bold;") *
+                                            label(for="txtPrice")  Enter Price
+                                            input.form-control(type='number' placeholder='Enter Price' name="txtPrice" min="0" style="-moz-appearance: textfield" required)  
+                                    .form-group.row.mb-4.col-lg-5
+                                        .col
+                                            span(style="color:red;font-weight:bold;") *
+                                            label(for="cmbCategory") Select Category               
+                                            div#cmbcategory                                      
+                                    .form-group.row.mb-4.col-lg-5
+                                        .col
+                                            span(style="color:red;font-weight:bold;") *
+                                            label(for="ProductImage") Select Product Image
+                                            .custom-file.mb-4    
+                                                input.custom-file-input(type='file' name="ProductImage" accept='image/*' required)
+                                                label.custom-file-label(for='ProductImage') Select Product Image          
+                                    .form-group.row.mb-4.col-lg-5
+                                        .col
+                                            label(for="txtDetail") Product Details
+                                            textarea.form-control(name="txtDetail")
+                                    .form-group.row.mb-4.col-lg-12
+                                        .col
+                                            span(style="color:red;") * Required Field
+                                    input.btn.btn-success(type='submit' name='time' value="SAVE")
 block append bottomscripts
     script(src='/plugins/sweetalerts/sweetalert2.min.js').
     script(type="text/javascript").

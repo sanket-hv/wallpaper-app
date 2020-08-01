@@ -35,7 +35,7 @@ block content
                                             th Price
                                             th Category
                                             th IsActive?
-                                            //- th EDIT
+                                            th EDIT
                                     tbody
                                         each obj in op.data
                                             tr
@@ -53,6 +53,9 @@ block content
                                                         label.switch.s-icons.s-outline.s-outline-primary.mb-4.mr-2
                                                             input(type='checkbox' onChange="callcmb("+obj.ProductId+","+obj.IsActive+");" checked='')
                                                             span.slider.round 
+                                                td 
+                                                    a(href="/catalogue/edit/"+obj.ProductId)
+                                                        button(class="btn btn-warning") EDIT
                                     
 //- This is a page level scripts
 block append bottomscripts
