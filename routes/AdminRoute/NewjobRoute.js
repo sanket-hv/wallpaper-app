@@ -110,6 +110,7 @@ router.get('/view/:jid', (req, res) => {
                             'JobId': job[0].JobId,
                             'cname': job[0].UserName,
                             'AreaName': job[0].AreaName,
+                            'Address':job[0].Address,
                             'OrderId': job[0].OrderId,
                             'Status': job[0].JobStatus,
                             'iname': "not assigned",
