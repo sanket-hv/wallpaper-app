@@ -1,0 +1,48 @@
+extends layout.pug
+
+block append topscripts
+    //- link(href="/assets/css/users/user-profile.css" rel="stylesheet" type="text/css")
+    //- link(href='/plugins/apex/apexcharts.css' rel='stylesheet' type='text/css')
+    link(rel='stylesheet' type='text/css' href='/assets/css/widgets/modules-widgets.css')
+    
+block content
+    #content.main-content
+        .layout-px-spacing
+            .row.analytics     
+                
+                div.col-xl-6.col-lg-6.col-md-6.col-sm-6.layout-top-spacing
+                    div
+                        input.btn.btn-primary(target="_blank" type="button" name="but" value="Download" onclick="window.open('http://localhost:8000/images/qr/pf.pdf')")
+                    img(src="/images/qr/img.png",width="400",height="550", alt="scan qr code")
+            //-             .w-chart
+            //-                 .w-chart-section
+            //-                     .w-detail
+            //-                         p.w-title Total Customer
+            //-                         p.w-stats 423,96
+            //-                     .w-chart-render-one
+            //-                         #total-users
+            //-                 .w-chart-section
+            //-                     .w-detail
+            //-                         p.w-title Total Installer
+            //-                         p.w-stats 7,929
+            //-                     .w-chart-render-one
+            //-                         #paid-visits
+//- block append bottomscripts
+//-     script(src='/plugins/apex/apexcharts.min.js').
+//-     script(src='/assets/js/widgets/modules-widgets.js').
+//-     script(type="text/javascript").
+//-         $(document).ready(function () {
+//-                 const toast = swal.mixin({
+//-                 toast: true,
+//-                 position: 'top-end',
+//-                 showConfirmButton: false,
+//-                 timer: 3000,
+//-                 padding: '2em'
+//-             });
+//-             toast({
+//-                 type: 'success',
+//-                 title: "Signed In Successfully",
+//-                 padding: '2em',
+//-             })
+//-         })
+//-     script(src="/plugins/sweetalerts/sweetalert2.min.js").

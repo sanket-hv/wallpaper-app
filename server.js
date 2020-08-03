@@ -120,6 +120,11 @@ app.use('/gallery', welcome, galleryRouter);
 //Warranty Route
 app.use('/warranty', welcome, warrantyRouter);
 
+//Qr CODE
+app.get('/qr',(req, res)=>{
+    res.render('qr')
+})
+
 app.use('/common', commonRouter);
 
 app.listen(port, () => {
