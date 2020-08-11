@@ -46,7 +46,7 @@ block content
                                         .col
                                             span(style="color:red;font-weight:bold;") *
                                             label(for="txtPrice")  Enter Price
-                                            input.form-control(type='number' placeholder='Enter Price' name="txtPrice" min="0" value=op.data[0].Price style="-moz-appearance: textfield" required)  
+                                            input.form-control(type='number' placeholder='Enter Price' name="txtPrice" step="0.01" min="0" value=op.data[0].Price style="-moz-appearance: textfield" required)  
                                     .form-group.row.mb-4.col-lg-5
                                         .col
                                             label(for="txtDetail") Product Details
@@ -72,7 +72,7 @@ block content
                                         .col
                                             span(style="color:red;font-weight:bold;") *
                                             label(for="txtPrice")  Enter Price
-                                            input.form-control(type='number' placeholder='Enter Price' name="txtPrice" min="0" style="-moz-appearance: textfield" required)  
+                                            input.form-control(type='number' placeholder='Enter Price' name="txtPrice" min="0" step="0.01" style="-moz-appearance: textfield" required)  
                                     .form-group.row.mb-4.col-lg-5
                                         .col
                                             span(style="color:red;font-weight:bold;") *
