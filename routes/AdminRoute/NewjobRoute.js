@@ -124,4 +124,18 @@ router.get('/view/:jid', (req, res) => {
         }
     })
 })
+
+router.get('/delete/:jid',(req,res)=>{
+    const jobid = req.params.jid
+    let sql = 'DELETE FROM JobTbl WHERE JobId = ?'
+    connection.query(sql,[jobid],(error,result)=>{
+        if(error)
+        {
+            res.redirect('/errpage')
+        }
+        else{
+            res.redirect('/newjob')
+        }
+    })
+})
 module.exports = router;
