@@ -83,8 +83,9 @@ router.post('/add', (req, res) => {
     let warranty = req.body.txtWarranty;
     let serviceid = req.body.cmbService;
     let typeid = req.body.cmbType;
+    let walldimension =  req.body.txtWall;
     var oid
-    connection.query('INSERT INTO OrderTbl(CustomerId,ServiceId,TypeId,NODWarranty,WarrantyExpired) VALUES (?,?,?,?,?)', [customerid, serviceid, typeid, warranty, 0], (error, results, fields) => {
+    connection.query('INSERT INTO OrderTbl(CustomerId,ServiceId,TypeId,NODWarranty,WallDimension,WarrantyExpired) VALUES (?,?,?,?,?,?)', [customerid, serviceid, typeid, warranty,walldimension, 0], (error, results, fields) => {
         if (error) {
             res.redirect('/errpage');
         }

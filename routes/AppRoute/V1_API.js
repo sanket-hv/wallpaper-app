@@ -23,7 +23,7 @@ router.get('/echo', (req, res) => {
 
 //login
 router.post('/login', (req, res) => {
-    console.log('Request body is ' + req.body);
+    // console.log('Request body is ' + req.body);
     const username = req.body.username;
     const password = req.body.password;
 
@@ -34,8 +34,8 @@ router.post('/login', (req, res) => {
             message: "forbidden"
         })
     }
-    console.log(password);
-    connection.query("SELECT * FROM UserTbl WHERE Email = ? AND Password = ?", [username, password], (err, user) => {
+    
+    connection.query("SELECT * FROM UserTbl WHERE Email = '" + username + "' AND Password = '" + md5(password) + "'", (err, user) => {
         if (err) {
             //error handling
             return res.json({
@@ -43,7 +43,7 @@ router.post('/login', (req, res) => {
                 message: "error" + err.message
             })
         } else {
-            console.log(user[0])
+            console.log(user)
             if (!user[0]) {
                 return res.json({
                     status: false,
@@ -266,7 +266,7 @@ async function uploadFileToDest(folder_name, imgFile) {
 }
 
 //save gallary
-router.post('/addGallary/:id', (req, res) => {
+router.post('/addGallarymultiple/:id', (req, res) => {
     var imgFiles = req.files.wall_images;
     var jobId = req.params.id;
     x = 0, y = 0;
@@ -357,6 +357,84 @@ router.post('/addGallary/:id', (req, res) => {
         //         message: "something went wrong, please try again later"
         //     }).end();
         // }
+    }
+})
+
+//save gallary multiple
+router.post('/addGallary/:id', (req, res) => {
+    var imgFiles = req.files.wall_images;
+    var jobId = req.params.id;
+    x = 0, y = 0;
+
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
+    console.log(token);
+    if (token === undefined) {
+        return res.json({
+            status: false,
+            message: "forbidden"
+        })
+    } else {
+        if (token.startsWith("Bearer ")) {
+            if (token) {
+                token = token.slice(7, token.length).trimLeft();
+                var payload
+                try {
+                    payload = jwt.verify(token, JWTKEY)
+                    console.log('Payload for welcome :- ' + payload)
+                } catch (e) {
+                    if (e instanceof jwt.JsonWebTokenError) {
+                        console.log(e)
+                        return res.json({
+                            message: e.message,
+                            status: false
+                        });
+                    }
+                }
+
+                console.log(payload);
+                if (payload !== undefined) {
+                    var fileName = Math.floor(Math.random() * (99999 - 11111 + 1)) + 11111 + imgFiles.name;
+                    imgFiles.mv("./public/images/gallary/" + fileName, (err) => {
+                        if(err){
+                            return res.json({
+                                status: false,
+                                message: err.message
+                            }).end();
+                        }else{
+                            connection.query("INSERT INTO GalleryTbl(JobId, GalleryImg, Hidden, CreatedAt) VALUES(" + jobId + ", '" + fileName + "', 1, CURRENT_TIMESTAMP)", (err, result) => {
+                                if(err){
+                                    return res.json({
+                                        status: false,
+                                        message: err.message
+                                    }).end();
+                                }else{
+                                    res.json({
+                                        status: true,
+                                        message: "Data saved successfully"
+                                    }).end();
+                                }
+                            })
+                        }
+                    })
+                } else {
+                    return res.json({
+                        status: false,
+                        message: "invalid token payload or token is expired"
+                    })
+                }
+            } else {
+                return res.json({
+                    status: false,
+                    message: "invalid token payload or token is expired"
+                })
+            }
+
+        } else {
+            return res.json({
+                status: false,
+                message: "Invalid token"
+            })
+        }
     }
 })
 

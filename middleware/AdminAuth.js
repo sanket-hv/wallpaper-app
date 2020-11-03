@@ -30,7 +30,6 @@ const signIn = (req, res) => {
                     };
                     req.session.token = token;
                     if (req.session.token) {
-                        // console.log("okkkkkk");
                         res.render('index', { op });
                     }
                     else {
@@ -60,7 +59,7 @@ const welcome = (req, res, next) => {
     if (!token) {
         var op = {
             status: false,
-            message: "You need to login first..."
+            message: "You need to login first..." 
         }
         res.render('login', { op });
     }
