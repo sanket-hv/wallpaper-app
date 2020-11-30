@@ -7,12 +7,20 @@ require('dotenv').config();
 var compression = require("compression");
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
+const https = require('https');
+const http = require('http')
+const fs = require('fs')
 const session = require('express-session');
 const { signIn, welcome, logout } = require('./middleware/AdminAuth')
 
 
 // const hostname = process.env.HOSTNAME;
 const port = process.env.PORT;
+
+const options = {
+    key: fs.readFileSync('./security/key.pem'),
+    cert:fs.readFileSync('./security/cert.pem')
+}
 
 const conf = require('./config')
 //for compress responses
@@ -127,6 +135,16 @@ app.get('/qr',(req, res)=>{
 
 app.use('/common', commonRouter);
 
-app.listen(port, () => {
-    console.log(`Server is running on https://localhost:${port}/`);
-})
+// app.listen(port, () => {
+//     console.log(`Server is running on https://localhost:${port}/`);
+// })
+
+https.createServer(options, (req,res) => {
+    if(err)
+    {
+        res.write(err.message)
+    }
+    else{
+        console.log("Server running")
+    }
+}).listen(port)
