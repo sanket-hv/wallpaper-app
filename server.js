@@ -14,7 +14,7 @@ const session = require('express-session');
 const { signIn, welcome, logout } = require('./middleware/AdminAuth')
 
 
-// const hostname = process.env.HOSTNAME;
+const hostname = process.env.HOSTNAME;
 const port = process.env.PORT;
 
 const options = {
@@ -25,6 +25,13 @@ const options = {
 const conf = require('./config')
 //for compress responses
 app.use(compression());
+
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 
 //Session setup
 app.use(cookieParser());
@@ -135,16 +142,16 @@ app.get('/qr',(req, res)=>{
 
 app.use('/common', commonRouter);
 
-// app.listen(port, () => {
-//     console.log(`Server is running on https://localhost:${port}/`);
-// })
+app.listen(port, hostname, () => {
+    console.log(`Server is running on http://${hostname}:${port}/`);
+})
 
-https.createServer(options, (req,res) => {
-    if(err)
-    {
-        res.write(err.message)
-    }
-    else{
-        console.log("Server running")
-    }
-}).listen(port)
+// https.createServer(options, (req,res) => {
+//     if(err)
+//     {
+//         res.write(err.message)
+//     }
+//     else{
+//         console.log("Server running")
+//     }
+// }).listen(port)
