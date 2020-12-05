@@ -35,7 +35,7 @@ router.post('/login', (req, res) => {
         })
     }
     
-    connection.query("SELECT * FROM UserTbl WHERE Email = '" + username + "' AND Password = '" + md5(password) + "'", (err, user) => {
+    connection.query("SELECT * FROM UserTbl WHERE Email = '" + username + "' AND Password = '" + password + "'", (err, user) => {
         if (err) {
             //error handling
             return res.json({
